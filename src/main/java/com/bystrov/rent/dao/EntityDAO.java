@@ -25,6 +25,7 @@ public abstract class EntityDAO<T> {
     void delete(T entity){
         em.remove(entity);
     }
+
     void deleteById(Long id){
         T entity = findById(id);
         em.remove(entity);
