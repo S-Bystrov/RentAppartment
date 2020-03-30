@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    @Autowired
     private AddressDAO addressDAO;
+
+    @Autowired
+    public AddressServiceImpl(AddressDAO addressDAO){ this.addressDAO = addressDAO; }
 
     @Override
     public Address findById(Long id) {

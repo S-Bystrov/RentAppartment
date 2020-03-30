@@ -11,8 +11,10 @@ import java.util.List;
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
 
-    @Autowired
     private AdvertisementDAO advertisementDAO;
+
+    @Autowired
+    public AdvertisementServiceImpl(AdvertisementDAO advertisementDAO) { this.advertisementDAO = advertisementDAO; }
 
     @Override
     public Advertisement findById(Long id) {

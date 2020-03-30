@@ -11,8 +11,10 @@ import java.util.List;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
     private ReservationDAO reservationDAO;
+
+    @Autowired
+    public ReservationServiceImpl(ReservationDAO reservationDAO) { this.reservationDAO = reservationDAO; }
 
     @Override
     public Reservation findById(Long id) {
