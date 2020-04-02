@@ -14,30 +14,28 @@ public abstract class EntityDAO<T> {
         this.entityClass = entityClassToSet;
     }
 
-    T findById(Long id){
+    public T findById(Long id) {
         return em.find(entityClass, id);
     }
 
-    void save(T entity){
+    public void save(T entity) {
         em.persist(entity);
     }
 
-    void delete(T entity){
+    public void delete(T entity) {
         em.remove(entity);
     }
 
-    void deleteById(Long id){
+    public void deleteById(Long id) {
         T entity = findById(id);
         em.remove(entity);
     }
 
-    List<T> getAll(){
-        return em.createQuery("from" + entityClass.getName()).getResultList();
-    }
-
-    T update(T entity){
+    public T update(T entity) {
         return em.merge(entity);
     }
 
-    T findByLogin(String login){ return em.find(entityClass, login); }
+    public T findByLogin(String login) {
+        return em.find(entityClass, login);
+    }
 }

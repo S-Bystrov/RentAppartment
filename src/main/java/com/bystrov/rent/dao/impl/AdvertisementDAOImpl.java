@@ -5,10 +5,17 @@ import com.bystrov.rent.dao.EntityDAO;
 import com.bystrov.rent.domain.Advertisement;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements AdvertisementDAO {
 
-    public AdvertisementDAOImpl(){
+    public AdvertisementDAOImpl() {
         setEntityClass(Advertisement.class);
+    }
+
+    @Override
+    public List<Advertisement> getAll() {
+        return null;
     }
 }
