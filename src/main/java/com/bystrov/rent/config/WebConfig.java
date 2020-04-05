@@ -1,4 +1,4 @@
-package com.bystrov.rent.config;
+/*package com.bystrov.rent.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,14 +24,14 @@ public class WebConfig implements WebMvcConfigurer {
         return resolver;
     }
 
-/*    @Override
+*//*    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    }*/
+    }*//*
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/WEB-INF/views/**").addResourceLocations("/views/");
     }
-}
+}*/

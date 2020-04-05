@@ -1,4 +1,7 @@
-package com.bystrov.rent.config;
+/*package com.bystrov.rent.config;
 
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class RootConfig {
-}
+}*/
