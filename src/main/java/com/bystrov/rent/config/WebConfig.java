@@ -1,4 +1,4 @@
-/*package com.bystrov.rent.config;
+package com.bystrov.rent.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-@Configuration
+/*@Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.bystrov.rent")
 public class WebConfig implements WebMvcConfigurer {
@@ -22,16 +22,16 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
         return resolver;
-    }
+    }*/
 
-*//*    @Override
+/*    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    }*//*
+    }
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/WEB-INF/views/**").addResourceLocations("/views/");
-    }
-}*/
+    }*/
+

@@ -1,4 +1,4 @@
-package com.bystrov.rent.config;
+package com.bystrov.rent;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
