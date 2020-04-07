@@ -11,7 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-<caption><h4>qwerty</h4></caption>
-<%--<jsp:include page="language-bar.jsp"></jsp:include>--%>
+registration
 </body>
 </html>
