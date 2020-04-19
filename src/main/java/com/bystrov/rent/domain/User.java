@@ -40,10 +40,10 @@ public class User {
     @Column
     private int age;
 
-    @Column(nullable = true)
+    @Column
     private long card;
 
-    @Column(nullable = true)
+    @Column
     private long paymentAccount;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")

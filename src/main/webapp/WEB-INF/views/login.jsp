@@ -20,16 +20,11 @@
     </security:authorize>
 </h3>
 <security:authorize access="isAnonymous()">
-    Login as <a href="user">User</a> or <a href="/admin">Admin</a>
-</security:authorize>
-<security:authorize access="isAuthenticated()">
-    <security:authorize access="hasRole('USER')">
-        <a href="user">My Profile</a>
-    </security:authorize>
-    <security:authorize access="hasRole('ADMIN')">
-        <a href="admin">My Profile</a>
-    </security:authorize>
-    <a href="logout">Logout</a>
+    <label>login</label></br>
+    <input type="text" name="login" minlength="1"></br>
+    <label>password</label></br>
+    <input type="password" name="password" minlength="1"></br>
+    <input type="submit" value="Ok">
 </security:authorize>
 </body>
 </html>

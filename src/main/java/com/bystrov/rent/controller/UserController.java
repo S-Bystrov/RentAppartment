@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,17 +26,26 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String getRegistrationPage() {
+    public String getRegistrationPage(Model model) {
+        model.addAttribute("userForm", new User());
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String newRegistration(@RequestParam(value = "login") String login,
-                                  @RequestParam(value = "email") String email,
-                                  @RequestParam(value = "password") String password,
-                                  @RequestParam(value = "confirmPassword") String confirmPassword,
+    public String newRegistration(@ModelAttribute("userForm") User userForm,
+                                  @RequestParam("confirmPassword") String confirmPassword,
                                   Model model) {
-        User user = new User();
+        if (!userForm.getPassword().equals(confirmPassword)) {
+            model.addAttribute("passwordError", "Passwords don't match");
+            return "registration";
+        }
+        if (userService.findByLogin(userForm.getLogin()) != null) {
+            userService.saveUser(userForm);
+        } else {
+            model.addAttribute("usernameError", "A user with this username already exists");
+            return "registration";
+        }
+        /*User user = new User();
         user.setLogin(login);
         if (userService.findByLogin(login) != null) {
             if (password.equals(confirmPassword)) {
@@ -47,8 +57,8 @@ public class UserController {
             }
         } else {
             model.addAttribute("errorLogin", "A user with this username already exists");
-        }
-        return "/advertisement";
+        }*/
+        return "/redirect:";
     }
 
     @GetMapping("/user-info")
