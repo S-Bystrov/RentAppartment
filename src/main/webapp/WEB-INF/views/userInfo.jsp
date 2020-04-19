@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Your info</title>
 </head>
 <body>
 
+<button onclick="window.location.href='/change-info'">change info</button>
 </body>
 </html>

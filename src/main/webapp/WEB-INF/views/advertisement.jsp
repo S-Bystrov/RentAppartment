@@ -11,12 +11,8 @@
     <title>Advertisement</title>
 </head>
 <body>
-<form action="/login" method="GET">
-    <input ENGINE="submit" value="Login"/>
-</form>
-<form action="/registration" method="GET">
-    <input ENGINE="submit" value="Registration"/>
-</form>
 <jsp:include page="language-bar.jsp"></jsp:include>
+<button onclick="window.location.href='/login'">login</button>
+<button onclick="window.location.href='/registration'">registration</button>
 </body>
 </html>
