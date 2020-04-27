@@ -1,5 +1,6 @@
 package com.bystrov.rent.domain;
 
+import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package com.bystrov.rent.dao;
 
-import com.bystrov.rent.domain.User;
+import com.bystrov.rent.domain.user.User;
 
 import java.util.List;
 

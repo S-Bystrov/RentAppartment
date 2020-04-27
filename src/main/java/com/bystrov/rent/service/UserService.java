@@ -1,15 +1,16 @@
 package com.bystrov.rent.service;
 
-import com.bystrov.rent.domain.User;
+import com.bystrov.rent.DTO.UserDTO;
+import com.bystrov.rent.domain.user.User;
 
 import java.util.List;
 
 public interface UserService {
-    User findById(Long id);
-    List<User> getAll();
-    User saveUser(User user);
-    void update(User user);
+    UserDTO findById(Long id);
+    List<UserDTO> getAll();
+    UserDTO saveUser(UserDTO userDTO);
+    void update(UserDTO userDTO);
     void delete(User user);
     void deleteById(Long id);
-    User findByLogin (String login);
+    UserDTO findByLogin (String login);
 }

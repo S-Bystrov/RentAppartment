@@ -1,7 +1,7 @@
 package com.bystrov.rent.service.impl;
 
 import com.bystrov.rent.dao.UserDAO;
-import com.bystrov.rent.domain.User;
+import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

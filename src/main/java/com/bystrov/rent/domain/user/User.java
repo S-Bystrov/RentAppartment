@@ -1,18 +1,19 @@
-package com.bystrov.rent.domain;
+package com.bystrov.rent.domain.user;
 
+import com.bystrov.rent.domain.Advertisement;
+import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.reservation.Reservation;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table
 @Entity
 public class User {
@@ -45,6 +46,11 @@ public class User {
 
     @Column
     private long paymentAccount;
+
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn("ID_USER"))
+    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
+    private Set<UserRole> roles;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Advertisement> advertisementList;

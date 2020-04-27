@@ -1,5 +1,6 @@
 package com.bystrov.rent.domain;
 
+import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.reservation.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.bystrov.rent.domain.reservation;
 
 import com.bystrov.rent.domain.Advertisement;
-import com.bystrov.rent.domain.User;
+import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.bystrov.rent.config;
+package com.bystrov.rent.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
