@@ -9,8 +9,8 @@ public interface UserService {
     UserDTO findById(Long id);
     List<UserDTO> getAll();
     UserDTO saveUser(UserDTO userDTO);
-    void update(UserDTO userDTO);
+    void update(UserDTO userDTO, String username);
     void delete(User user);
     void deleteById(Long id);
-    UserDTO findByLogin (String login);
+    UserDTO findByUsername (String userName);
 }

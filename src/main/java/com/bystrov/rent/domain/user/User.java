@@ -4,8 +4,11 @@ import com.bystrov.rent.domain.Advertisement;
 import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.reservation.Reservation;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +19,7 @@ import java.util.Set;
 @Builder
 @Table
 @Entity
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "ID_USER")
@@ -29,10 +32,10 @@ public class User {
     @Column
     private String surname;
 
-    @Column(nullable = true)
-    private String login;
+    @Column(name = "user_name")
+    private String username;
 
-    @Column(nullable = true)
+    @Column
     private String password;
 
     @Column
@@ -48,7 +51,7 @@ public class User {
     private long paymentAccount;
 
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn("ID_USER"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "ID_USER"))
     @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
     private Set<UserRole> roles;
 
@@ -60,4 +63,29 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Review> reviewList;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

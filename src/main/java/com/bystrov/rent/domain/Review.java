@@ -24,13 +24,13 @@ public class Review {
     @JoinColumn(name = "ID_USER")
     private User user;
 
-    @Column(nullable = true)
+    @Column
     private String review;
 
-    @Column(nullable = true)
+    @Column
     private int data;
 
-    @Column(nullable = true)
+    @Column
     private double evaluation;
 
     @ManyToOne

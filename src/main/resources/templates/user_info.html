@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>user info</title>
+</head>
+<body>
+<div th:object="${userDTO}">
+    <p>username:</p><span th:text="*{username}"></span>
+    <p>email:</p><span th:text="*{email}"></span>
+    <p>name:</p><span th:text="*{name}? *{name} : 'nety'"/>
+    <p>surname:</p><span th:text="*{surname}? *{surname} : 'nety'"/>
+    <p>age:</p><span th:text="*{age}? *{age} : 'nety'"/>
+</div>
+<a href="/update-info">update user info</a>
+<a href="/new-advertisement">add advertisement</a>
+</body>
+</html>

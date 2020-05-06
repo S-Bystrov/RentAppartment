@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New advertisement</title>
+</head>
+<body>
+<form th:action="@{/new-advertisement}" th:object="${advertisementDTO}" method="POST">
+    <label>description</label></br>
+    <input type="text" th:field="*{description}" id="description" placeholder="description"></br>
+    <label>price</label></br>
+    <input type="number" th:field="*{price}" id="price" placeholder="price"></br>
+    <label>street</label></br>
+    <input type="text" th:field="*{address.street}" id="address.street" placeholder="street"></br>
+    <input type="submit" value="Ok">
+</form>
+
+</body>
+</html>

@@ -2,18 +2,18 @@ package com.bystrov.rent.domain;
 
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.reservation.Reservation;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.bystrov.rent.util.LocalDateAttributeConverter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table
 public class Advertisement {
@@ -27,16 +27,20 @@ public class Advertisement {
     @JoinColumn(name = "ID_ADRESS")
     private Address address;
 
+    @Column
+    private String description;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
     private List<Review> reviewList;
 
-    @Column(nullable = true)
-    private int data;
+    @Column
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate data;
 
-    @Column(nullable = true)
+    @Column
     private double price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USER")
     private User user;
 

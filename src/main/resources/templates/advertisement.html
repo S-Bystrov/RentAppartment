@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Advertisement</title>
+</head>
+<body>
+<a href="/registration">registration</a>
+<a href="/login">sign in</a>
+<a href="/user-info">user info</a>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th> Description </th>
+        <th> Street </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${advertisementList}">
+        <td colspan="2"> No advertisement Available </td>
+    </tr>
+    <tr th:each="advertisement : ${advertisementList}">
+        <td><p th:text="{advertisement.description}"></p></td>
+        <td><p th:text="{advertisement.address.street}"></p></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

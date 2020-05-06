@@ -1,9 +1,6 @@
 package com.bystrov.rent.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table
 public class Address {
@@ -19,22 +17,21 @@ public class Address {
     @Column(name = "ID_ADRESS")
     private long idAddress;
 
-    @Column(nullable = true)
+    @Column
     private String country;
 
-    @Column(nullable = true)
+    @Column
     private String city;
 
-    @Column(nullable = true)
+    @Column
     private String street;
 
-    @Column(nullable = true)
+    @Column
     private int house;
 
     @Column
     private int flat;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_ADV")
+    @OneToOne(mappedBy = "address")
     private Advertisement advertisement;
 }

@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDTOParser {
 
-    public UserDTO createDTOFromDomain (User user){
+    public UserDTO createUserDTOFromDomain(User user){
+        if (user == null){
+            return null;
+        }
         UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
-                .login(user.getLogin())
+                .username(user.getUsername())
                 .email(user.getEmail())
                 .age(user.getAge())
                 .name(user.getName())
@@ -18,15 +21,18 @@ public class UserDTOParser {
                 .card(user.getCard())
                 .password(user.getPassword())
                 .paymentAccount(user.getPaymentAccount())
-                .userType(user.getUserType())
+                .roles(user.getRoles())
                 .build();
         return userDTO;
     }
 
-    public User createDomainFromDTO (UserDTO userDTO){
+    public User createUserDomainFromDTO(UserDTO userDTO){
+        if (userDTO == null){
+            return null;
+        }
         User user = User.builder()
                 .id(userDTO.getId())
-                .login(userDTO.getLogin())
+                .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
                 .age(userDTO.getAge())
                 .name(userDTO.getName())
@@ -34,7 +40,7 @@ public class UserDTOParser {
                 .card(userDTO.getCard())
                 .password(userDTO.getPassword())
                 .paymentAccount(userDTO.getPaymentAccount())
-                .userType(userDTO.getUserType())
+                .roles(userDTO.getRoles())
                 .build();
         return user;
     }
