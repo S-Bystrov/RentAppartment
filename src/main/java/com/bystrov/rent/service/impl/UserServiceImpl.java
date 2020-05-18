@@ -6,6 +6,7 @@ import com.bystrov.rent.dao.UserDAO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.user.UserRole;
 import com.bystrov.rent.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private static final String standardAvatarName = "standardAvatar.jpg";
 
     @Autowired
     private UserDAO userDAO;
@@ -38,7 +40,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
 
-    @Autowired
     public UserServiceImpl(UserDAOImpl userDAO, UserDTOParser userDTOParser, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.userDTOParser = userDTOParser;
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public List<UserDTO> getAll() {
-        List<User> users = userDAO.getAll();
+        List<User> users = userDAO.findAll();
         List<UserDTO> userDTOList = new ArrayList<>();
         for (User user : users) {
             userDTOList.add(userDTOParser.createUserDTOFromDomain(user));
@@ -71,6 +72,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDTO saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setRoles(Collections.singleton(UserRole.USER));
+        userDTO.setAvatarName(standardAvatarName);
         User user = userDTOParser.createUserDomainFromDTO(userDTO);
         userDAO.save(user);
         return userDTO;
@@ -78,19 +80,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void update(UserDTO userDTO, String username) {
-        User user = userDAO.findByUsername(username);
+    public void update(UserDTO userDTO, long idUser) {
+        User user = userDAO.findById(idUser);
         if (user == null){
             throw new EntityNotFoundException("User not found!");
         }
-        if(userDTO.getAge() != 0) {
-            user.setAge(userDTO.getAge());
-        }
-        if(userDTO.getName() != null) {
+        if(userDTO.getName() != null && !StringUtils.isBlank(userDTO.getName())) {
             user.setName(userDTO.getName());
         }
-        if(userDTO.getSurname() != null) {
+        if(userDTO.getSurname() != null && !StringUtils.isBlank(userDTO.getSurname())) {
             user.setSurname(userDTO.getSurname());
+        }
+        if(userDTO.getAvatarName() != null && !StringUtils.isBlank(userDTO.getAvatarName())) {
+            user.setAvatarName(userDTO.getAvatarName());
         }
         userDAO.update(user);
     }

@@ -1,7 +1,7 @@
 package com.bystrov.rent.DTO.parser;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
-import com.bystrov.rent.domain.Advertisement;
+import com.bystrov.rent.domain.advertisement.Advertisement;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +20,7 @@ public class AdvertisementDTOParser {
                 .price(advertisement.getPrice())
                 .user(advertisement.getUser())
                 .reservation(advertisement.getReservation())
+                .images(advertisement.getImages())
                 .build();
         return advertisementDTO;
     }
@@ -37,6 +38,7 @@ public class AdvertisementDTOParser {
                 .price(advertisementDTO.getPrice())
                 .user(advertisementDTO.getUser())
                 .reservation(advertisementDTO.getReservation())
+                .images(advertisementDTO.getImages())
                 .build();
         return advertisement;
     }

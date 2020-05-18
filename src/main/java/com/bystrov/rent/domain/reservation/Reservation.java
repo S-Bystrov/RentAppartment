@@ -1,6 +1,6 @@
 package com.bystrov.rent.domain.reservation;
 
-import com.bystrov.rent.domain.Advertisement;
+import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_RSRVT")
-    private long idReservation;
+    private Long idReservation;
 
     @ManyToOne
     @JoinColumn(name = "ID_USER")
@@ -30,10 +30,10 @@ public class Reservation {
     @JoinColumn(name = "ID_ADV")
     private Advertisement advertisement;
 
-    @Column(nullable = true)
-    private int data;
+    @Column
+    private String data;
 
-    @Column(nullable = true)
+    @Column
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 }

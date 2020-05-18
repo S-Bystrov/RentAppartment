@@ -46,5 +46,23 @@ public abstract class EntityDAO<T> {
         return null;
     }
 
+    public List<T> findAll(){
+        Query query = em.createQuery("FROM " + entityClass.getName());
+        List<T> result = (List<T>) query.getResultList();
+        if(result.size() == 0){
+            return null;
+        }
+        return result;
+    }
 
+    public List<T> findAllByUserId(long idUser){
+        Query query = em.createQuery("FROM " + entityClass.getName() +
+                " WHERE ID_USER = :paramUserId");
+        query.setParameter("paramUserId", idUser);
+        List<T> result = (List<T>) query.getResultList();
+        if(result.size() == 0) {
+            return null;
+        }
+        return result;
+    }
 }

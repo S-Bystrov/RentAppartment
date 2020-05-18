@@ -1,6 +1,6 @@
 package com.bystrov.rent.service;
 
-import com.bystrov.rent.domain.Address;
+import com.bystrov.rent.domain.Address.Address;
 
 public interface AddressService {
     Address findById(Long id);

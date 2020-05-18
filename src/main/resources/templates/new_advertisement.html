@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>New advertisement</title>
+<head th:replace = "fragments/common :: head">
 </head>
 <body>
-<form th:action="@{/new-advertisement}" th:object="${advertisementDTO}" method="POST">
-    <label>description</label></br>
-    <input type="text" th:field="*{description}" id="description" placeholder="description"></br>
-    <label>price</label></br>
-    <input type="number" th:field="*{price}" id="price" placeholder="price"></br>
-    <label>street</label></br>
-    <input type="text" th:field="*{address.street}" id="address.street" placeholder="street"></br>
-    <input type="submit" value="Ok">
-</form>
-
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
+    <form th:action="@{'/profile/'+${idUser}+'/new-advertisement'}" th:object="${advertisementDTO}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="col-sm-2 col-form-label"> Description : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{description}" id="description" th:class="${descriptionError}? 'form-control is-invalid' : 'form-control'"
+                       placeholder="Description" th:value="*{description}? *{description} : ''"/>
+                <div th:if="${descriptionError}" class="invalid-feedback" th:text="${descriptionError}"></div>
+            </div>
+            <label class="col-sm-2 col-form-label"> Country : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{address.country}" id="country" class="form-control" placeholder="Country"/>
+            </div>
+            <label class="col-sm-2 col-form-label"> City : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{address.city}" id="city" th:class="${cityError}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.city}? *{address.city} : ''" placeholder="City"/>
+                <div th:if="${cityError}" class="invalid-feedback" th:text="${cityError}"></div>
+            </div>
+            <label class="col-sm-2 col-form-label"> Street : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{address.street}" id="street" th:class="${streetError}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.street}? *{address.street} : ''" placeholder="Street"/>
+                <div th:if="${streetError}" class="invalid-feedback" th:text="${streetError}"></div>
+            </div>
+            <label class="col-sm-2 col-form-label"> House : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{address.house}" id="house" th:class="${houseError}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.house}? *{address.house} : ''" placeholder="House"/>
+                <div th:if="${houseError}" class="invalid-feedback" th:text="${houseError}"></div>
+            </div>
+            <label class="col-sm-2 col-form-label"> Price : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{price}" id="price" th:class="${priceError}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{price}? *{price} : ''" placeholder="Price"/>
+            </div>
+            <div th:if="${price}" class="invalid-feedback" th:text="${price}"></div>
+        </div>
+        <label>Image</label>
+        <input type="file" name="image">
+        <button class="btn btn-primary" type="submit">Ok</button>
+    </form>
+</div>
 </body>
 </html>

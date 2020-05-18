@@ -1,5 +1,6 @@
-package com.bystrov.rent.domain;
+package com.bystrov.rent.domain.Address;
 
+import com.bystrov.rent.domain.advertisement.Advertisement;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,23 +15,18 @@ import javax.persistence.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_ADRESS")
-    private long idAddress;
+    @Column(name = "ID_ADDRESS")
+    private Long idAddress;
 
-    @Column
     private String country;
 
-    @Column
     private String city;
 
-    @Column
     private String street;
 
-    @Column
-    private int house;
+    private Integer house;
 
-    @Column
-    private int flat;
+    private Integer flat;
 
     @OneToOne(mappedBy = "address")
     private Advertisement advertisement;

@@ -1,10 +1,8 @@
 package com.bystrov.rent.domain;
 
+import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,13 +10,14 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_RVW")
-    private int idReview;
+    private Long idReview;
 
     @ManyToOne
     @JoinColumn(name = "ID_USER")
@@ -28,10 +27,10 @@ public class Review {
     private String review;
 
     @Column
-    private int data;
+    private String data;
 
     @Column
-    private double evaluation;
+    private Double evaluation;
 
     @ManyToOne
     @JoinColumn(name = "ID_ADV")

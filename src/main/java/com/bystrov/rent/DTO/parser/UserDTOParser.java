@@ -15,13 +15,13 @@ public class UserDTOParser {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .age(user.getAge())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .card(user.getCard())
                 .password(user.getPassword())
                 .paymentAccount(user.getPaymentAccount())
                 .roles(user.getRoles())
+                .avatarName(user.getAvatarName())
                 .build();
         return userDTO;
     }
@@ -34,13 +34,13 @@ public class UserDTOParser {
                 .id(userDTO.getId())
                 .username(userDTO.getUsername())
                 .email(userDTO.getEmail())
-                .age(userDTO.getAge())
                 .name(userDTO.getName())
                 .surname(userDTO.getSurname())
                 .card(userDTO.getCard())
                 .password(userDTO.getPassword())
                 .paymentAccount(userDTO.getPaymentAccount())
                 .roles(userDTO.getRoles())
+                .avatarName(userDTO.getAvatarName())
                 .build();
         return user;
     }

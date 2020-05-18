@@ -1,6 +1,6 @@
 package com.bystrov.rent.dao;
 
-import com.bystrov.rent.domain.Address;
+import com.bystrov.rent.domain.Address.Address;
 
 
 public interface AddressDAO {

@@ -3,22 +3,24 @@ package com.bystrov.rent.service.impl;
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
-import com.bystrov.rent.domain.Advertisement;
+import com.bystrov.rent.domain.advertisement.Advertisement;
+import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
 
-    private AdvertisementDAO advertisementDAO;
+    private final AdvertisementDAO advertisementDAO;
 
-    private AdvertisementDTOParser advertisementDTOParser;
+    private final AdvertisementDTOParser advertisementDTOParser;
 
     public AdvertisementServiceImpl(AdvertisementDAO advertisementDAO,
                                     AdvertisementDTOParser advertisementDTOParser) {
@@ -26,24 +28,24 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         this.advertisementDTOParser = advertisementDTOParser;
     }
 
+    @Transactional
     @Override
-    public Advertisement findById(Long id) {
-        return null;
+    public AdvertisementDTO findById(Long id) {
+        Advertisement advertisement = advertisementDAO.findById(id);
+        if(advertisement == null ){
+            throw new EntityNotFoundException("Advertisement not found");
+        }
+        AdvertisementDTO advertisementDTO = advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
+        return advertisementDTO;
     }
 
     @Transactional
     @Override
     public List<AdvertisementDTO> getAll() {
-        List<Advertisement> advertisements = advertisementDAO.getAll();
-        if(advertisements == null){
-            return null;
-        }
-        List<AdvertisementDTO> advertisementDTOList = new ArrayList<>();
-        for (Advertisement advertisement : advertisements) {
-            advertisementDTOList.add(advertisementDTOParser.createAdvertDTOFromDomain(advertisement));
-        }
-        return advertisementDTOList;
+        List<Advertisement> advertisements = advertisementDAO.findAll();
+        return getAdvertisementList(advertisements);
     }
+
 
     @Transactional
     @Override
@@ -52,8 +54,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             throw new EntityNotFoundException("Advertisement not found");
         }
         Advertisement advertisement = advertisementDTOParser.createAdvertDomainFromDTO(advertisementDTO);
+        advertisement.setData(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         advertisementDAO.save(advertisement);
-        return advertisementDTO;
+        //advertisementDTO.setIdAdvertisement(advertisement.getIdAdvertisement());
+        return advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
     }
 
     @Override
@@ -70,4 +74,38 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public void deleteById(Long id) {
 
     }
+
+    @Transactional
+    @Override
+    public List<AdvertisementDTO> getAllByUserId(long userId) {
+        List<Advertisement> advertisements = advertisementDAO.findAllByUserId(userId);
+        return getAdvertisementList(advertisements);
+    }
+
+    @Transactional
+    @Override
+    public String findUsernameByIdAdvertisement(Long idAdvertisement) {
+        Advertisement advertisement = advertisementDAO.findById(idAdvertisement);
+        User user = advertisement.getUser();
+        String username = user.getUsername();
+        return username;
+    }
+
+
+    private List<AdvertisementDTO> getAdvertisementList(List<Advertisement> advertisements) {
+        if (advertisements == null) {
+            return null;
+        }
+        List<AdvertisementDTO> advertisementDTOList = new ArrayList<>();
+        for (Advertisement advertisement : advertisements) {
+            advertisementDTOList.add(advertisementDTOParser.createAdvertDTOFromDomain(advertisement));
+        }
+        return advertisementDTOList;
+    }
+
+/*    @Override
+    public List<AdvertisementDTO> findByFilter(String filterCountry, String filterCity) {
+        List<AdvertisementDTO> advertisementList = new ArrayList<>();
+        return advertisementList;
+    }*/
 }

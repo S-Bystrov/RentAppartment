@@ -1,6 +1,6 @@
 package com.bystrov.rent.domain.user;
 
-import com.bystrov.rent.domain.Advertisement;
+import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.reservation.Reservation;
 import lombok.*;
@@ -24,31 +24,24 @@ public class User implements UserDetails {
     @Id
     @Column(name = "ID_USER")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column
     private String name;
 
-    @Column
     private String surname;
 
     @Column(name = "user_name")
     private String username;
 
-    @Column
     private String password;
 
-    @Column
     private String email;
 
-    @Column
-    private int age;
+    private Long card;
 
-    @Column
-    private long card;
+    private Long paymentAccount;
 
-    @Column
-    private long paymentAccount;
+    private String avatarName;
 
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "ID_USER"))

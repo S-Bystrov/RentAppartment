@@ -1,12 +1,12 @@
-package com.bystrov.rent.domain;
+package com.bystrov.rent.domain.advertisement;
 
+import com.bystrov.rent.domain.Address.Address;
+import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.reservation.Reservation;
-import com.bystrov.rent.util.LocalDateAttributeConverter;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Setter
@@ -21,24 +21,23 @@ public class Advertisement {
     @Id
     @Column(name = "ID_ADV")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idAdvertisement;
+    private Long idAdvertisement;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_ADRESS")
+    @JoinColumn(name = "ID_ADDRESS")
     private Address address;
 
-    @Column
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
     private List<Review> reviewList;
 
-    @Column
-    @Convert(converter = LocalDateAttributeConverter.class)
-    private LocalDate data;
+    private String data;
 
-    @Column
-    private double price;
+    private Double price;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
+    private List<Image> images;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USER")

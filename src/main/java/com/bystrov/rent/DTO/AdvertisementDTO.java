@@ -1,7 +1,8 @@
 package com.bystrov.rent.DTO;
 
-import com.bystrov.rent.domain.Address;
+import com.bystrov.rent.domain.Address.Address;
 import com.bystrov.rent.domain.Review;
+import com.bystrov.rent.domain.advertisement.Image;
 import com.bystrov.rent.domain.reservation.Reservation;
 import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
@@ -17,17 +19,21 @@ import java.util.List;
 @Builder
 public class AdvertisementDTO {
 
-    private long idAdvertisement;
+    private Long idAdvertisement;
 
     private Address address;
 
+    @NotBlank(message = "Description cannot be empty")
     private String description;
 
     private List<Review> reviewList;
 
-    private int data;
+    private String data;
 
-    private double price;
+    /*@NotBlank(message = "Price cannot be empty")*/
+    private Double price;
+
+    private List<Image> images;
 
     private User user;
 

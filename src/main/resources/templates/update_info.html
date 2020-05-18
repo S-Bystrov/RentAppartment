@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Update info</title>
+<head th:replace = "fragments/common :: head">
 </head>
 <body>
-<form th:action="@{/update-info}" th:object="${userDTO}" method="POST">
-    <label>name</label></br>
-    <input type="text" th:field="*{name}" id="name" placeholder="name"></br>
-    <label>surname</label></br>
-    <input type="text" th:field="*{surname}" id="surname" placeholder="surname"></br>
-    <label>age</label></br>
-    <input type="number" th:field="*{age}" id="age" placeholder="age"></br>
-    <input type="submit" value="Ok">
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
+<form th:object="${userDTO}" th:action="@{'/profile/' + ${idUser} + '/update'}"
+      enctype="multipart/form-data" method="POST">
+    <div class="form-group">
+        <label class="col-sm-2 col-form-label"> Name : </label>
+        <div class="col-sm-3">
+            <input type="text" th:field="*{name}" id="name" class="form-control" placeholder="Name"/>
+        </div>
+        <label class="col-sm-2 col-form-label"> Surname : </label>
+        <div class="col-sm-3">
+            <input type="text" th:field="*{surname}" id="surname" class="form-control" placeholder="Surname"/>
+        </div>
+    </div>
+    <label>Avatar</label>
+    <input type="file" name="avatar">
+    <button class="btn btn-primary mt-2 ml-1" type="submit">Ok</button>
 </form>
+</div>
 </body>
 </html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head th:replace = "fragments/common :: head">
+</head>
+<body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
+<!--    <form method="post">
+        <input type="text" name="filterCountry">
+        <input type="text" name="filterCity">
+        <button type="submit">Find</button>
+    </form>-->
+    <div th:unless="${advertisementList}">
+        <p>No advertisement Available</p>
+    </div>
+    <div th:if="${advertisementList}" >
+        <div class="row row-cols-1 row-cols-md-2">
+            <div th:each="advertisement : ${advertisementList}">
+                <div class="card my-3 m-2">
+                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" class="card-img-top">
+                    <div class="card-body">
+                        <p class="card-text" th:text="${advertisement.description}"></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="${advertisement.address.country}"></li>
+                        <li class="list-group-item" th:text="${advertisement.address.city}"></li>
+                        <li class="list-group-item" th:text="${advertisement.data}"></li>
+                    </ul>
+                    <div class="card-body">
+                        <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link">More info</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/common :: bootScript"></div>
+</div>
+</body>
+</html>

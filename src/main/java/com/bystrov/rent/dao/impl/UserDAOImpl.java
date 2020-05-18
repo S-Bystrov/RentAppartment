@@ -13,9 +13,4 @@ public class UserDAOImpl extends EntityDAO<User> implements UserDAO {
     public UserDAOImpl() {
         setEntityClass(User.class);
     }
-
-    @Override
-    public List<User> getAll() {
-        return null;
-    }
 }

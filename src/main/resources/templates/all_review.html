@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace = "fragments/common :: head">
+</head>
+<body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
+<table>
+    <thead>
+    <tr>
+        <th> Review </th>
+        <th> Evaluation </th>
+        <th> Data </th>
+        <th> User </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:unless="${reviewDTOList}">
+        <td colspan="2"> No review available </td>
+    </tr>
+    <tr th:each="review : ${reviewDTOList}">
+        <td><p th:text="${review.review}"></p></td>
+        <td><p th:text="${review.evaluation}"></p></td>
+        <td><p th:text="${review.data}"></p></td>
+        <td><a th:href="@{'/profile/' + ${review.user.id}}">user info</a></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

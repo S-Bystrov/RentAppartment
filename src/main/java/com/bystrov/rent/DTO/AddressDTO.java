@@ -6,21 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class AddressDTO {
 
-    private long idAddress;
+    private Long idAddress;
 
     private String country;
 
+    @NotBlank(message = "City cannot be empty")
     private String city;
 
+    @NotBlank(message = "Street cannot be empty")
     private String street;
 
-    private int house;
+    @NotBlank(message = "House cannot be empty")
+    private Integer house;
 
-    private int flat;
+    private Integer flat;
 }

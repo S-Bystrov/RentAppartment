@@ -1,18 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>user info</title>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head th:replace = "fragments/common :: head">
 </head>
 <body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
 <div th:object="${userDTO}">
+    <div>
+        <img th:src="@{'/img/'+*{avatarName}}" width="150" height="175">
+    </div>
     <p>username:</p><span th:text="*{username}"></span>
     <p>email:</p><span th:text="*{email}"></span>
     <p>name:</p><span th:text="*{name}? *{name} : 'nety'"/>
     <p>surname:</p><span th:text="*{surname}? *{surname} : 'nety'"/>
-    <p>age:</p><span th:text="*{age}? *{age} : 'nety'"/>
 </div>
-<a href="/update-info">update user info</a>
-<a href="/new-advertisement">add advertisement</a>
+<div sec:authorize="isAuthenticated()">
+    <div th:if="${checkUser}">
+        <a th:href="@{'/profile/'+${userDTO.id}+'/update'}">update info</a>
+        <a th:href="@{'/profile/'+${userDTO.id}+'/new-advertisement'}">add advertisement</a>
+        <a th:href="@{'/profile/'+${userDTO.id}+'/advertisement'}">your advertisement</a>
+    </div>
+</div>
+</div>
 </body>
 </html>

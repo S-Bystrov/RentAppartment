@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
+<head th:replace = "fragments/common :: head">
 </head>
 <body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
 Enter yor information
 <form th:action="@{/registration}" th:object="${userDTO}" method="POST">
-    <label>login</label></br>
-    <input type="text" th:field="*{username}" id="username" placeholder="username"></br>
-    <label>email</label></br>
-    <input type="text" th:field="*{email}" id="email" placeholder="email"></br>
-    <label>password</label></br>
-    <input type="password" th:field="*{password}" id="password" placeholder="password"></br>
-    <label>confirm password</label></br>
-    <input type="password" th:field="*{confirmPassword}" id="confirmPassword" placeholder="confirm password"></br>
-    <input type="submit" value="Ok">
+    <div class="form-group">
+        <label class="col-sm-2 col-form-label"> Username : </label>
+        <div class="col-sm-3">
+            <input type="text" th:field="*{username}" id="username" th:class="${usernameError}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="Username" th:value="*{username}? *{username} : ''"/>
+            <div th:if="${usernameError}" class="invalid-feedback" th:text="${usernameError}"></div>
+        </div>
+        <label class="col-sm-2 col-form-label"> Email : </label>
+        <div class="col-sm-3">
+            <input type="email" th:field="*{email}" id="email" th:class="${emailError}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="Email" th:value="*{email}? *{email} : ''"/>
+            <div th:if="${emailError}" class="invalid-feedback" th:text="${emailError}"></div>
+        </div>
+        <label class="col-sm-2 col-form-label"> Password : </label>
+        <div class="col-sm-3">
+            <input type="password" th:field="*{password}" id="password" th:class="${passwordError}? 'form-control is-invalid' : 'form-control'" placeholder="Password"/>
+            <div th:if="${passwordError}" class="invalid-feedback" th:text="${passwordError}"></div>
+        </div>
+        <label class="col-sm-2 col-form-label"> ConfirmPassword : </label>
+        <div class="col-sm-3">
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" th:class="${confirmPasswordError}? 'form-control is-invalid' : 'form-control'" placeholder="ConfirmPassword"/>
+            <div th:if="${confirmPasswordError}" class="invalid-feedback" th:text="${confirmPasswordError}"></div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Ok</button>
 </form>
 <div th:if="${errorPassword}" th:utext="${errorPassword}"></div>
-<div th:if="${usernameError}" th:utext="${usernameError}"></div>
+<div th:if="${errorUsername}" th:utext="${errorUsername}"></div>
+</div>
+<div th:replace="fragments/common :: bootScript"></div>
+</div>
 </body>
 </html>
+
