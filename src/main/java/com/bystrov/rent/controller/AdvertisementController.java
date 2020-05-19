@@ -1,9 +1,12 @@
 package com.bystrov.rent.controller;
 
+import com.bystrov.rent.DTO.AddressDTO;
 import com.bystrov.rent.DTO.AdvertisementDTO;
-import com.bystrov.rent.DTO.UserDTO;
+import com.bystrov.rent.DTO.CountryDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
+/*import com.bystrov.rent.service.CountryService;*/
+import com.bystrov.rent.service.CountryService;
 import com.bystrov.rent.service.ImageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -22,7 +25,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BinaryOperator;
 
 
 @Controller
@@ -33,11 +35,14 @@ public class AdvertisementController {
 
     private final AdvertisementService advertisementService;
     private final ImageService imageService;
+    private final CountryService countryService;
 
     public AdvertisementController(AdvertisementService advertisementService,
-                                   ImageService imageService) {
+                                   ImageService imageService,
+                                   CountryService countryService)                                    {
         this.advertisementService = advertisementService;
         this.imageService = imageService;
+        this.countryService = countryService;
     }
 
     @GetMapping("/")
@@ -60,7 +65,11 @@ public class AdvertisementController {
     public String getNewAdvertisementPage(@PathVariable("idUser") Long idUser,
                                           Model model) {
         AdvertisementDTO advertisementDTO = new AdvertisementDTO();
+        //AddressDTO addressDTO = new AddressDTO();
+        List<CountryDTO> countryDTOList = countryService.getAll();
         model.addAttribute("advertisementDTO", advertisementDTO);
+        model.addAttribute("countryDTOList", countryDTOList);
+        //model.addAttribute("addressDTO", addressDTO);
         model.addAttribute("idUser", idUser);
         return "new_advertisement";
     }
@@ -81,7 +90,7 @@ public class AdvertisementController {
             advertisementDTO.setUser(authenticalUser);
             String nameImage = ControllerUtils.saveFile(file, uploadPath);
             AdvertisementDTO newAdvertisement = advertisementService.saveAdvertisement(advertisementDTO);
-            imageService.saveImage(nameImage, newAdvertisement.getIdAdvertisement() );
+            imageService.saveImage(nameImage, newAdvertisement.getIdAdvertisement());
         }
         return "redirect:/";
     }

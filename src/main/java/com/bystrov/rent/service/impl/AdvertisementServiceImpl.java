@@ -56,7 +56,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         Advertisement advertisement = advertisementDTOParser.createAdvertDomainFromDTO(advertisementDTO);
         advertisement.setData(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         advertisementDAO.save(advertisement);
-        //advertisementDTO.setIdAdvertisement(advertisement.getIdAdvertisement());
         return advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
     }
 
@@ -95,12 +94,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private List<AdvertisementDTO> getAdvertisementList(List<Advertisement> advertisements) {
         if (advertisements == null) {
             return null;
+        } else {
+            List<AdvertisementDTO> advertisementDTOList = new ArrayList<>();
+            for (Advertisement advertisement : advertisements) {
+                advertisementDTOList.add(advertisementDTOParser.createAdvertDTOFromDomain(advertisement));
+            }
+            return advertisementDTOList;
         }
-        List<AdvertisementDTO> advertisementDTOList = new ArrayList<>();
-        for (Advertisement advertisement : advertisements) {
-            advertisementDTOList.add(advertisementDTOParser.createAdvertDTOFromDomain(advertisement));
-        }
-        return advertisementDTOList;
     }
 
 /*    @Override

@@ -27,7 +27,7 @@
     </thead>
     <tbody>
     <tr th:object="${advertisementDTO}">
-        <td><p th:text="*{address.country}"></p></td>
+        <td><p th:text="*{address.country.countryName}"></p></td>
         <td><p th:text="*{address.city}"></p></td>
         <td><p th:text="*{address.street}"></p></td>
         <td><p th:text="*{address.house}"></p></td>

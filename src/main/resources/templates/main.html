@@ -23,7 +23,7 @@
                         <p class="card-text" th:text="${advertisement.description}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="${advertisement.address.country}"></li>
+                        <li class="list-group-item" th:text="${advertisement.address.country.countryName}"></li>
                         <li class="list-group-item" th:text="${advertisement.address.city}"></li>
                         <li class="list-group-item" th:text="${advertisement.data}"></li>
                     </ul>

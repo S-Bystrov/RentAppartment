@@ -18,7 +18,9 @@ public class Address {
     @Column(name = "ID_ADDRESS")
     private Long idAddress;
 
-    private String country;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_COUNTRY")
+    private Country country;
 
     private String city;
 

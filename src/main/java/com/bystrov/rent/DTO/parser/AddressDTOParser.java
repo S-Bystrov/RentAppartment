@@ -1,11 +1,19 @@
 package com.bystrov.rent.DTO.parser;
 
 import com.bystrov.rent.DTO.AddressDTO;
+import com.bystrov.rent.DTO.CountryDTO;
 import com.bystrov.rent.domain.Address.Address;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AddressDTOParser {
+
+    private final CountryDTOParser countryDTOParser;
+
+    public AddressDTOParser(CountryDTOParser countryDTOParser) {
+        this.countryDTOParser = countryDTOParser;
+    }
 
     public AddressDTO createAddressDTOFromDomain(Address address){
         if (address == null){
@@ -14,7 +22,7 @@ public class AddressDTOParser {
 
         AddressDTO addressDTO = AddressDTO.builder()
                 .idAddress(address.getIdAddress())
-                .country(address.getCountry())
+                .country(countryDTOParser.createCountryDTOFromDomain(address.getCountry()))
                 .city(address.getCity())
                 .street(address.getStreet())
                 .house(address.getHouse())
@@ -30,7 +38,7 @@ public class AddressDTOParser {
 
         Address address = Address.builder()
                 .idAddress(addressDTO.getIdAddress())
-                .country(addressDTO.getCountry())
+                .country(countryDTOParser.createCountryDomainFromDTO(addressDTO.getCountry()))
                 .city(addressDTO.getCity())
                 .street(addressDTO.getStreet())
                 .house(addressDTO.getHouse())

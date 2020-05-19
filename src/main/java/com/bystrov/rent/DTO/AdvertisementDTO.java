@@ -21,7 +21,7 @@ public class AdvertisementDTO {
 
     private Long idAdvertisement;
 
-    private Address address;
+    private AddressDTO address = new AddressDTO();
 
     @NotBlank(message = "Description cannot be empty")
     private String description;

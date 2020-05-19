@@ -1,6 +1,6 @@
 package com.bystrov.rent.DTO;
 
-
+/*import com.bystrov.rent.domain.Address.Country;*/
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class AddressDTO {
 
     private Long idAddress;
 
-    private String country;
+    private CountryDTO country = new CountryDTO();
 
     @NotBlank(message = "City cannot be empty")
     private String city;
