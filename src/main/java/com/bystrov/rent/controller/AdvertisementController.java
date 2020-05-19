@@ -69,7 +69,7 @@ public class AdvertisementController {
         List<CountryDTO> countryDTOList = countryService.getAll();
         model.addAttribute("advertisementDTO", advertisementDTO);
         model.addAttribute("countryDTOList", countryDTOList);
-        model.addAttribute("addressDTO", addressDTO);
+        /*model.addAttribute("addressDTO", addressDTO);*/
         model.addAttribute("idUser", idUser);
         return "new_advertisement";
     }
