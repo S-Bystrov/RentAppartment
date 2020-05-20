@@ -14,9 +14,9 @@
                 <div th:if="${descriptionError}" class="invalid-feedback" th:text="${descriptionError}"></div>
             </div>
             <label class="col-sm-2 col-form-label" for="country">Select country :</label>
-            <select class="form-control col-sm-3" id="country" th:field="*{address.country}">
+            <select class="form-control col-sm-3" id="country" th:field="*{address.country.idCountry}">
                 <option th:each="country : ${countryDTOList}"
-                        th:value="${country}"
+                        th:value="${country.idCountry}"
                         th:text="${country.countryName}"></option>
             </select>
             <label class="col-sm-2 col-form-label"> City : </label>

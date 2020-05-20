@@ -14,5 +14,5 @@ public interface AdvertisementService {
     void deleteById(Long id);
     List<AdvertisementDTO> getAllByUserId(long userId);
     String findUsernameByIdAdvertisement(Long idAdvertisement);
-  /*  List<AdvertisementDTO> findByFilter(String filterCountry, String filterCity);*/
+    List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity);
 }

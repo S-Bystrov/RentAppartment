@@ -13,4 +13,5 @@ public interface AdvertisementDAO {
     void deleteById(Long id);
     List<Advertisement> findAll();
     List<Advertisement> findAllByUserId(long idUser);
+    List<Advertisement> findByCountryAndCity(Long country, String city);
 }

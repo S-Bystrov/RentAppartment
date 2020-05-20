@@ -11,4 +11,6 @@ public class AddressDAOImpl extends EntityDAO<Address> implements AddressDAO {
     public AddressDAOImpl(){
         setEntityClass(Address.class);
     }
+
+
 }

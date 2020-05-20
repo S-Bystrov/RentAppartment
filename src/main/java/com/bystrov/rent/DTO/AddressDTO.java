@@ -1,6 +1,5 @@
 package com.bystrov.rent.DTO;
 
-/*import com.bystrov.rent.domain.Address.Country;*/
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

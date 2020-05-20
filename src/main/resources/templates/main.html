@@ -6,11 +6,16 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-<!--    <form method="post">
-        <input type="text" name="filterCountry">
-        <input type="text" name="filterCity">
+    <form action="filter" method="post">
+        <select class="form-control col-sm-3" id="country" name="filterCountry">
+            <option th:value="${null}" th:text="'Choose country'"></option>
+            <option th:each="country : ${countryDTOList}"
+                    th:value="${country.idCountry}"
+                    th:text="${country.countryName}"></option>
+        </select>
+        <input type="text" name="filterCity" placeholder="City">
         <button type="submit">Find</button>
-    </form>-->
+    </form>
     <div th:unless="${advertisementList}">
         <p>No advertisement Available</p>
     </div>

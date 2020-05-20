@@ -65,4 +65,5 @@ public abstract class EntityDAO<T> {
         }
         return result;
     }
+
 }

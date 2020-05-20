@@ -1,13 +1,12 @@
 package com.bystrov.rent.controller;
 
-import com.bystrov.rent.DTO.AddressDTO;
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.CountryDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
-/*import com.bystrov.rent.service.CountryService;*/
 import com.bystrov.rent.service.CountryService;
 import com.bystrov.rent.service.ImageService;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class AdvertisementController {
 
     public AdvertisementController(AdvertisementService advertisementService,
                                    ImageService imageService,
-                                   CountryService countryService)                                    {
+                                   CountryService countryService){
         this.advertisementService = advertisementService;
         this.imageService = imageService;
         this.countryService = countryService;
@@ -47,18 +47,25 @@ public class AdvertisementController {
 
     @GetMapping("/")
     public String advertisementGetPage(Model model) {
+        model.addAttribute("countryDTOList", countryService.getAll());
         model.addAttribute("advertisementList", advertisementService.getAll());
         return "main";
     }
 
-/*    @PostMapping("filter")
-    public String filter(@RequestParam String filterCountry,
+    @PostMapping("filter")
+    public String filter(@RequestParam Long filterCountry,
                          @RequestParam String filterCity,
                          Model model){
-        List<AdvertisementDTO> advertisementList = advertisementService.findByFilter(filterCountry, filterCity);
+        List<AdvertisementDTO> advertisementList;
+        if((filterCity == null || filterCity.isEmpty()) && filterCountry == null){
+            advertisementList = advertisementService.getAll();
+        } else {
+            advertisementList = advertisementService.findByFilter(filterCountry, filterCity);
+        }
         model.addAttribute("advertisementList", advertisementList);
-        return "/";
-    }*/
+        model.addAttribute("countryDTOList", countryService.getAll());
+        return "main";
+    }
 
 
     @GetMapping("/profile/{idUser}/new-advertisement")

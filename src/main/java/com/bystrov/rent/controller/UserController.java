@@ -36,6 +36,12 @@ public class UserController {
         this.userService = userService;
     }*/
 
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+
+
     @GetMapping("/registration")
     public String getRegistrationPage(Model model) {
         UserDTO userDTO = new UserDTO();

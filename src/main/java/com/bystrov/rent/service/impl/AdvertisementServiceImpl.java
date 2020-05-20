@@ -90,6 +90,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         return username;
     }
 
+    @Transactional
+    @Override
+    public List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity) {
+        List<Advertisement> advertisementList = advertisementDAO.findByCountryAndCity(filterCountry, filterCity);
+        return getAdvertisementList(advertisementList);
+    }
+
 
     private List<AdvertisementDTO> getAdvertisementList(List<Advertisement> advertisements) {
         if (advertisements == null) {
@@ -103,9 +110,4 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
     }
 
-/*    @Override
-    public List<AdvertisementDTO> findByFilter(String filterCountry, String filterCity) {
-        List<AdvertisementDTO> advertisementList = new ArrayList<>();
-        return advertisementList;
-    }*/
 }
