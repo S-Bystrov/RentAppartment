@@ -30,7 +30,13 @@
                 <li class="nav-item">
                     <div sec:authorize="isAuthenticated()">
                         <a class="nav-link"
-                           th:href="@{'/profile/' +${#authentication.principal.id} + '/new-advertisement'}">Add advertisement</a>
+                           th:href="@{/new-advertisement}">Add advertisement</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div sec:authorize="isAuthenticated()">
+                        <a class="nav-link"
+                           th:href="@{/profile/reservation}">Your reservation</a>
                     </div>
                 </li>
             </ul>

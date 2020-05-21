@@ -1,8 +1,8 @@
 package com.bystrov.rent.DTO;
 
-import com.bystrov.rent.domain.Address.Address;
 import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.advertisement.Image;
+import com.bystrov.rent.domain.advertisement.Status;
 import com.bystrov.rent.domain.reservation.Reservation;
 import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -37,5 +37,7 @@ public class AdvertisementDTO {
 
     private User user;
 
-    private Reservation reservation;
+    private List<Reservation> reservation;
+
+    private Status status;
 }

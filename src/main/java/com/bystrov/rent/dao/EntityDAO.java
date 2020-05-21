@@ -23,10 +23,6 @@ public abstract class EntityDAO<T> {
         em.persist(entity);
     }
 
-    public void delete(T entity) {
-        em.remove(entity);
-    }
-
     public void deleteById(Long id) {
         T entity = findById(id);
         em.remove(entity);
@@ -55,7 +51,7 @@ public abstract class EntityDAO<T> {
         return result;
     }
 
-    public List<T> findAllByUserId(long idUser){
+    public List<T> findAllByUserId(Long idUser){
         Query query = em.createQuery("FROM " + entityClass.getName() +
                 " WHERE ID_USER = :paramUserId");
         query.setParameter("paramUserId", idUser);

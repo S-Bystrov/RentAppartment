@@ -1,4 +1,4 @@
-package com.bystrov.rent.domain.Address;
+package com.bystrov.rent.domain.address;
 
 import lombok.*;
 

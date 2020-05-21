@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace = "fragments/common :: head">
+</head>
+<body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
+    <form th:action="@{'/advertisement/' + ${idAdvertisement} + '/reservation'"} method="post">
+        <div class="form-group">
+            <label class="col-sm-2 col-form-label">Enter your card number : </label>
+            <div class="col-sm-3">
+                <textarea rows="3" type="text" th:field="*{description}" id="description" th:class="${descriptionError}? 'form-control is-invalid' : 'form-control'"
+                          placeholder="Description" th:value="*{description}? *{description} : ''"></textarea>
+                <div th:if="${descriptionError}" class="invalid-feedback" th:text="${descriptionError}"></div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

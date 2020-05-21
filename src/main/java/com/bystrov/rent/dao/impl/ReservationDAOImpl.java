@@ -13,4 +13,5 @@ public class ReservationDAOImpl extends EntityDAO<Reservation> implements Reserv
     public ReservationDAOImpl() {
         setEntityClass(Reservation.class);
     }
+
 }

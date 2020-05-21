@@ -9,9 +9,9 @@ public interface AdvertisementDAO {
     void save(Advertisement advertisement);
     Advertisement update(Advertisement advertisement);
     Advertisement findById(Long id);
-    void delete(Advertisement advertisement);
     void deleteById(Long id);
     List<Advertisement> findAll();
-    List<Advertisement> findAllByUserId(long idUser);
+    List<Advertisement> findAllByUserId(Long idUser);
     List<Advertisement> findByCountryAndCity(Long country, String city);
+    List<Advertisement> findAllFree();
 }

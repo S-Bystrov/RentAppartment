@@ -12,14 +12,14 @@
     </div>
     <p>username:</p><span th:text="*{username}"></span>
     <p>email:</p><span th:text="*{email}"></span>
-    <p>name:</p><span th:text="*{name}? *{name} : 'nety'"/>
-    <p>surname:</p><span th:text="*{surname}? *{surname} : 'nety'"/>
+    <p>name:</p><span th:text="*{name}? *{name} : 'no info'"/>
+    <p>surname:</p><span th:text="*{surname}? *{surname} : 'no info'"/>
+    <p>your card:</p><span th:text="*{card}? *{card} : 'no info'"/>
 </div>
 <div sec:authorize="isAuthenticated()">
     <div th:if="${checkUser}">
-        <a th:href="@{'/profile/'+${userDTO.id}+'/update'}">update info</a>
-        <a th:href="@{'/profile/'+${userDTO.id}+'/new-advertisement'}">add advertisement</a>
-        <a th:href="@{'/profile/'+${userDTO.id}+'/advertisement'}">your advertisement</a>
+        <a th:href="@{'/profile/'+${#authentication.principal.id}+'/update'}">update info</a>
+        <a th:href="@{/profile/advertisement}">Your advertisement</a>
     </div>
 </div>
 </div>

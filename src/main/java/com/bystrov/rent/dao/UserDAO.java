@@ -10,7 +10,6 @@ public interface UserDAO {
     User update(User user);
     User findById(Long id);
     User findByUsername(String username);
-    void delete(User user);
     void deleteById(Long id);
     List<User> findAll();
 }

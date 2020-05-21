@@ -1,6 +1,6 @@
 package com.bystrov.rent.dao;
 
-import com.bystrov.rent.domain.Address.Country;
+import com.bystrov.rent.domain.address.Country;
 
 import java.util.List;
 

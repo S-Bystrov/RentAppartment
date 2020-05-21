@@ -28,6 +28,7 @@ public class AdvertisementDTOParser {
                 .user(advertisement.getUser())
                 .reservation(advertisement.getReservation())
                 .images(advertisement.getImages())
+                .status(advertisement.getStatus())
                 .build();
         return advertisementDTO;
     }
@@ -46,6 +47,7 @@ public class AdvertisementDTOParser {
                 .user(advertisementDTO.getUser())
                 .reservation(advertisementDTO.getReservation())
                 .images(advertisementDTO.getImages())
+                .status(advertisementDTO.getStatus())
                 .build();
         return advertisement;
     }

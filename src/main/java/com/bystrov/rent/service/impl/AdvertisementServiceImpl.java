@@ -4,6 +4,7 @@ import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
+import com.bystrov.rent.domain.advertisement.Status;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
         Advertisement advertisement = advertisementDTOParser.createAdvertDomainFromDTO(advertisementDTO);
         advertisement.setData(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        advertisement.setStatus(Status.FREE);
         advertisementDAO.save(advertisement);
         return advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
     }
@@ -69,9 +71,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
-
+        advertisementDAO.deleteById(id);
     }
 
     @Transactional
@@ -95,6 +98,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity) {
         List<Advertisement> advertisementList = advertisementDAO.findByCountryAndCity(filterCountry, filterCity);
         return getAdvertisementList(advertisementList);
+    }
+
+    @Transactional
+    @Override
+    public List<AdvertisementDTO> getAllFree(){
+        List<Advertisement> advertisements = advertisementDAO.findAllFree();
+        return getAdvertisementList(advertisements);
     }
 
 

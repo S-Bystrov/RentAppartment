@@ -1,7 +1,7 @@
 package com.bystrov.rent.DTO.parser;
 
 import com.bystrov.rent.DTO.CountryDTO;
-import com.bystrov.rent.domain.Address.Country;
+import com.bystrov.rent.domain.address.Country;
 import org.springframework.stereotype.Service;
 
 @Service

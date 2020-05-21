@@ -3,7 +3,7 @@ package com.bystrov.rent.service.impl;
 import com.bystrov.rent.DTO.CountryDTO;
 import com.bystrov.rent.DTO.parser.CountryDTOParser;
 import com.bystrov.rent.dao.CountryDAO;
-import com.bystrov.rent.domain.Address.Country;
+import com.bystrov.rent.domain.address.Country;
 import com.bystrov.rent.service.CountryService;
 import org.springframework.stereotype.Service;
 

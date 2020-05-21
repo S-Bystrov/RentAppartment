@@ -2,10 +2,7 @@ package com.bystrov.rent.domain.reservation;
 
 import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table
 public class Reservation {
@@ -26,14 +24,12 @@ public class Reservation {
     @JoinColumn(name = "ID_USER")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_ADV")
     private Advertisement advertisement;
 
-    @Column
     private String data;
 
-    @Column
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 }

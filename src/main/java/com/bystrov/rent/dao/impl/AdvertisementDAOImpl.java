@@ -45,4 +45,14 @@ public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements Ad
         }
         return null;
     }
+
+    @Override
+    public List<Advertisement> findAllFree() {
+        Query query = em.createQuery("from Advertisement where status = 'FREE'");
+        List<Advertisement> advertisementList = (List<Advertisement>) query.getResultList();
+        if(advertisementList.size() == 0){
+            return null;
+        }
+        return advertisementList;
+    }
 }

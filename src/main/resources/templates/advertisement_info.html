@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head th:replace = "fragments/common :: head">
 </head>
@@ -21,6 +21,7 @@
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
                 <th> Add review</th>
+                <th> Reservation</th>
             </div>
         </div>
     </tr>
@@ -39,6 +40,11 @@
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
                 <td><a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}">add review</a></td>
+                <td><a th:if="${#authentication.principal.card == null}"
+                       th:href="@{${#httpServletRequest.requestURI} + '/reservation'}" class="btn btn-danger">Reservation</a>
+                    <a th:if="${#authentication.principal.card != null}"
+                       th:href="@{${#httpServletRequest.requestURI} + '/reservation'}" class="btn btn-primary">Reservation</a>
+                </td>
             </div>
         </div>
     </tr>

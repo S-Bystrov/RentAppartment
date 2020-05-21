@@ -12,16 +12,18 @@
         <div class="row row-cols-1 row-cols-md-2">
             <div th:each="advertisement : ${advertisementList}">
                 <div class="card my-3 m-2">
+                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" class="card-img-top">
                     <div class="card-body">
                         <p class="card-text" th:text="${advertisement.description}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="${advertisement.address.country.countryName}"></li>
-                        <li class="list-group-item" th:text="${advertisement.address.city}"></li>
-                        <li class="list-group-item" th:text="${advertisement.data}"></li>
+                        <li class="list-group-item" th:text="'Country: ' + ${advertisement.address.country.countryName}"></li>
+                        <li class="list-group-item" th:text="'City: ' + ${advertisement.address.city}"></li>
+                        <li class="list-group-item" th:text="'Publication date: ' + ${advertisement.data}"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link">More info</a>
+                        <a th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} + '/remove'}" class="btn btn-danger">Remove</a>
                     </div>
                 </div>
             </div>

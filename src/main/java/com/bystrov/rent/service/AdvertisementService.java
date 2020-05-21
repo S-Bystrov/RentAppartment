@@ -15,4 +15,5 @@ public interface AdvertisementService {
     List<AdvertisementDTO> getAllByUserId(long userId);
     String findUsernameByIdAdvertisement(Long idAdvertisement);
     List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity);
+    List<AdvertisementDTO> getAllFree();
 }

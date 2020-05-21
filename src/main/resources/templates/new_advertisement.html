@@ -5,12 +5,12 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-    <form th:action="@{'/profile/'+${idUser}+'/new-advertisement'}" th:object="${advertisementDTO}" method="POST" enctype="multipart/form-data">
+    <form th:action="@{/new-advertisement}" th:object="${advertisementDTO}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label class="col-sm-2 col-form-label"> Description : </label>
             <div class="col-sm-3">
-                <input type="text" th:field="*{description}" id="description" th:class="${descriptionError}? 'form-control is-invalid' : 'form-control'"
-                       placeholder="Description" th:value="*{description}? *{description} : ''"/>
+                <textarea rows="3" type="text" th:field="*{description}" id="description" th:class="${descriptionError}? 'form-control is-invalid' : 'form-control'"
+                          placeholder="Description" th:value="*{description}? *{description} : ''"></textarea>
                 <div th:if="${descriptionError}" class="invalid-feedback" th:text="${descriptionError}"></div>
             </div>
             <label class="col-sm-2 col-form-label" for="country">Select country :</label>

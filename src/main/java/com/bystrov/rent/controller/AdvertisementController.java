@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,16 +47,16 @@ public class AdvertisementController {
     @GetMapping("/")
     public String advertisementGetPage(Model model) {
         model.addAttribute("countryDTOList", countryService.getAll());
-        model.addAttribute("advertisementList", advertisementService.getAll());
+        model.addAttribute("advertisementList", advertisementService.getAllFree());
         return "main";
     }
 
     @PostMapping("filter")
     public String filter(@RequestParam Long filterCountry,
                          @RequestParam String filterCity,
-                         Model model){
+                         Model model) {
         List<AdvertisementDTO> advertisementList;
-        if((filterCity == null || filterCity.isEmpty()) && filterCountry == null){
+        if ((filterCity == null || filterCity.isEmpty()) && filterCountry == null) {
             advertisementList = advertisementService.getAll();
         } else {
             advertisementList = advertisementService.findByFilter(filterCountry, filterCity);
@@ -67,23 +66,19 @@ public class AdvertisementController {
         return "main";
     }
 
-
-    @GetMapping("/profile/{idUser}/new-advertisement")
-    public String getNewAdvertisementPage(@PathVariable("idUser") Long idUser,
-                                          Model model) {
+    @GetMapping("/new-advertisement")
+    public String getNewAdvertisementPage(Model model) {
         AdvertisementDTO advertisementDTO = new AdvertisementDTO();
         //AddressDTO addressDTO = new AddressDTO();
         List<CountryDTO> countryDTOList = countryService.getAll();
         model.addAttribute("advertisementDTO", advertisementDTO);
         model.addAttribute("countryDTOList", countryDTOList);
         /*model.addAttribute("addressDTO", addressDTO);*/
-        model.addAttribute("idUser", idUser);
         return "new_advertisement";
     }
 
-    @PostMapping("/profile/{idUser}/new-advertisement")
-    public String addNewAdvertisement(@PathVariable("idUser") Long idUser,
-                                      @RequestParam("image") MultipartFile file,
+    @PostMapping("/new-advertisement")
+    public String addNewAdvertisement(@RequestParam("image") MultipartFile file,
                                       @AuthenticationPrincipal User authenticalUser,
                                       @Valid AdvertisementDTO advertisementDTO,
                                       BindingResult bindingResult,
@@ -102,17 +97,24 @@ public class AdvertisementController {
         return "redirect:/";
     }
 
-    @GetMapping("/profile/{idUser}/advertisement")
-    public String getUserAdvertisementPage(@PathVariable("idUser") long id,
+    @GetMapping("/profile/advertisement")
+    public String getUserAdvertisementPage(@AuthenticationPrincipal User authenticalUser,
                                            Model model) {
-        model.addAttribute("advertisementList", advertisementService.getAllByUserId(id));
+        model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
         return "user_advertisement";
     }
 
-
+    @GetMapping("/profile/advertisement/{idAdvertisement}/remove")
+    public String removeAdvertisement(@PathVariable("idAdvertisement") Long idAdvertisement,
+                                      @AuthenticationPrincipal User authenticalUser,
+                                      Model model){
+        advertisementService.deleteById(idAdvertisement);
+        model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
+        return "redirect:/profile/" + authenticalUser.getId() + "/advertisement";
+    }
 
     @GetMapping("/advertisement/{idAdvertisement}")
-    public String getAdvertisementInfoPage(@PathVariable("idAdvertisement") long idAdvertisement,
+    public String getAdvertisementInfoPage(@PathVariable("idAdvertisement") Long idAdvertisement,
                                            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean checkUser = true;

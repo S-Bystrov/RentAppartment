@@ -6,15 +6,19 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-    <form action="filter" method="post">
-        <select class="form-control col-sm-3" id="country" name="filterCountry">
-            <option th:value="${null}" th:text="'Choose country'"></option>
-            <option th:each="country : ${countryDTOList}"
-                    th:value="${country.idCountry}"
-                    th:text="${country.countryName}"></option>
-        </select>
-        <input type="text" name="filterCity" placeholder="City">
-        <button type="submit">Find</button>
+    <form action="filter" method="post" class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+                <select class="form-control" id="country" name="filterCountry">
+                    <option th:value="${null}" th:text="'Choose country'"></option>
+                    <option th:each="country : ${countryDTOList}"
+                            th:value="${country.idCountry}"
+                            th:text="${country.countryName}"></option>
+                </select>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="text" name="filterCity" placeholder="City">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Find</button>
     </form>
     <div th:unless="${advertisementList}">
         <p>No advertisement Available</p>
@@ -28,9 +32,9 @@
                         <p class="card-text" th:text="${advertisement.description}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="${advertisement.address.country.countryName}"></li>
-                        <li class="list-group-item" th:text="${advertisement.address.city}"></li>
-                        <li class="list-group-item" th:text="${advertisement.data}"></li>
+                        <li class="list-group-item" th:text="'Country: ' + ${advertisement.address.country.countryName}"></li>
+                        <li class="list-group-item" th:text="'City: ' + ${advertisement.address.city}"></li>
+                        <li class="list-group-item" th:text="'Publication date: ' + ${advertisement.data}"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link">More info</a>

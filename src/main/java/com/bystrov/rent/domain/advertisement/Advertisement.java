@@ -1,6 +1,6 @@
 package com.bystrov.rent.domain.advertisement;
 
-import com.bystrov.rent.domain.Address.Address;
+import com.bystrov.rent.domain.address.Address;
 import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.reservation.Reservation;
@@ -36,6 +36,9 @@ public class Advertisement {
 
     private Double price;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
     private List<Image> images;
 
@@ -43,8 +46,7 @@ public class Advertisement {
     @JoinColumn(name = "ID_USER")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID_RSRVT")
-    private Reservation reservation;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
+    private List<Reservation> reservation;
 
 }
