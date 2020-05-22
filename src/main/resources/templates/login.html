@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>RentAppartment</title>
@@ -10,18 +10,20 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
-<form th:action="@{/login}" th:object="${userDTO}" method="POST">
-    <div class="form-group">
-        <label class="col-sm-2 col-form-label"> Username : </label>
-        <div class="col-sm-3">
-            <input type="text"  name="username" class="form-control"/>
+<div class="container mt-5">
+    <form th:action="@{/login}" th:object="${userDTO}" method="POST">
+        <div class="form-group">
+            <label class="col-sm-2 col-form-label"> Username : </label>
+            <div class="col-sm-3">
+                <input type="text"  name="username" class="form-control"/>
+            </div>
+            <label class="col-sm-2 col-form-label"> Password : </label>
+            <div class="col-sm-3">
+                <input type="password"  name="password" class="form-control"/>
+            </div>
         </div>
-        <label class="col-sm-2 col-form-label"> Password : </label>
-        <div class="col-sm-3">
-            <input type="password"  name="password" class="form-control"/>
-        </div>
-    </div>
-    <button class="btn btn-primary" type="submit">Sign in</button>
-</form>
+        <button class="btn btn-primary" type="submit">Sign in</button>
+    </form>
+</div>
 </body>
 </html>

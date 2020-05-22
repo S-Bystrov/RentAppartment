@@ -5,51 +5,61 @@
 </head>
 <body>
 <div th:replace="fragments/common :: navBar"></div>
-<div class="container mt-5">
-<table>
-    <thead>
-    <tr>
-        <th> Country </th>
-        <th> City </th>
-        <th> Street </th>
-        <th> House </th>
-        <th> Flat </th>
-        <th> Description </th>
-        <th> Data </th>
-        <th> User info </th>
-        <th> All review</th>
+<div class="container mt-5" th:object="${advertisementDTO}">
+    <div class="row">
+        <img th:src="@{'/img/'+*{images[0].imagePath}}">
+    </div>
+    <div class="row">
+        <p th:text="*{description}"></p>
+    </div>
+    <div class="row row-cols-3">
+        <div class="col">
+            <h5>Country :</h5>
+            <p th:text="*{address.country.countryName}"></p>
+        </div>
+        <div class="col">
+            <h5>City :</h5>
+            <p th:text="*{address.city}"></p>
+        </div>
+        <div class="col">
+            <h5>Street :</h5>
+            <p th:text="*{address.street}"></p>
+        </div>
+        <div class="col">
+            <h5>House :</h5>
+            <p th:text="*{address.house}"></p>
+        </div>
+        <div class="col">
+            <h5>Flat :</h5>
+            <p th:text="*{address.flat}? *{address.flat} : 'not info'"></p>
+        </div>
+        <div class="col">
+            <h5>Price :</h5>
+            <p th:text="*{price}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary">User info</a>
+        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary">All review</a>
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
-                <th> Add review</th>
-                <th> Reservation</th>
+                <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}" class="btn btn-primary">Add review</a>
+                <div th:if="${userCard == null}">
+                    <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Sorry"
+                            data-content="Enter your card for booking">Reservation</button>
+                </div>
+                <a th:if="${userCard != null}"
+                   th:href="@{${userCard} + '/reservation'}" class="btn btn-primary">Reservation</a>
+
             </div>
         </div>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:object="${advertisementDTO}">
-        <td><p th:text="*{address.country.countryName}"></p></td>
-        <td><p th:text="*{address.city}"></p></td>
-        <td><p th:text="*{address.street}"></p></td>
-        <td><p th:text="*{address.house}"></p></td>
-        <td><p th:text="*{address.flat}? *{address.flat} : 'not info'"></p></td>
-        <td><p th:text="*{description}"></p></td>
-        <td><p th:text="*{data}"></p></td>
-        <td><a th:href="@{'/profile/' + *{user.id}}">user info</a></td>
-        <td><a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}">all review</a></td>
-        <div sec:authorize="isAuthenticated()">
-            <div th:if="${checkUser}">
-                <td><a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}">add review</a></td>
-                <td><a th:if="${#authentication.principal.card == null}"
-                       th:href="@{${#httpServletRequest.requestURI} + '/reservation'}" class="btn btn-danger">Reservation</a>
-                    <a th:if="${#authentication.principal.card != null}"
-                       th:href="@{${#httpServletRequest.requestURI} + '/reservation'}" class="btn btn-primary">Reservation</a>
-                </td>
-            </div>
-        </div>
-    </tr>
-    </tbody>
-</table>
+    </div>
 </div>
+<div th:replace="fragments/common :: bootScript"></div>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
 </body>
 </html>

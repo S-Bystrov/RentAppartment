@@ -6,10 +6,11 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
+    <p th:text="#{main.text.example}"></p>
     <form action="filter" method="post" class="form-inline">
             <div class="form-group mx-sm-3 mb-2">
                 <select class="form-control" id="country" name="filterCountry">
-                    <option th:value="${null}" th:text="'Choose country'"></option>
+                    <option th:value="${null}" th:text="#{main.chooseCountry}"></option>
                     <option th:each="country : ${countryDTOList}"
                             th:value="${country.idCountry}"
                             th:text="${country.countryName}"></option>
@@ -43,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div th:replace="fragments/common :: bootScript"></div>
 </div>
+<div th:replace="fragments/common :: bootScript"></div>
 </body>
 </html>

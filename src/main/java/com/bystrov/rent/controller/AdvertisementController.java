@@ -6,7 +6,7 @@ import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
 import com.bystrov.rent.service.ImageService;
-import org.apache.tomcat.util.buf.StringUtils;
+import com.bystrov.rent.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,13 +35,16 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
     private final ImageService imageService;
     private final CountryService countryService;
+    private final UserService userService;
 
     public AdvertisementController(AdvertisementService advertisementService,
                                    ImageService imageService,
-                                   CountryService countryService){
+                                   CountryService countryService,
+                                   UserService userService){
         this.advertisementService = advertisementService;
         this.imageService = imageService;
         this.countryService = countryService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -115,6 +118,7 @@ public class AdvertisementController {
 
     @GetMapping("/advertisement/{idAdvertisement}")
     public String getAdvertisementInfoPage(@PathVariable("idAdvertisement") Long idAdvertisement,
+                                           @AuthenticationPrincipal User authenticalUser,
                                            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean checkUser = true;
@@ -124,6 +128,10 @@ public class AdvertisementController {
             if (username.equals(usernameByIdAdvertisement)) {
                 checkUser = false;
             }
+        }
+        if(authenticalUser != null) {
+            Long userCard = authenticalUser.getCard();
+            model.addAttribute("userCard", userCard);
         }
         model.addAttribute("checkUser", checkUser);
         model.addAttribute("advertisementDTO", advertisementService.findById(idAdvertisement));
