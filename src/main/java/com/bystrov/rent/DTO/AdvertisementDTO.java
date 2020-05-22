@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -24,6 +25,7 @@ public class AdvertisementDTO {
     private AddressDTO address = new AddressDTO();
 
     @NotBlank(message = "Description cannot be empty")
+    @Length(max = 2048, message = "Description too long (more than 2048 symbols)")
     private String description;
 
     private List<Review> reviewList;

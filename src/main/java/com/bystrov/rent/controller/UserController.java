@@ -1,13 +1,13 @@
 package com.bystrov.rent.controller;
 
 import com.bystrov.rent.DTO.UserDTO;
+import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -93,7 +93,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/{idUser}/update")
-    public String getUpdateInfoPage(@PathVariable("idUser") long idUser, Model model) {
+    public String getUpdateInfoPage(@PathVariable("idUser") Long idUser, Model model) {
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
         model.addAttribute("idUser", idUser);
@@ -101,10 +101,11 @@ public class UserController {
     }
 
     @PostMapping("/profile/{idUser}/update")
-    public String updateInfo(@PathVariable("idUser") long idUser,
+    public String updateInfo(@AuthenticationPrincipal User authenticalUser,
                              @RequestParam("avatar") MultipartFile file,
                              UserDTO userDTO) throws IOException {
         String avatarName = ControllerUtils.saveFile(file, uploadPath);
+        Long idUser = authenticalUser.getId();
         if(avatarName !=null){
             userDTO.setAvatarName(avatarName);
         }

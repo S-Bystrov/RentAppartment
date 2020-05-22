@@ -30,46 +30,46 @@
                 </li>
                 <li class="nav-item">
                     <div sec:authorize="isAuthenticated()">
-                        <a class="nav-link" th:href="@{'/profile/' +${#authentication.principal.id}}">Your info</a>
+                        <a class="nav-link" th:href="@{'/profile/' +${#authentication.principal.id}}" th:text="#{common.your.info}"></a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <div sec:authorize="isAuthenticated()">
                         <a class="nav-link"
-                           th:href="@{/new-advertisement}">Add advertisement</a>
+                           th:href="@{/new-advertisement}" th:text="#{common.add.advertisement}"></a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <div sec:authorize="isAuthenticated()">
                         <a class="nav-link"
-                           th:href="@{/profile/reservation}">Your reservation</a>
+                           th:href="@{/profile/reservation}" th:text="#{common.your.reservation}"></a>
                     </div>
                 </li>
             </ul>
             <div sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="post">
-                    <button class="btn btn-primary" type="submit">Sign out</button>
+                    <button class="btn btn-primary" type="submit" th:text="#{common.sign.out}"></button>
                 </form>
             </div>
            <div sec:authorize="!isAuthenticated()">
                 <div class="dropdown">
-                    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Sign in
+                    <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" th:text="#{common.sign.in}">
                     </button>
                     <div class="dropdown-menu dropdown-menu-right p-4">
                         <form class="px-4 py-3" th:action="@{/login}" method="post">
                             <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                                <label for="username" th:text="#{common.username}"></label>
+                                <input type="text" class="form-control" id="username" name="username" th:placeholder="#{common.username}">
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <label for="password" th:text="#{common.password}"></label>
+                                <input type="password" class="form-control" id="password" name="password" th:placeholder="#{common.password}">
                             </div>
-                            <button type="submit" class="btn btn-primary">Sign in</button>
+                            <button type="submit" class="btn btn-primary" th:text="#{common.sign.in}"></button>
                         </form>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/registration">New around here? Sign up</a>
+                        <a class="dropdown-item" href="/registration" th:text="#{common.new.here}"></a>
                     </div>
                 </div>
             </div>

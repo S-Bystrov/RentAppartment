@@ -94,6 +94,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(userDTO.getAvatarName() != null && !StringUtils.isBlank(userDTO.getAvatarName())) {
             user.setAvatarName(userDTO.getAvatarName());
         }
+        if(userDTO.getCard() != null) {
+            user.setCard(userDTO.getCard());
+        }
         userDAO.update(user);
     }
 

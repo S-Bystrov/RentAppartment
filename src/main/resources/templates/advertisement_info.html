@@ -14,42 +14,50 @@
     </div>
     <div class="row row-cols-3">
         <div class="col">
-            <h5>Country :</h5>
+            <h5 th:text="#{everywhere.country} + ':'"></h5>
             <p th:text="*{address.country.countryName}"></p>
         </div>
         <div class="col">
-            <h5>City :</h5>
+            <h5 th:text="#{everywhere.city} + ':'"></h5>
             <p th:text="*{address.city}"></p>
         </div>
         <div class="col">
-            <h5>Street :</h5>
+            <h5 th:text="#{everywhere.street} + ':'"></h5>
             <p th:text="*{address.street}"></p>
         </div>
         <div class="col">
-            <h5>House :</h5>
+            <h5 th:text="#{everywhere.house} + ':'"></h5>
             <p th:text="*{address.house}"></p>
         </div>
         <div class="col">
-            <h5>Flat :</h5>
+            <h5 th:text="#{everywhere.flat} + ':'"></h5>
             <p th:text="*{address.flat}? *{address.flat} : 'not info'"></p>
         </div>
         <div class="col">
-            <h5>Price :</h5>
+            <h5 th:text="#{everywhere.price} + ':'"></h5>
             <p th:text="*{price}"></p>
         </div>
     </div>
-    <div class="row">
-        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary">User info</a>
-        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary">All review</a>
+    <div class="row row-cols-4">
+        <div class="col">
+        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary" th:text="#{advertisement.user}"></a>
+        </div>
+        <div class="col">
+        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary" th:text="#{advertisement.review}"></a>
+        </div>
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
-                <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}" class="btn btn-primary">Add review</a>
-                <div th:if="${userCard == null}">
-                    <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Sorry"
-                            data-content="Enter your card for booking">Reservation</button>
+                <div class="col">
+                <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}" class="btn btn-primary" th:text="#{advertisement.add.review}"></a>
                 </div>
-                <a th:if="${userCard != null}"
-                   th:href="@{${userCard} + '/reservation'}" class="btn btn-primary">Reservation</a>
+                <div class="col">
+                    <div th:if="${userCard == null}">
+                        <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" th:title="#{popover.title}"
+                                th:data-content="#{popover.body}" th:text="#{button.reservation}"></button>
+                    </div>
+                    <a th:if="${userCard != null}"
+                       th:href="@{${userCard} + '/reservation'}" class="btn btn-primary" th:text="#{button.reservation}"></a>
+                </div>
 
             </div>
         </div>

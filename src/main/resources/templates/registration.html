@@ -5,29 +5,31 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-Enter yor information
+<p th:text="#{registration.enter.info}"></p>
 <form th:action="@{/registration}" th:object="${userDTO}" method="POST">
     <div class="form-group">
-        <label class="col-sm-2 col-form-label"> Username : </label>
+        <label class="col-sm-2 col-form-label" th:text="#{common.username} + ':'"></label>
         <div class="col-sm-3">
             <input type="text" th:field="*{username}" id="username" th:class="${usernameError}? 'form-control is-invalid' : 'form-control'"
-                   placeholder="Username" th:value="*{username}? *{username} : ''"/>
+                   th:placeholder="#{common.username}" th:value="*{username}? *{username} : ''"/>
             <div th:if="${usernameError}" class="invalid-feedback" th:text="${usernameError}"></div>
         </div>
-        <label class="col-sm-2 col-form-label"> Email : </label>
+        <label class="col-sm-2 col-form-label"> Email: </label>
         <div class="col-sm-3">
             <input type="email" th:field="*{email}" id="email" th:class="${emailError}? 'form-control is-invalid' : 'form-control'"
                    placeholder="Email" th:value="*{email}? *{email} : ''"/>
             <div th:if="${emailError}" class="invalid-feedback" th:text="${emailError}"></div>
         </div>
-        <label class="col-sm-2 col-form-label"> Password : </label>
+        <label class="col-sm-2 col-form-label" th:text="#{common.password} + ':'"></label>
         <div class="col-sm-3">
-            <input type="password" th:field="*{password}" id="password" th:class="${passwordError}? 'form-control is-invalid' : 'form-control'" placeholder="Password"/>
+            <input type="password" th:field="*{password}" id="password" th:class="${passwordError}? 'form-control is-invalid' : 'form-control'"
+                   th:placeholder="#{common.password}"/>
             <div th:if="${passwordError}" class="invalid-feedback" th:text="${passwordError}"></div>
         </div>
-        <label class="col-sm-2 col-form-label"> ConfirmPassword : </label>
+        <label class="col-sm-2 col-form-label" th:text="#{registration.confirm.password} + ':'"></label>
         <div class="col-sm-3">
-            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" th:class="${confirmPasswordError}? 'form-control is-invalid' : 'form-control'" placeholder="ConfirmPassword"/>
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" th:class="${confirmPasswordError}? 'form-control is-invalid' : 'form-control'"
+                   th:placeholder="#{registration.confirm.password}"/>
             <div th:if="${confirmPasswordError}" class="invalid-feedback" th:text="${confirmPasswordError}"></div>
         </div>
     </div>

@@ -43,11 +43,13 @@ public class UserDTO {
     private String confirmPassword;
 
     @NotBlank(message = "Email cannot be empty")
-    @Email(message = "Email is not correct(example@mail.com)", regexp =".+@.+\\..+")
+    @Email(message = "Email is not correct(example@mail.com)", regexp = ".+@.+\\..+")
     private String email;
 
     private String avatarName;
 
+    @Digits(integer = 16, fraction = 0, message = "Bank card number must be 16 digits long!")
+    @Pattern(regexp = "^[0-9]$", message = "Bank card number must be digits")
     private Long card;
 
     private Long paymentAccount;
