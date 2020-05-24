@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
-<head th:replace = "fragments/common :: head">
-</head>
+<head th:replace = "fragments/common :: head"></head>
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5" th:object="${advertisementDTO}">
     <div class="row">
         <img th:src="@{'/img/'+*{images[0].imagePath}}">
+    </div>
+    <div class="row">
+        <h5 th:text="#{everywhere.description}"></h5>
     </div>
     <div class="row">
         <p th:text="*{description}"></p>
@@ -51,12 +53,12 @@
                 <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}" class="btn btn-primary" th:text="#{advertisement.add.review}"></a>
                 </div>
                 <div class="col">
+                    <a th:if="${userCard}"
+                       th:href="@{${userCard} + '/reservation'}" class="btn btn-primary" th:text="#{button.reservation}"></a>
                     <div th:if="${userCard == null}">
                         <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" th:title="#{popover.title}"
                                 th:data-content="#{popover.body}" th:text="#{button.reservation}"></button>
                     </div>
-                    <a th:if="${userCard != null}"
-                       th:href="@{${userCard} + '/reservation'}" class="btn btn-primary" th:text="#{button.reservation}"></a>
                 </div>
 
             </div>

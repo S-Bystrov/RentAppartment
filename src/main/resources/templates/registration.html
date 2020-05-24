@@ -10,33 +10,31 @@
     <div class="form-group">
         <label class="col-sm-2 col-form-label" th:text="#{common.username} + ':'"></label>
         <div class="col-sm-3">
-            <input type="text" th:field="*{username}" id="username" th:class="${usernameError}? 'form-control is-invalid' : 'form-control'"
+            <input type="text" th:field="*{username}" id="username" th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'"
                    th:placeholder="#{common.username}" th:value="*{username}? *{username} : ''"/>
-            <div th:if="${usernameError}" class="invalid-feedback" th:text="${usernameError}"></div>
+            <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}"></div>
         </div>
         <label class="col-sm-2 col-form-label"> Email: </label>
         <div class="col-sm-3">
-            <input type="email" th:field="*{email}" id="email" th:class="${emailError}? 'form-control is-invalid' : 'form-control'"
+            <input type="text" th:field="*{email}" id="email" th:class="${#fields.hasErrors('email')}? 'form-control is-invalid' : 'form-control'"
                    placeholder="Email" th:value="*{email}? *{email} : ''"/>
-            <div th:if="${emailError}" class="invalid-feedback" th:text="${emailError}"></div>
+            <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}"></div>
         </div>
         <label class="col-sm-2 col-form-label" th:text="#{common.password} + ':'"></label>
         <div class="col-sm-3">
-            <input type="password" th:field="*{password}" id="password" th:class="${passwordError}? 'form-control is-invalid' : 'form-control'"
+            <input type="password" th:field="*{password}" id="password" th:class="${#fields.hasErrors('password')}? 'form-control is-invalid' : 'form-control'"
                    th:placeholder="#{common.password}"/>
-            <div th:if="${passwordError}" class="invalid-feedback" th:text="${passwordError}"></div>
+            <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}"></div>
         </div>
         <label class="col-sm-2 col-form-label" th:text="#{registration.confirm.password} + ':'"></label>
         <div class="col-sm-3">
-            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" th:class="${confirmPasswordError}? 'form-control is-invalid' : 'form-control'"
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" th:class="${#fields.hasErrors('confirmPassword')}? 'form-control is-invalid' : 'form-control'"
                    th:placeholder="#{registration.confirm.password}"/>
-            <div th:if="${confirmPasswordError}" class="invalid-feedback" th:text="${confirmPasswordError}"></div>
+            <div th:if="${#fields.hasErrors('confirmPassword')}" class="invalid-feedback" th:errors="*{confirmPassword}"></div>
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Ok</button>
 </form>
-<div th:if="${errorPassword}" th:utext="${errorPassword}"></div>
-<div th:if="${errorUsername}" th:utext="${errorUsername}"></div>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </div>

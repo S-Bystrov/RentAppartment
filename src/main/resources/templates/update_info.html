@@ -5,20 +5,26 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-<form th:object="${userDTO}" th:action="@{'/profile/' + ${idUser} + '/update'}"
+<form th:object="${userDTO}" th:action="@{/profile/update}"
       enctype="multipart/form-data" method="POST">
     <div class="form-group">
         <label class="col-sm-2 col-form-label"> Name : </label>
         <div class="col-sm-3">
-            <input type="text" th:field="*{name}" id="name" class="form-control" placeholder="Name"/>
+            <input type="text" th:field="*{name}" id="name" th:class="${nameError}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="Name" th:value="*{username}? *{username} : ''"/>
+            <div th:if="${nameError}" class="invalid-feedback" th:text="${nameError}"></div>
         </div>
         <label class="col-sm-2 col-form-label"> Surname : </label>
         <div class="col-sm-3">
-            <input type="text" th:field="*{surname}" id="surname" class="form-control" placeholder="Surname"/>
+            <input type="text" th:field="*{surname}" id="surname" th:class="${surnameError}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="Surname" th:value="*{surname}? *{surname} : ''"/>
+            <div th:if="${surnameError}" class="invalid-feedback" th:text="${surnameError}"></div>
         </div>
         <label class="col-sm-2 col-form-label">Enter your card number to make a reservation : </label>
         <div class="col-sm-3">
-            <input type="text" th:field="*{card}" id="card" class="form-control" placeholder="Card"/>
+            <input type="text" th:field="*{card}" id="card" th:class="${cardError}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="Card" th:value="*{card}? *{card} : ''"/>
+            <div th:if="${cardError}" class="invalid-feedback" th:text="${cardError}">
         </div>
     </div>
     <label>Avatar</label>

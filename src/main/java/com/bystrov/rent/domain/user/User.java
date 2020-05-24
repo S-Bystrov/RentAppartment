@@ -37,9 +37,9 @@ public class User implements UserDetails {
 
     private String email;
 
-    private Long card;
+    private String card;
 
-    private Long paymentAccount;
+    private String paymentAccount;
 
     private String avatarName;
 

@@ -22,7 +22,7 @@
         <td><p th:text="${review.review}"></p></td>
         <td><p th:text="${review.evaluation}"></p></td>
         <td><p th:text="${review.data}"></p></td>
-        <td><a th:href="@{'/profile/' + ${review.user.id}}">user info</a></td>
+        <td><a th:href="@{'/profile/' + ${review.user.id}}" th:text="#{everywhere.user}"></a></td>
     </tr>
     </tbody>
 </table>

@@ -6,43 +6,68 @@
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
     <form th:action="@{/new-advertisement}" th:object="${advertisementDTO}" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            <label class="col-sm-2 col-form-label"> Description : </label>
-            <div class="col-sm-3">
-                <textarea rows="3" type="text" th:field="*{description}" id="description" th:class="${descriptionError}? 'form-control is-invalid' : 'form-control'"
-                          placeholder="Description" th:value="*{description}? *{description} : ''"></textarea>
-                <div th:if="${descriptionError}" class="invalid-feedback" th:text="${descriptionError}"></div>
+        <div class="form-row">
+            <div class="form-group col-md-7">
+                <label class="col-sm-2 col-form-label" th:text="#{everywhere.description} + ':'"> </label>
+                <textarea rows="3" type="text" th:field="*{description}" id="description" th:class="${#fields.hasErrors('description')}? 'form-control is-invalid' : 'form-control'"
+                          th:placeholder="#{everywhere.description}" th:value="*{description}? *{description} : ''"></textarea>
+                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback" th:errors="${description}"></div>
             </div>
-            <label class="col-sm-2 col-form-label" for="country">Select country :</label>
-            <select class="form-control col-sm-3" id="country" th:field="*{address.country.idCountry}">
-                <option th:each="country : ${countryDTOList}"
-                        th:value="${country.idCountry}"
-                        th:text="${country.countryName}"></option>
-            </select>
-            <label class="col-sm-2 col-form-label"> City : </label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{address.city}" id="city" th:class="${cityError}? 'form-control is-invalid' : 'form-control'"
-                       th:value="*{address.city}? *{address.city} : ''" placeholder="City"/>
-                <div th:if="${cityError}" class="invalid-feedback" th:text="${cityError}"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="country" th:text="#{choose.country} + ':'"></label>
+                <select class="form-control" id="country" th:field="*{address.country.idCountry}">
+                    <option th:value="${null}" th:text="#{choose.country}"></option>
+                    <option th:each="country : ${countryDTOList}"
+                            th:value="${country.idCountry}"
+                            th:text="${country.countryName}"></option>
+                </select>
             </div>
-            <label class="col-sm-2 col-form-label"> Street : </label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{address.street}" id="street" th:class="${streetError}? 'form-control is-invalid' : 'form-control'"
-                       th:value="*{address.street}? *{address.street} : ''" placeholder="Street"/>
-                <div th:if="${streetError}" class="invalid-feedback" th:text="${streetError}"></div>
+            <div class="form-group col-md-4">
+                <label th:text="#{everywhere.city} + ':'"></label>
+                <input type="text" th:field="*{address.city}" id="city" th:class="${#fields.hasErrors('address.city')}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.city}? *{address.city} : ''" th:placeholder="#{everywhere.city}"/>
+                <div th:if="${#fields.hasErrors('address.city')}" class="invalid-feedback" th:errors="*{address.city}"></div>
             </div>
-            <label class="col-sm-2 col-form-label"> House : </label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{address.house}" id="house" th:class="${houseError}? 'form-control is-invalid' : 'form-control'"
-                       th:value="*{address.house}? *{address.house} : ''" placeholder="House"/>
-                <div th:if="${houseError}" class="invalid-feedback" th:text="${houseError}"></div>
+            <div class="form-group col-md-4">
+                <label th:text="#{everywhere.street} + ':'"></label>
+                <input type="text" th:field="*{address.street}" id="street" th:class="${#fields.hasErrors('address.street')}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.street}? *{address.street} : ''" th:placeholder="#{everywhere.street}"/>
+                <div th:if="${#fields.hasErrors('address.street')}" class="invalid-feedback" th:errors="*{address.street}"></div>
             </div>
-            <label class="col-sm-2 col-form-label"> Price : </label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{price}" id="price" th:class="${priceError}? 'form-control is-invalid' : 'form-control'"
-                       th:value="*{price}? *{price} : ''" placeholder="Price"/>
+        </div>
+        <div class="form-group row">
+            <div class="form-group col-md-3">
+                <label th:text="#{everywhere.house} + ':'"></label>
+                <input type="text" th:field="*{address.house}" id="house" th:class="${#fields.hasErrors('address.house')}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.house}? *{address.house} : ''" th:placeholder="#{everywhere.house}"/>
+                <div th:if="${#fields.hasErrors('address.house')}" class="invalid-feedback" th:errors="*{address.house}"></div>
             </div>
-            <div th:if="${price}" class="invalid-feedback" th:text="${price}"></div>
+            <div class="form-group col-md-3">
+                <label th:text="#{everywhere.building} + ':'"></label>
+                <input type="text" th:field="*{address.building}" id="building" th:class="${#fields.hasErrors('address.building')}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.building}? *{address.building} : ''" th:placeholder="#{everywhere.building}"/>
+                <div th:if="${#fields.hasErrors('address.building')}" class="invalid-feedback" th:errors="*{address.building}"></div>
+            </div>
+            <div class="form-group col-md-3">
+                <label th:text="#{everywhere.flat} + ':'"></label>
+                <input type="text" th:field="*{address.flat}" id="flat" th:class="${#fields.hasErrors('address.flat')}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{address.flat}? *{address.flat} : ''" th:placeholder="#{everywhere.house}"/>
+                <div th:if="${#fields.hasErrors('address.flat')}" class="invalid-feedback" th:errors="*{address.flat}"></div>
+            </div>
+            <div class="form-group col-md-3">
+                <label th:text="#{everywhere.price} + ':'"></label>
+                <input type="text" th:field="*{price}" id="price" th:class="${#fields.hasErrors('price')}? 'form-control is-invalid' : 'form-control'"
+                       th:value="*{price}? *{price} : ''" th:placeholder="#{everywhere.price}"/>
+                <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback" th:errors="*{price}"></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="browseFile" th:text="#{advertisement.file}"></label>
+                <input type="file" class="form-control-file" id="browseFile">
+            </div>
         </div>
         <label>Image</label>
         <input type="file" name="image">

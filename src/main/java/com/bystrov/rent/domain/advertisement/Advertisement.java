@@ -34,7 +34,7 @@ public class Advertisement {
 
     private String data;
 
-    private Double price;
+    private String price;
 
     @Enumerated(EnumType.STRING)
     private Status status;

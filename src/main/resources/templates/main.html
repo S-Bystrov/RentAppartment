@@ -35,6 +35,7 @@
                         <li class="list-group-item" th:text="#{everywhere.country} + ' : ' + ${advertisement.address.country.countryName}"></li>
                         <li class="list-group-item" th:text="#{everywhere.city} + ' : ' + ${advertisement.address.city}"></li>
                         <li class="list-group-item" th:text="#{everywhere.publication} + ' : ' + ${advertisement.data}"></li>
+                        <li class="list-group-item" th:text="#{everywhere.price} + ' : ' + ${advertisement.price}"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link" th:text="#{main.more.info}"></a>

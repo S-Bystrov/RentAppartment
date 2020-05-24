@@ -26,9 +26,11 @@ public class Address {
 
     private String street;
 
-    private Integer house;
+    private String house;
 
-    private Integer flat;
+    private String building;
+
+    private String flat;
 
     @OneToOne(mappedBy = "address")
     private Advertisement advertisement;

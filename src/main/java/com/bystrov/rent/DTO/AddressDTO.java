@@ -17,14 +17,13 @@ public class AddressDTO {
 
     private CountryDTO country = new CountryDTO();
 
-    @NotBlank(message = "City cannot be empty")
     private String city;
 
-    @NotBlank(message = "Street cannot be empty")
     private String street;
 
-    @NotBlank(message = "House cannot be empty")
-    private Integer house;
+    private String house;
 
-    private Integer flat;
+    private String building;
+
+    private String flat;
 }

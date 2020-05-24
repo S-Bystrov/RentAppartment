@@ -24,6 +24,7 @@ public class AddressDTOParser {
                 .city(address.getCity())
                 .street(address.getStreet())
                 .house(address.getHouse())
+                .building(address.getBuilding())
                 .flat(address.getFlat())
                 .build();
         return addressDTO;
@@ -40,6 +41,7 @@ public class AddressDTOParser {
                 .city(addressDTO.getCity())
                 .street(addressDTO.getStreet())
                 .house(addressDTO.getHouse())
+                .building(addressDTO.getBuilding())
                 .flat(addressDTO.getFlat())
                 .build();
         return address;

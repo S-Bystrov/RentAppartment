@@ -1,7 +1,5 @@
 package com.bystrov.rent.controller;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +16,7 @@ public class ControllerUtils {
     static Map<String, String> getErrors(BindingResult bindingResult) {
         Collector<FieldError, ?, Map<String, String>> fieldErrorMapCollector = Collectors.toMap(
                 fieldError -> fieldError.getField() + "Error",
-                FieldError::getDefaultMessage
-        );
+                FieldError::getDefaultMessage);
         return bindingResult.getFieldErrors().stream().collect(fieldErrorMapCollector);
     }
 

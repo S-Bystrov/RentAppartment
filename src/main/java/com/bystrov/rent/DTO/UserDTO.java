@@ -8,9 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -32,27 +30,21 @@ public class UserDTO {
 
     private String surname;
 
-    @NotBlank(message = "Username cannot be empty")
-    @Length(max = 16, message = "Username too long")
     private String username;
 
-    @NotBlank(message = "Password cannot be empty")
     private String password;
 
-    @NotBlank(message = "Password confirmation cannot be empty")
     private String confirmPassword;
 
-    @NotBlank(message = "Email cannot be empty")
-    @Email(message = "Email is not correct(example@mail.com)", regexp = ".+@.+\\..+")
     private String email;
 
     private String avatarName;
 
-    @Digits(integer = 16, fraction = 0, message = "Bank card number must be 16 digits long!")
-    @Pattern(regexp = "^[0-9]$", message = "Bank card number must be digits")
-    private Long card;
+    @Pattern(regexp = "^[0-9]{13,16}$", message = "Bank card number must be 16 characters long!")
+    private String card;
 
-    private Long paymentAccount;
+    @Pattern(regexp = "^[0-9]{13,16}$", message = "Account number must be 16 characters long!")
+    private String paymentAccount;
 
     private List<Advertisement> advertisementList;
 

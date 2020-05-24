@@ -20,13 +20,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                        <a class="nav-link"
-                           th:href="@{${#httpServletRequest.requestURI} + '?lang=ru'}">Русский</a>
-                </li>
-                <li class="nav-item">
-                        <a class="nav-link"
-                           th:href="@{${#httpServletRequest.requestURI} + '?lang=en'}">English</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false" th:text="#{common.language}"></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{${#httpServletRequest.requestURI} + '?lang=ru'}">Русский</a>
+                        <a class="dropdown-item" th:href="@{${#httpServletRequest.requestURI} + '?lang=en'}">English</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <div sec:authorize="isAuthenticated()">

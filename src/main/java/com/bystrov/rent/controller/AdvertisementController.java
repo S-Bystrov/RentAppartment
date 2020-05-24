@@ -6,7 +6,7 @@ import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
 import com.bystrov.rent.service.ImageService;
-import com.bystrov.rent.service.UserService;
+import com.bystrov.rent.validator.AdvertisementValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -35,16 +33,16 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
     private final ImageService imageService;
     private final CountryService countryService;
-    private final UserService userService;
+    private final AdvertisementValidator advertisementValidator;
 
     public AdvertisementController(AdvertisementService advertisementService,
                                    ImageService imageService,
                                    CountryService countryService,
-                                   UserService userService){
+                                   AdvertisementValidator advertisementValidator){
         this.advertisementService = advertisementService;
         this.imageService = imageService;
         this.countryService = countryService;
-        this.userService = userService;
+        this.advertisementValidator = advertisementValidator;
     }
 
     @GetMapping("/")
@@ -83,20 +81,20 @@ public class AdvertisementController {
     @PostMapping("/new-advertisement")
     public String addNewAdvertisement(@RequestParam("image") MultipartFile file,
                                       @AuthenticationPrincipal User authenticalUser,
-                                      @Valid AdvertisementDTO advertisementDTO,
+                                      AdvertisementDTO advertisementDTO,
                                       BindingResult bindingResult,
                                       Model model) throws IOException {
-        model.addAttribute("advertisementDTO", advertisementDTO);
+        advertisementValidator.validate(advertisementDTO, bindingResult);
         if(bindingResult.hasErrors()){
-            Map<String, String> collect = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(collect);
+            List<CountryDTO> countryDTOList = countryService.getAll();
+            model.addAttribute("countryDTOList", countryDTOList);
+            model.addAttribute("advertisementDTO", advertisementDTO);
             return "new_advertisement";
-        } else {
-            advertisementDTO.setUser(authenticalUser);
-            String nameImage = ControllerUtils.saveFile(file, uploadPath);
-            AdvertisementDTO newAdvertisement = advertisementService.saveAdvertisement(advertisementDTO);
-            imageService.saveImage(nameImage, newAdvertisement.getIdAdvertisement());
         }
+        advertisementDTO.setUser(authenticalUser);
+        String nameImage = ControllerUtils.saveFile(file, uploadPath);
+        AdvertisementDTO newAdvertisement = advertisementService.saveAdvertisement(advertisementDTO);
+        imageService.saveImage(nameImage, newAdvertisement.getIdAdvertisement());
         return "redirect:/";
     }
 
@@ -113,7 +111,7 @@ public class AdvertisementController {
                                       Model model){
         advertisementService.deleteById(idAdvertisement);
         model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
-        return "redirect:/profile/" + authenticalUser.getId() + "/advertisement";
+        return "redirect:/profile/advertisement";
     }
 
     @GetMapping("/advertisement/{idAdvertisement}")
@@ -130,7 +128,7 @@ public class AdvertisementController {
             }
         }
         if(authenticalUser != null) {
-            Long userCard = authenticalUser.getCard();
+            String userCard = authenticalUser.getCard();
             model.addAttribute("userCard", userCard);
         }
         model.addAttribute("checkUser", checkUser);

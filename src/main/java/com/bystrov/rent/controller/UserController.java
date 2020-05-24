@@ -3,6 +3,7 @@ package com.bystrov.rent.controller;
 import com.bystrov.rent.DTO.UserDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.UserService;
+import com.bystrov.rent.validator.UserRegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -25,16 +26,13 @@ import java.util.Map;
 @Controller
 public class UserController {
     @Autowired
+    private UserRegistrationValidator registrationValidator;
+
+    @Autowired
     private UserService userService;
 
     @Value("${upload.path}")
     private String uploadPath;
-/*
-    private final UserServiceImpl userService;
-
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
-    }*/
 
     @GetMapping("/login")
     public String getLoginPage(){
@@ -50,31 +48,20 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String newRegistration(@Valid UserDTO userDTO,
+    public String newRegistration(UserDTO userDTO,
                                   BindingResult bindingResult,
                                   Model model) {
-        model.addAttribute("userDTO", userDTO);
+        registrationValidator.validate(userDTO, bindingResult);
         if(bindingResult.hasErrors()){
-            Map<String, String> collect = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(collect);
-            return "/registration";
-        } else {
-            if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-                model.addAttribute("errorPassword", "Passwords don't match");
-                return "registration";
-            }
-            if (userService.findByUsername(userDTO.getUsername()) == null) {
-                userService.saveUser(userDTO);
-            } else {
-                model.addAttribute("errorUsername", "A user with this username already exists");
-                return "registration";
-            }
-            return "redirect:/";
+            model.addAttribute("userDTO", userDTO);
+            return "registration";
         }
+        userService.saveUser(userDTO);
+        return "redirect:/";
     }
 
     @GetMapping("/profile/{idUser}")
-    public String getUserInfoPage(@PathVariable("idUser") long idUser, Model model) {
+    public String getUserInfoPage(@PathVariable("idUser") Long idUser, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(!authentication.getName().equals("anonymousUser")){
             String username = authentication.getName();
@@ -92,18 +79,25 @@ public class UserController {
         return "user_info";
     }
 
-    @GetMapping("/profile/{idUser}/update")
-    public String getUpdateInfoPage(@PathVariable("idUser") Long idUser, Model model) {
+    @GetMapping("/profile/update")
+    public String getUpdateInfoPage(Model model) {
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
-        model.addAttribute("idUser", idUser);
         return "update_info";
     }
 
-    @PostMapping("/profile/{idUser}/update")
+    @PostMapping("/profile/update")
     public String updateInfo(@AuthenticationPrincipal User authenticalUser,
                              @RequestParam("avatar") MultipartFile file,
-                             UserDTO userDTO) throws IOException {
+                             @Valid UserDTO userDTO,
+                             BindingResult bindingResult,
+                             Model model) throws IOException {
+        model.addAttribute("userDTO", userDTO);
+        if(bindingResult.hasErrors()) {
+            Map<String, String> collect = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(collect);
+            return "update_info";
+        }
         String avatarName = ControllerUtils.saveFile(file, uploadPath);
         Long idUser = authenticalUser.getId();
         if(avatarName !=null){

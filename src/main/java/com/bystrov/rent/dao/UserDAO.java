@@ -12,4 +12,5 @@ public interface UserDAO {
     User findByUsername(String username);
     void deleteById(Long id);
     List<User> findAll();
+    User findByEmail(String email);
 }

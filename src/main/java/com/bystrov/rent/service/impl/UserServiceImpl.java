@@ -7,6 +7,8 @@ import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.user.UserRole;
 import com.bystrov.rent.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private static final String standardAvatarName = "standardAvatar.jpg";
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserDAO userDAO;
@@ -32,19 +35,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-/*    private final UserDAOImpl userDAO;
-
-    private final UserDTOParser userDTOParser;
-
-    private final PasswordEncoder passwordEncoder;
-
-
-    public UserServiceImpl(UserDAOImpl userDAO, UserDTOParser userDTOParser, PasswordEncoder passwordEncoder) {
-        this.userDAO = userDAO;
-        this.userDTOParser = userDTOParser;
-        this.passwordEncoder = passwordEncoder;
-    }*/
 
     @Transactional
     @Override
@@ -74,13 +64,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDTO.setRoles(Collections.singleton(UserRole.USER));
         userDTO.setAvatarName(standardAvatarName);
         User user = userDTOParser.createUserDomainFromDTO(userDTO);
+        logger.info("New user registered: " + userDTO.getUsername());
         userDAO.save(user);
         return userDTO;
     }
 
     @Transactional
     @Override
-    public void update(UserDTO userDTO, long idUser) {
+    public void update(UserDTO userDTO, Long idUser) {
         User user = userDAO.findById(idUser);
         if (user == null){
             throw new EntityNotFoundException("User not found!");
@@ -94,14 +85,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(userDTO.getAvatarName() != null && !StringUtils.isBlank(userDTO.getAvatarName())) {
             user.setAvatarName(userDTO.getAvatarName());
         }
-        if(userDTO.getCard() != null) {
+        if(userDTO.getCard() != null && !StringUtils.isBlank(userDTO.getCard())) {
             user.setCard(userDTO.getCard());
         }
         userDAO.update(user);
-    }
-
-    @Override
-    public void delete(User user) {
     }
 
     @Override
@@ -111,6 +98,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDTO findByUsername(String username) {
         User user = userDAO.findByUsername(username);
+        UserDTO userDTO = userDTOParser.createUserDTOFromDomain(user);
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO findByEmail(String email){
+        User user = userDAO.findByEmail(email);
         UserDTO userDTO = userDTOParser.createUserDTOFromDomain(user);
         return userDTO;
     }
