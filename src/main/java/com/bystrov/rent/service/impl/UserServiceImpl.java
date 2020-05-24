@@ -41,7 +41,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional
     @Override
     public UserDTO findById(Long id) {
         User user = userDAO.findById(id);
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userDTOParser.createUserDTOFromDomain(user);
     }
 
-    @Transactional
     @Override
     public List<UserDTO> getAll() {
         List<User> users = userDAO.findAll();
@@ -91,17 +89,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user == null){
             throw new EntityNotFoundException("User not found!");
         }
-        if(userDTO.getName() != null && !StringUtils.isBlank(userDTO.getName())) {
+        if(!StringUtils.isBlank(userDTO.getName())) {
             user.setName(userDTO.getName());
         }
-        if(userDTO.getSurname() != null && !StringUtils.isBlank(userDTO.getSurname())) {
+        if(!StringUtils.isBlank(userDTO.getSurname())) {
             user.setSurname(userDTO.getSurname());
         }
-        if(userDTO.getAvatarName() != null && !StringUtils.isBlank(userDTO.getAvatarName())) {
+        if(!StringUtils.isBlank(userDTO.getAvatarName())) {
             user.setAvatarName(userDTO.getAvatarName());
         }
-        if(userDTO.getCard() != null && !StringUtils.isBlank(userDTO.getCard())) {
+        if(!StringUtils.isBlank(userDTO.getCard())) {
             user.setCard(userDTO.getCard());
+        }
+        if(!StringUtils.isBlank(userDTO.getPaymentAccount())){
+            user.setPaymentAccount(userDTO.getPaymentAccount());
         }
         userDAO.update(user);
     }

@@ -29,11 +29,11 @@
         </div>
         <div class="col">
             <h5 th:text="#{everywhere.house} + ':'"></h5>
-            <p th:text="*{address.house}"></p>
+            <p th:text="*{address.house}? *{address.house} : '-'"></p>
         </div>
         <div class="col">
             <h5 th:text="#{everywhere.flat} + ':'"></h5>
-            <p th:text="*{address.flat}? *{address.flat} : 'not info'"></p>
+            <p th:text="*{address.flat}? *{address.flat} : '-'"></p>
         </div>
         <div class="col">
             <h5 th:text="#{everywhere.price} + ':'"></h5>

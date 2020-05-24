@@ -3,7 +3,7 @@ package com.bystrov.rent.controller;
 import com.bystrov.rent.DTO.UserDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.UserService;
-import com.bystrov.rent.validator.UserRegistrationValidator;
+import com.bystrov.rent.validator.UserUpdateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -20,12 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Map;
 
 
 @Controller
 public class UserController {
 
+    @Autowired
+    private UserUpdateValidator updateValidator;
 
     @Autowired
     private UserService userService;
@@ -65,10 +66,9 @@ public class UserController {
                              @Valid UserDTO userDTO,
                              BindingResult bindingResult,
                              Model model) throws IOException {
-        model.addAttribute("userDTO", userDTO);
+        updateValidator.validate(userDTO, bindingResult);
         if(bindingResult.hasErrors()) {
-            Map<String, String> collect = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(collect);
+            model.addAttribute("userDTO", userDTO);
             return "update_info";
         }
         String avatarName = ControllerUtils.saveFile(file, uploadPath);

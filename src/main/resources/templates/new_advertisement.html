@@ -9,7 +9,8 @@
         <div class="form-row">
             <div class="form-group col-md-7">
                 <label class="col-sm-2 col-form-label" th:text="#{everywhere.description} + ':'"> </label>
-                <textarea rows="3" type="text" th:field="*{description}" id="description" th:class="${#fields.hasErrors('description')}? 'form-control is-invalid' : 'form-control'"
+                <textarea rows="3" type="text" th:field="*{description}" id="description"
+                          th:class="${#fields.hasErrors('description')}? 'form-control is-invalid' : 'form-control'"
                           th:placeholder="#{everywhere.description}" th:value="*{description}? *{description} : ''"></textarea>
                 <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback" th:errors="${description}"></div>
             </div>

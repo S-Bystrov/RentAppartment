@@ -7,6 +7,16 @@
 <div class="container mt-5">
 <form th:object="${userDTO}" th:action="@{/profile/update}"
       enctype="multipart/form-data" method="POST">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="name" > Name : </label>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{name}" id="name" th:class="${nameError}? 'form-control is-invalid' : 'form-control'"
+                       placeholder="Name" th:value="*{username}? *{username} : ''"/>
+                <div th:if="${nameError}" class="invalid-feedback" th:text="${nameError}"></div>
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <label class="col-sm-2 col-form-label"> Name : </label>
         <div class="col-sm-3">
@@ -25,6 +35,12 @@
             <input type="text" th:field="*{card}" id="card" th:class="${cardError}? 'form-control is-invalid' : 'form-control'"
                    placeholder="Card" th:value="*{card}? *{card} : ''"/>
             <div th:if="${cardError}" class="invalid-feedback" th:text="${cardError}"></div>
+        </div>
+        <label class="col-sm-2 col-form-label">Enter your payment account to create an advertisement : </label>
+        <div class="col-sm-3">
+            <input type="text" th:field="*{card}" id="paymentAccount" th:class="${paymentAccount}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="PaymentAccount" th:value="*{paymentAccount}? *{paymentAccount} : ''"/>
+            <div th:if="${paymentAccount}" class="invalid-feedback" th:text="${paymentAccount}"></div>
         </div>
     </div>
     <label>Avatar</label>
