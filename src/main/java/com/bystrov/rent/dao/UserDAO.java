@@ -13,4 +13,5 @@ public interface UserDAO {
     void deleteById(Long id);
     List<User> findAll();
     User findByEmail(String email);
+    User findByActivationCode(String code);
 }

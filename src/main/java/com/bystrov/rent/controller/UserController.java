@@ -25,40 +25,13 @@ import java.util.Map;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserRegistrationValidator registrationValidator;
+
 
     @Autowired
     private UserService userService;
 
     @Value("${upload.path}")
     private String uploadPath;
-
-    @GetMapping("/login")
-    public String getLoginPage(){
-        return "login";
-    }
-
-
-    @GetMapping("/registration")
-    public String getRegistrationPage(Model model) {
-        UserDTO userDTO = new UserDTO();
-        model.addAttribute("userDTO", userDTO);
-        return "registration";
-    }
-
-    @PostMapping("/registration")
-    public String newRegistration(UserDTO userDTO,
-                                  BindingResult bindingResult,
-                                  Model model) {
-        registrationValidator.validate(userDTO, bindingResult);
-        if(bindingResult.hasErrors()){
-            model.addAttribute("userDTO", userDTO);
-            return "registration";
-        }
-        userService.saveUser(userDTO);
-        return "redirect:/";
-    }
 
     @GetMapping("/profile/{idUser}")
     public String getUserInfoPage(@PathVariable("idUser") Long idUser, Model model) {

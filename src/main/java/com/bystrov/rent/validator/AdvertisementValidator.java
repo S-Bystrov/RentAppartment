@@ -37,6 +37,9 @@ public class AdvertisementValidator implements Validator {
 
 
         AddressDTO address = advertisement.getAddress();
+        if(address.getCountry().getIdCountry() == null){
+            errors.rejectValue("address.country.idCountry", "error.country");
+        }
         if(StringUtils.isBlank(address.getCity())) {
             errors.rejectValue("address.city", "error.city.empty");
         } else {

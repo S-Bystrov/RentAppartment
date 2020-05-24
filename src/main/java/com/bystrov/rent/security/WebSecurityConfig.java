@@ -3,6 +3,7 @@ package com.bystrov.rent.security;
 import com.bystrov.rent.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +14,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserServiceImpl userService;
@@ -35,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/", "/filter", "/advertisement/**", "/profile/**", "/img/**").permitAll()
+        http.authorizeRequests().antMatchers("/", "/filter", "/advertisement/*", "/profile/*", "/img/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/login", "/registration").anonymous()
                 .anyRequest().authenticated()

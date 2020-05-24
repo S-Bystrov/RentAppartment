@@ -22,6 +22,8 @@ public class UserDTOParser {
                 .paymentAccount(user.getPaymentAccount())
                 .roles(user.getRoles())
                 .avatarName(user.getAvatarName())
+                .activationCode(user.getActivationCode())
+                .activate(user.isActivate())
                 .build();
         return userDTO;
     }
@@ -41,6 +43,8 @@ public class UserDTOParser {
                 .paymentAccount(userDTO.getPaymentAccount())
                 .roles(userDTO.getRoles())
                 .avatarName(userDTO.getAvatarName())
+                .activationCode(userDTO.getActivationCode())
+                .activate(userDTO.isActivate())
                 .build();
         return user;
     }

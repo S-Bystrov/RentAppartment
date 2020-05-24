@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace = "fragments/common :: head"></head>
+<body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container">
+    <div class="row row-cols-4">
+        <div class="col">
+            <a th:href="@{/user-list}" class="btn btn-primary" th:text="#{admin.users}"></a>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/common :: bootScript"></div>
+</body>
+</html>

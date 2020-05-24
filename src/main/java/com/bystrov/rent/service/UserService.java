@@ -12,4 +12,5 @@ public interface UserService {
     void deleteById(Long id);
     UserDTO findByUsername (String username);
     UserDTO findByEmail(String email);
+    boolean activateUser(String code);
 }

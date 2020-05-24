@@ -30,12 +30,15 @@ public class User implements UserDetails {
 
     private String surname;
 
-    @Column(name = "user_name")
     private String username;
 
     private String password;
 
     private String email;
+
+    private String activationCode;
+
+    private boolean activate;
 
     private String card;
 

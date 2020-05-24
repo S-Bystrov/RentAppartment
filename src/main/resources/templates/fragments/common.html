@@ -45,6 +45,12 @@
                            th:href="@{/profile/reservation}" th:text="#{common.your.reservation}"></a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <div sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link"
+                           th:href="@{/admin-menu}" th:text="#{admin.page}"></a>
+                    </div>
+                </li>
             </ul>
             <div sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="post">

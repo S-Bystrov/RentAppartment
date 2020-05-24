@@ -5,6 +5,7 @@ import com.bystrov.rent.DTO.parser.UserDTOParser;
 import com.bystrov.rent.dao.UserDAO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.user.UserRole;
+import com.bystrov.rent.service.MailSender;
 import com.bystrov.rent.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,11 +22,15 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private static final String standardAvatarName = "standardAvatar.jpg";
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private MailSender mailSender;
 
     @Autowired
     private UserDAO userDAO;
@@ -62,10 +67,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDTO saveUser(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setRoles(Collections.singleton(UserRole.USER));
+        userDTO.setActivate(false);
         userDTO.setAvatarName(standardAvatarName);
+        userDTO.setActivationCode(UUID.randomUUID().toString());
         User user = userDTOParser.createUserDomainFromDTO(userDTO);
         logger.info("New user registered: " + userDTO.getUsername());
         userDAO.save(user);
+        if(!StringUtils.isBlank(user.getEmail())) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                    "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/activate/%s",
+                    user.getUsername(), user.getActivationCode());
+
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
         return userDTO;
     }
 
@@ -89,6 +104,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setCard(userDTO.getCard());
         }
         userDAO.update(user);
+    }
+
+    @Transactional
+    @Override
+    public boolean activateUser(String code) {
+        User user = userDAO.findByActivationCode(code);
+        if(user == null){
+            return false;
+        }
+        user.setActivationCode(null);
+        user.setActivate(true);
+        userDAO.update(user);
+        return true;
     }
 
     @Override

@@ -21,7 +21,7 @@
             <td><p th:text="${user.username}"></p></td>
             <td><p th:text="${user.email}"></p></td>
             <td><p th:text="${user.name}"></p></td>
-            <td><p th:text="${user.role}"></p></td>
+            <td><p th:text="${user.roles}"></p></td>
             <td><a th:href="@{'/admin/' + ${user.id}}" th:text="#{everywhere.user}"></a></td>
         </tr>
         </tbody>

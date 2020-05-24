@@ -38,12 +38,14 @@ public class UserDTO {
 
     private String email;
 
+    private String activationCode;
+
+    private boolean activate;
+
     private String avatarName;
 
-    @Pattern(regexp = "^[0-9]{13,16}$", message = "Bank card number must be 16 characters long!")
     private String card;
 
-    @Pattern(regexp = "^[0-9]{13,16}$", message = "Account number must be 16 characters long!")
     private String paymentAccount;
 
     private List<Advertisement> advertisementList;
