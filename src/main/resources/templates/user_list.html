@@ -3,7 +3,7 @@
 <head th:replace = "fragments/common :: head"></head>
 <body>
 <div th:replace="fragments/common :: navBar"></div>
-<div class="container">
+<div class="container mt-5">
     <table class="table">
         <thead class="thead-light">
         <tr>
@@ -12,7 +12,7 @@
             <th scope="col">Email</th>
             <th scope="col"th:text="#{user.name}"></th>
             <th scope="col" th:text="#{user.role}"></th>
-            <th scope="col" th:text="#{user.edit}"></th>
+            <th scope="col" th:text="#{everywhere.edit}"></th>
         </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <td><p th:text="${user.email}"></p></td>
             <td><p th:text="${user.name}"></p></td>
             <td><p th:text="${user.roles}"></p></td>
-            <td><a th:href="@{'/admin/' + ${user.id}}" th:text="#{everywhere.user}"></a></td>
+            <td><a th:href="@{'/admin/' + ${user.id}}" th:text="#{everywhere.edit}"></a></td>
         </tr>
         </tbody>
     </table>

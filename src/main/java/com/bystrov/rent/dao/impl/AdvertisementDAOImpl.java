@@ -34,8 +34,6 @@ public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements Ad
                 countryQuery = " ad.address.country.idCountry = " + idCountry;
             }
             Query query = em.createQuery("from Advertisement ad where " + cityQuery + countryQuery);
-            /*query.setParameter("paramCity", city);
-            query.setParameter("paramCountry", country);*/
             List<Advertisement> advertisementList = (List<Advertisement>) query.getResultList();
             if(advertisementList.size() == 0){
                 return null;

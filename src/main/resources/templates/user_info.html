@@ -13,30 +13,20 @@
     <div>
         <img class="border border-secondary" th:src="@{'/img/'+*{avatarName}}" width="150" height="175">
     </div>
-    <div class="row">
-        <p class="font-weight-bold" th:text="#{user.username} + ': '"></p>
-        <p th:text="*{username}"></p>
-    </div>
-    <div class="row">
-        <p class="font-weight-bold">Email: </p>
-        <p th:text="*{email}"></p>
-    </div>
-    <div class="row">
-        <p class="font-weight-bold" th:text="#{user.name} + ': '"></p>
-        <p th:text="*{name}? *{name} : '-'"></p>
-    </div>
-    <div class="row">
-        <p class="font-weight-bold" th:text="#{user.surname} + ': '"></p>
-        <p th:text="*{surname}? *{surname} : '-'"></p>
-    </div>
-    <div class="row">
-        <p class="font-weight-bold" th:text="#{user.card} + ': '"></p>
-        <p th:text="*{card}? *{card} : '-'"></p>
-    </div>
-    <div class="row">
-        <p class="font-weight-bold" th:text="#{user.paymentAccount} + ': '"></p>
-        <p th:text="*{paymentAccount}? *{paymentAccount} : '-'"></p>
-    </div>
+    <dl class="row">
+        <dt class="col-sm-2" th:text="#{user.username} + ':'"></dt>
+        <dd class="col-sm-10" th:text="*{username}"></dd>
+        <dt class="col-sm-2">Email:</dt>
+        <dd class="col-sm-10" th:text="*{email}? *{email} : '-'"></dd>
+        <dt class="col-sm-2" th:text="#{user.name} + ':'"></dt>
+        <dd class="col-sm-10" th:text="*{name}? *{name} : '-'"></dd>
+        <dt class="col-sm-2" th:text="#{user.surname} + ':'"></dt>
+        <dd class="col-sm-10" th:text="*{surname}? *{surname} : '-'"></dd>
+        <dt class="col-sm-2" th:text="#{user.card} + ':'"></dt>
+        <dd class="col-sm-10" th:text="*{card}? *{card} : '-'"></dd>
+        <dt class="col-sm-2" th:text="#{user.paymentAccount} + ':'"></dt>
+        <dd class="col-sm-10" th:text="*{paymentAccount}? *{paymentAccount} : '-'"></dd>
+    </dl>
 </div>
 <div sec:authorize="isAuthenticated()">
     <div th:if="${checkUser}">

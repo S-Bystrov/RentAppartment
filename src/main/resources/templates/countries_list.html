@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace = "fragments/common :: head"></head>
+<body>
+<div th:replace="fragments/common :: navBar"></div>
+<div class="container mt-5">
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col" th:text="#{everywhere.country}"></th>
+            <th scope="col" th:text="#{everywhere.edit}"></th>
+            <th scope="col"th:text="#{everywhere.remove}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="country : ${countryList}">
+            <td><p th:text="${country.idCountry}"></p></td>
+            <td><p th:text="${country.countryName}"></p></td>
+            <td><a th:href="@{/country/edit}" th:text="#{everywhere.edit}"></a></td>
+            <td><a th:href="@{/country/remove}" th:text="#{everywhere.remove}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-primary mt-2" th:href="@{/country/new}" th:text="#{admin.country.new}"></a>
+</div>
+<div th:replace="fragments/common :: bootScript"></div>
+</body>
+</html>

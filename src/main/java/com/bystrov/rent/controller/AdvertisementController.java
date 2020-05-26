@@ -2,7 +2,6 @@ package com.bystrov.rent.controller;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.CountryDTO;
-import com.bystrov.rent.domain.advertisement.Status;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
@@ -74,11 +73,9 @@ public class AdvertisementController {
     @GetMapping("/new-advertisement")
     public String getNewAdvertisementPage(Model model) {
         AdvertisementDTO advertisementDTO = new AdvertisementDTO();
-        //AddressDTO addressDTO = new AddressDTO();
         List<CountryDTO> countryDTOList = countryService.getAll();
         model.addAttribute("advertisementDTO", advertisementDTO);
         model.addAttribute("countryDTOList", countryDTOList);
-        /*model.addAttribute("addressDTO", addressDTO);*/
         return "new_advertisement";
     }
 

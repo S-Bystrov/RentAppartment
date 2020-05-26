@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http.authorizeRequests().antMatchers("/", "/filter", "/advertisement/*", "/profile/*", "/img/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/login", "/registration").anonymous()
@@ -50,7 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
-                .csrf().and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)

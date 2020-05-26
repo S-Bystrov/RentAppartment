@@ -45,10 +45,14 @@
                            th:href="@{/profile/reservation}" th:text="#{common.your.reservation}"></a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item dropdown">
                     <div sec:authorize="hasAuthority('ADMIN')">
-                        <a class="nav-link"
-                           th:href="@{/admin-menu}" th:text="#{admin.page}"></a>
+                        <a class="nav-link dropdown-toggle" href="#" id="adminNavbarDropdown" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false" th:text="#{admin.page}"></a>
+                        <div class="dropdown-menu" aria-labelledby="adminNavbarDropdown">
+                            <a class="dropdown-item" th:href="@{/user-list}" th:text="#{common.admin.users}"></a>
+                            <a class="dropdown-item" th:href="@{/country-list}" th:text="#{admin.countries}"></a>
+                        </div>
                     </div>
                 </li>
             </ul>
@@ -57,7 +61,7 @@
                     <button class="btn btn-primary" type="submit" th:text="#{common.sign.out}"></button>
                 </form>
             </div>
-           <div sec:authorize="!isAuthenticated()">
+            <div sec:authorize="!isAuthenticated()">
                 <div class="dropdown">
                     <button class="btn btn-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false" th:text="#{common.sign.in}">
