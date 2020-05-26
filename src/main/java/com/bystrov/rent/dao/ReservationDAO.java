@@ -12,4 +12,5 @@ public interface ReservationDAO {
     void deleteById(Long id);
     List<Reservation> findAll();
     List<Reservation> findAllByUserId(Long idUser);
+    Reservation findByStatus(String status);
 }

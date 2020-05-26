@@ -11,8 +11,10 @@
                 <label class="col-sm-2 col-form-label" th:text="#{everywhere.description} + ':'"> </label>
                 <textarea rows="3" type="text" th:field="*{description}" id="description"
                           th:class="${#fields.hasErrors('description')}? 'form-control is-invalid' : 'form-control'"
-                          th:placeholder="#{everywhere.description}" th:value="*{description}? *{description} : ''"></textarea>
-                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback" th:errors="${description}"></div>
+                          th:placeholder="#{everywhere.description}" th:value="*{description}? *{description} : ''"
+                          aria-describedby="descriptionHelp"></textarea>
+                <small id="descriptionHelp" class="form-text text-muted" th:text="#{description.info}"></small>
+                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback" th:errors="*{description}"></div>
             </div>
         </div>
         <div class="form-row">
@@ -30,13 +32,17 @@
             <div class="form-group col-md-4">
                 <label th:text="#{everywhere.city} + ':'"></label>
                 <input type="text" th:field="*{address.city}" id="city" th:class="${#fields.hasErrors('address.city')}? 'form-control is-invalid' : 'form-control'"
-                       th:value="*{address.city}? *{address.city} : ''" th:placeholder="#{everywhere.city}"/>
+                       th:value="*{address.city}? *{address.city} : ''" th:placeholder="#{everywhere.city}"
+                       aria-describedby="cityHelp"/>
+                <small id="cityHelp" class="form-text text-muted" th:text="#{city.info}"></small>
                 <div th:if="${#fields.hasErrors('address.city')}" class="invalid-feedback" th:errors="*{address.city}"></div>
             </div>
             <div class="form-group col-md-4">
                 <label th:text="#{everywhere.street} + ':'"></label>
                 <input type="text" th:field="*{address.street}" id="street" th:class="${#fields.hasErrors('address.street')}? 'form-control is-invalid' : 'form-control'"
-                       th:value="*{address.street}? *{address.street} : ''" th:placeholder="#{everywhere.street}"/>
+                       th:value="*{address.street}? *{address.street} : ''" th:placeholder="#{everywhere.street}"
+                       aria-describedby="streetHelp"/>
+                <small id="streetHelp" class="form-text text-muted" th:text="#{city.info}"></small>
                 <div th:if="${#fields.hasErrors('address.street')}" class="invalid-feedback" th:errors="*{address.street}"></div>
             </div>
         </div>

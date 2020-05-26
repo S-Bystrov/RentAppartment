@@ -12,7 +12,7 @@
         <h5 th:text="#{everywhere.description}"></h5>
     </div>
     <div class="row">
-        <p th:text="*{description}"></p>
+        <p class="text-justify" th:text="*{description}"></p>
     </div>
     <div class="row row-cols-3">
         <div class="col">
@@ -27,9 +27,15 @@
             <h5 th:text="#{everywhere.street} + ':'"></h5>
             <p th:text="*{address.street}"></p>
         </div>
+    </div>
+    <div class="row row-cols-4">
         <div class="col">
             <h5 th:text="#{everywhere.house} + ':'"></h5>
             <p th:text="*{address.house}? *{address.house} : '-'"></p>
+        </div>
+        <div class="col">
+            <h5 th:text="#{everywhere.building} + ':'"></h5>
+            <p th:text="*{address.building}? *{address.building} : '-'"></p>
         </div>
         <div class="col">
             <h5 th:text="#{everywhere.flat} + ':'"></h5>
@@ -40,30 +46,22 @@
             <p th:text="*{price}"></p>
         </div>
     </div>
-    <div class="row row-cols-4">
-        <div class="col">
-        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary" th:text="#{advertisement.user}"></a>
-        </div>
-        <div class="col">
-        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary" th:text="#{advertisement.review}"></a>
-        </div>
+    <dv class="row">
+        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary mr-2" th:text="#{everywhere.user}"></a>
+        <a th:href="@{${#httpServletRequest.requestURI} + '/all-review'}" class="btn btn-primary mr-2"
+           th:text="#{advertisement.review}"></a>
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
-                <div class="col">
-                <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}" class="btn btn-primary" th:text="#{advertisement.add.review}"></a>
-                </div>
-                <div class="col">
-                    <a th:if="${userCard}"
-                       th:href="@{${userCard} + '/reservation'}" class="btn btn-primary" th:text="#{button.reservation}"></a>
-                    <div th:if="${userCard == null}">
-                        <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" th:title="#{popover.title}"
-                                th:data-content="#{popover.body}" th:text="#{button.reservation}"></button>
-                    </div>
-                </div>
-
+                <a th:href="@{${#httpServletRequest.requestURI} + '/add-review'}"
+                   class="btn btn-primary mr-2" th:text="#{advertisement.add.review}"></a>
+                <a th:if="${checkCard}"
+                   th:href="@{${#httpServletRequest.requestURI} + '/reservation'}"
+                   class="btn btn-primary mr-2" th:text="#{button.reservation}"></a>
+                <button th:if="${!checkCard}" type="button" class="btn btn-danger mr-2" data-toggle="popover"
+                        th:title="#{popover.title}" th:data-content="#{popover.body}" th:text="#{button.reservation}"></button>
             </div>
         </div>
-    </div>
+    </dv>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 <script>

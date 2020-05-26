@@ -146,4 +146,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return user;
     }
+
+    @Override
+    public boolean checkCard(User user) {
+        User checkUser = userDAO.findById(user.getId());
+        return !StringUtils.isBlank(checkUser.getCard());
+    }
 }

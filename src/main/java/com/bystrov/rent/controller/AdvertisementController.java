@@ -2,15 +2,16 @@ package com.bystrov.rent.controller;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.CountryDTO;
+import com.bystrov.rent.domain.advertisement.Status;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
 import com.bystrov.rent.service.ImageService;
+import com.bystrov.rent.service.UserService;
 import com.bystrov.rent.validator.AdvertisementValidator;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,7 @@ public class AdvertisementController {
     @Value("upload.path")
     private String uploadPath;
 
+    private final UserService userService;
     private final AdvertisementService advertisementService;
     private final ImageService imageService;
     private final CountryService countryService;
@@ -38,11 +40,13 @@ public class AdvertisementController {
     public AdvertisementController(AdvertisementService advertisementService,
                                    ImageService imageService,
                                    CountryService countryService,
-                                   AdvertisementValidator advertisementValidator){
+                                   AdvertisementValidator advertisementValidator,
+                                   UserService userService){
         this.advertisementService = advertisementService;
         this.imageService = imageService;
         this.countryService = countryService;
         this.advertisementValidator = advertisementValidator;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -118,21 +122,19 @@ public class AdvertisementController {
     public String getAdvertisementInfoPage(@PathVariable("idAdvertisement") Long idAdvertisement,
                                            @AuthenticationPrincipal User authenticalUser,
                                            Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean checkUser = true;
-        if (!authentication.getName().equals("anonymousUser")) {
-            String username = authentication.getName();
-            String usernameByIdAdvertisement = advertisementService.findUsernameByIdAdvertisement(idAdvertisement);
-            if (username.equals(usernameByIdAdvertisement)) {
-                checkUser = false;
-            }
-        }
-        if(authenticalUser != null) {
-            String userCard = authenticalUser.getCard();
-            model.addAttribute("userCard", userCard);
-        }
-        model.addAttribute("checkUser", checkUser);
+        model.addAttribute("checkCard", userService.checkCard(authenticalUser));
+        model.addAttribute("checkUser", advertisementService.checkUser(idAdvertisement, authenticalUser));
         model.addAttribute("advertisementDTO", advertisementService.findById(idAdvertisement));
         return "advertisement_info";
+    }
+
+    @GetMapping("/profile/advertisement/{idAdvertisement}/change-status")
+    public String changeStatusAdvertisement(@PathVariable Long idAdvertisement,
+                                            @RequestParam("status") String status,
+                                            @AuthenticationPrincipal User authenticalUser,
+                                            Model model){
+        advertisementService.update(idAdvertisement, status);
+        model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
+        return "redirect:/profile/advertisement";
     }
 }

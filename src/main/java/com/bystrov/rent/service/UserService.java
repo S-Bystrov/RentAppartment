@@ -1,6 +1,7 @@
 package com.bystrov.rent.service;
 
 import com.bystrov.rent.DTO.UserDTO;
+import com.bystrov.rent.domain.user.User;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface UserService {
     UserDTO findByUsername (String username);
     UserDTO findByEmail(String email);
     boolean activateUser(String code);
+    boolean checkCard(User user);
 }

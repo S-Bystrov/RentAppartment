@@ -11,18 +11,37 @@
     </div>
 <div th:object="${userDTO}">
     <div>
-        <img th:src="@{'/img/'+*{avatarName}}" width="150" height="175">
+        <img class="border border-secondary" th:src="@{'/img/'+*{avatarName}}" width="150" height="175">
     </div>
-    <p>username:</p><span th:text="*{username}"></span>
-    <p>email:</p><span th:text="*{email}"></span>
-    <p>name:</p><span th:text="*{name}? *{name} : 'no info'"/>
-    <p>surname:</p><span th:text="*{surname}? *{surname} : 'no info'"/>
-    <p>your card:</p><span th:text="*{card}? *{card} : 'no info'"/>
+    <div class="row">
+        <p class="font-weight-bold" th:text="#{user.username} + ': '"></p>
+        <p th:text="*{username}"></p>
+    </div>
+    <div class="row">
+        <p class="font-weight-bold">Email: </p>
+        <p th:text="*{email}"></p>
+    </div>
+    <div class="row">
+        <p class="font-weight-bold" th:text="#{user.name} + ': '"></p>
+        <p th:text="*{name}? *{name} : '-'"></p>
+    </div>
+    <div class="row">
+        <p class="font-weight-bold" th:text="#{user.surname} + ': '"></p>
+        <p th:text="*{surname}? *{surname} : '-'"></p>
+    </div>
+    <div class="row">
+        <p class="font-weight-bold" th:text="#{user.card} + ': '"></p>
+        <p th:text="*{card}? *{card} : '-'"></p>
+    </div>
+    <div class="row">
+        <p class="font-weight-bold" th:text="#{user.paymentAccount} + ': '"></p>
+        <p th:text="*{paymentAccount}? *{paymentAccount} : '-'"></p>
+    </div>
 </div>
 <div sec:authorize="isAuthenticated()">
     <div th:if="${checkUser}">
-        <a th:href="@{/profile/update}">update info</a>
-        <a th:href="@{/profile/advertisement}">Your advertisement</a>
+        <a class="btn btn-primary" th:href="@{/profile/update}" th:text="#{update.info}"></a>
+        <a class="btn btn-primary" th:href="@{/profile/advertisement}" th:text="#{user.advertisement}"></a>
     </div>
 </div>
 </div>

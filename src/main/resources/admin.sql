@@ -1,2 +1,2 @@
-insert into user (id_user, username, password, activate) value (1, 'admin', '$2y$08$CH.qkt1IMqa3yMVwUglANesqBSes6Mh3XFlanyn6ZHPIcq5uXXAZW', true);
+insert into user (id_user, username, password, avatarName, activate) value (1, 'admin', '$2y$08$CH.qkt1IMqa3yMVwUglANesqBSes6Mh3XFlanyn6ZHPIcq5uXXAZW', 'standardAvatar.jpg', true);
 insert into user_role (id_user, roles) value (1, 'ADMIN');

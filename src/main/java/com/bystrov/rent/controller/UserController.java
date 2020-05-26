@@ -35,19 +35,15 @@ public class UserController {
     private String uploadPath;
 
     @GetMapping("/profile/{idUser}")
-    public String getUserInfoPage(@PathVariable("idUser") Long idUser, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!authentication.getName().equals("anonymousUser")){
-            String username = authentication.getName();
-            UserDTO user = userService.findByUsername(username);
-            Long id = user.getId();
-            boolean checkUser = false;
-            if(id.equals(idUser)){
+    public String getUserInfoPage(@PathVariable("idUser") Long idUser,
+                                  @AuthenticationPrincipal User authenticalUser,
+                                  Model model) {
+        boolean checkUser = false;
+        if(authenticalUser.getId() == idUser){
                 checkUser = true;
             }
-            model.addAttribute("checkUser", checkUser);
-        }
         UserDTO userDTO = userService.findById(idUser);
+        model.addAttribute("checkUser", checkUser);
         model.addAttribute("userDTO", userDTO);
 
         return "user_info";

@@ -5,48 +5,55 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-<form th:object="${userDTO}" th:action="@{/profile/update}"
-      enctype="multipart/form-data" method="POST">
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label for="name" > Name : </label>
-            <div class="col-sm-3">
-                <input type="text" th:field="*{name}" id="name" th:class="${nameError}? 'form-control is-invalid' : 'form-control'"
-                       placeholder="Name" th:value="*{username}? *{username} : ''"/>
-                <div th:if="${nameError}" class="invalid-feedback" th:text="${nameError}"></div>
+    <form th:object="${userDTO}" th:action="@{/profile/update}"
+          enctype="multipart/form-data" method="POST">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label th:text="#{user.name} + ':'"></label>
+                <input type="text" th:field="*{name}" id="name"
+                       th:class="${#fields.hasErrors('name')}? 'form-control is-invalid' : 'form-control'"
+                       th:placeholder="#{user.name}" th:value="*{name}? *{name} : ''" aria-describedby="nameHelp"/>
+                <small id="nameHelp" class="form-text text-muted" th:text="#{user.name.info}"></small>
+                <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback" th:errors="*{name}"></div>
+            </div>
+            <div class="form-group col-md-4">
+                <label th:text="#{user.surname} + ':'"></label>
+                <input type="text" th:field="*{surname}" id="surname"
+                       th:class="${#fields.hasErrors('surname')}? 'form-control is-invalid' : 'form-control'"
+                       th:placeholder="#{user.surname}" th:value="*{surname}? *{surname} : ''" aria-describedby="surnameHelp"/>
+                <small id="surnameHelp" class="form-text text-muted" th:text="#{user.surname.info}"></small>
+                <div th:if="${#fields.hasErrors('surname')}" class="invalid-feedback" th:errors="*{surname}"></div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-sm-2 col-form-label"> Name : </label>
-        <div class="col-sm-3">
-            <input type="text" th:field="*{name}" id="name" th:class="${nameError}? 'form-control is-invalid' : 'form-control'"
-                   placeholder="Name" th:value="*{username}? *{username} : ''"/>
-            <div th:if="${nameError}" class="invalid-feedback" th:text="${nameError}"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label th:text="#{user.card.description}"></label>
+                <input type="text" th:field="*{card}" id="card"
+                       th:class="${#fields.hasErrors('card')}? 'form-control is-invalid' : 'form-control'"
+                       th:placeholder="#{user.card}" th:value="*{card}? *{card} : ''" aria-describedby="cardHelp"/>
+                <small id="cardHelp" class="form-text text-muted" th:text="#{user.card.info}"></small>
+                <div th:if="${#fields.hasErrors('card')}" class="invalid-feedback" th:errors="*{card}"></div>
+            </div>
         </div>
-        <label class="col-sm-2 col-form-label"> Surname : </label>
-        <div class="col-sm-3">
-            <input type="text" th:field="*{surname}" id="surname" th:class="${surnameError}? 'form-control is-invalid' : 'form-control'"
-                   placeholder="Surname" th:value="*{surname}? *{surname} : ''"/>
-            <div th:if="${surnameError}" class="invalid-feedback" th:text="${surnameError}"></div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label th:text="#{user.paymentAccount.description}"></label>
+                <input type="text" th:field="*{paymentAccount}" id="paymentAccount"
+                       th:class="${#fields.hasErrors('paymentAccount')}? 'form-control is-invalid' : 'form-control'"
+                       th:placeholder="#{user.paymentAccount}" th:value="*{paymentAccount}? *{paymentAccount} : ''"
+                       aria-describedby="paymentAccountHelp"/>
+                <small id="paymentAccountHelp" class="form-text text-muted" th:text="#{user.paymentAccount.info}"></small>
+                <div th:if="${#fields.hasErrors('paymentAccount')}" class="invalid-feedback" th:errors="*{paymentAccount}"></div>
+            </div>
         </div>
-        <label class="col-sm-2 col-form-label">Enter your card number to make a reservation : </label>
-        <div class="col-sm-3">
-            <input type="text" th:field="*{card}" id="card" th:class="${cardError}? 'form-control is-invalid' : 'form-control'"
-                   placeholder="Card" th:value="*{card}? *{card} : ''"/>
-            <div th:if="${cardError}" class="invalid-feedback" th:text="${cardError}"></div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="browseFile" th:text="#{user.file}"></label>
+                <input type="file" name="avatar" class="form-control-file" id="browseFile">
+            </div>
         </div>
-        <label class="col-sm-2 col-form-label">Enter your payment account to create an advertisement : </label>
-        <div class="col-sm-3">
-            <input type="text" th:field="*{card}" id="paymentAccount" th:class="${paymentAccount}? 'form-control is-invalid' : 'form-control'"
-                   placeholder="PaymentAccount" th:value="*{paymentAccount}? *{paymentAccount} : ''"/>
-            <div th:if="${paymentAccount}" class="invalid-feedback" th:text="${paymentAccount}"></div>
-        </div>
-    </div>
-    <label>Avatar</label>
-    <input type="file" name="avatar"/>
-    <button class="btn btn-primary mt-2 ml-1" type="submit">Ok</button>
-</form>
+        <button class="btn btn-primary mt-2 ml-1" type="submit">Ok</button>
+    </form>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </body>

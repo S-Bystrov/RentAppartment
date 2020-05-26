@@ -6,7 +6,7 @@
 <body><div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
     <div th:unless="${advertisementList}">
-        <p>No advertisement Available</p>
+        <p th:text="#{main.noAdvertisement}"></p>
     </div>
     <div th:if="${advertisementList}" >
         <div class="row row-cols-1 row-cols-md-2">
@@ -17,13 +17,21 @@
                         <p class="card-text" th:text="${advertisement.description}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="'Country: ' + ${advertisement.address.country.countryName}"></li>
-                        <li class="list-group-item" th:text="'City: ' + ${advertisement.address.city}"></li>
-                        <li class="list-group-item" th:text="'Publication date: ' + ${advertisement.data}"></li>
+                        <li class="list-group-item" th:text="#{everywhere.country} + ' : ' + ${advertisement.address.country.countryName}"></li>
+                        <li class="list-group-item" th:text="#{everywhere.city} + ' : ' + ${advertisement.address.city}"></li>
+                        <li class="list-group-item" th:text="#{everywhere.publication} + ' : ' + ${advertisement.data}"></li>
+                        <li class="list-group-item" th:text="#{advertisement.status} + ' : ' + ${advertisement.status}"></li>
                     </ul>
                     <div class="card-body">
-                        <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link">More info</a>
-                        <a th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} + '/remove'}" class="btn btn-danger">Remove</a>
+                        <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link" th:text="#{main.more.info}"></a>
+                        <a th:if="${advertisement.status == 'FREE'}" class="card-link"
+                           th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} +
+                           '/change-status?status='BOOKED'}" th:text="#{advertisement.changeStatus}"></a>
+                        <a th:if="${advertisement.status == 'BOOKED'}" class="card-link"
+                           th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} +
+                           '/change-status?status='FREE'}" th:text="#{advertisement.changeStatus}"></a>
+                        <a th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} + '/remove'}"
+                           th:text="#{advertisement.remove}" class="btn btn-danger"></a>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace = "fragments/common :: head">
-</head>
+<head th:replace = "fragments/common :: head"></head>
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
@@ -10,25 +9,34 @@
     <div class="form-group">
         <label class="col-sm-2 col-form-label" th:text="#{common.username} + ':'"></label>
         <div class="col-sm-3">
-            <input type="text" th:field="*{username}" id="username" th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'"
-                   th:placeholder="#{common.username}" th:value="*{username}? *{username} : ''"/>
+            <input type="text" th:field="*{username}" id="username"
+                   th:class="${#fields.hasErrors('username')}? 'form-control is-invalid' : 'form-control'"
+                   th:placeholder="#{common.username}" th:value="*{username}? *{username} : ''"
+                   aria-describedby="usernameHelp"/>
+            <small id="usernameHelp" class="form-text text-muted" th:text="#{user.username.info}"></small>
             <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback" th:errors="*{username}"></div>
         </div>
         <label class="col-sm-2 col-form-label"> Email: </label>
         <div class="col-sm-3">
-            <input type="text" th:field="*{email}" id="email" th:class="${#fields.hasErrors('email')}? 'form-control is-invalid' : 'form-control'"
-                   placeholder="Email" th:value="*{email}? *{email} : ''"/>
+            <input type="text" th:field="*{email}" id="email"
+                   th:class="${#fields.hasErrors('email')}? 'form-control is-invalid' : 'form-control'"
+                   placeholder="Email" th:value="*{email}? *{email} : ''"
+                   aria-describedby="emailHelp"/>
+            <small id="emailHelp" class="form-text text-muted">example@emal.com</small>
             <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}"></div>
         </div>
         <label class="col-sm-2 col-form-label" th:text="#{common.password} + ':'"></label>
         <div class="col-sm-3">
-            <input type="password" th:field="*{password}" id="password" th:class="${#fields.hasErrors('password')}? 'form-control is-invalid' : 'form-control'"
-                   th:placeholder="#{common.password}"/>
+            <input type="password" th:field="*{password}" id="password"
+                   th:class="${#fields.hasErrors('password')}? 'form-control is-invalid' : 'form-control'"
+                   th:placeholder="#{common.password}" aria-describedby="passwordHelp"/>
+            <small id="passwordHelp" class="form-text text-muted" th:text="#{user.password.info}"></small>
             <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback" th:errors="*{password}"></div>
         </div>
         <label class="col-sm-2 col-form-label" th:text="#{registration.confirm.password} + ':'"></label>
         <div class="col-sm-3">
-            <input type="password" th:field="*{confirmPassword}" id="confirmPassword" th:class="${#fields.hasErrors('confirmPassword')}? 'form-control is-invalid' : 'form-control'"
+            <input type="password" th:field="*{confirmPassword}" id="confirmPassword"
+                   th:class="${#fields.hasErrors('confirmPassword')}? 'form-control is-invalid' : 'form-control'"
                    th:placeholder="#{registration.confirm.password}"/>
             <div th:if="${#fields.hasErrors('confirmPassword')}" class="invalid-feedback" th:errors="*{confirmPassword}"></div>
         </div>

@@ -23,7 +23,7 @@ public class AdvertisementValidator implements Validator {
         if(StringUtils.isBlank(advertisement.getDescription())) {
             errors.rejectValue("description", "error.description.empty");
         } else {
-            if(advertisement.getDescription().length() > 2000){
+            if(advertisement.getDescription().length() > 700){
                 errors.rejectValue("description", "error.description.size");
             }
         }
