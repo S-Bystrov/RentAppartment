@@ -17,12 +17,20 @@
         <tr th:each="country : ${countryList}">
             <td><p th:text="${country.idCountry}"></p></td>
             <td><p th:text="${country.countryName}"></p></td>
-            <td><a th:href="@{/country/edit}" th:text="#{everywhere.edit}"></a></td>
-            <td><a th:href="@{/country/remove}" th:text="#{everywhere.remove}"></a></td>
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal"
+                        th:text="#{everywhere.edit}"></button>
+                <div th:replace="fragments/common :: editModal"></div>
+            </td>
+            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#removeModal"
+                        th:text="#{everywhere.remove}"></button>
+                <div th:replace="fragments/common :: removeModal"></div>
+            </td>
         </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary mt-2" th:href="@{/country/new}" th:text="#{admin.country.new}"></a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal"
+            th:text="#{admin.country.new}"></button>
+    <div th:replace="fragments/common :: createModal"></div>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </body>

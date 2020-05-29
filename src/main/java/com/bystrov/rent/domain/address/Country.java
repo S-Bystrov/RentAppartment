@@ -21,6 +21,6 @@ public class Country {
 
     private String countryName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country", orphanRemoval = true)
     private List<Address> address;
 }

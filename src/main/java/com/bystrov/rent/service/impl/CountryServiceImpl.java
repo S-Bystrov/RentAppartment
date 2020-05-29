@@ -5,8 +5,10 @@ import com.bystrov.rent.DTO.parser.CountryDTOParser;
 import com.bystrov.rent.dao.CountryDAO;
 import com.bystrov.rent.domain.address.Country;
 import com.bystrov.rent.service.CountryService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +27,18 @@ public class CountryServiceImpl implements CountryService {
     }
 
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
-
+        countryDAO.deleteById(id);
     }
 
+    @Transactional
     @Override
-    public CountryDTO saveAddress(CountryDTO countryDTO) {
-        return null;
+    public CountryDTO save(CountryDTO countryDTO) {
+        Country country = countryDTOParser.createCountryDomainFromDTO(countryDTO);
+        countryDAO.save(country);
+        return countryDTO;
     }
 
     @Transactional
@@ -47,6 +53,21 @@ public class CountryServiceImpl implements CountryService {
                 countryDTOList.add(countryDTOParser.createCountryDTOFromDomain(country));
             }
             return countryDTOList;
+        }
+    }
+
+    @Transactional
+    @Override
+    public void update(CountryDTO countryDTO) {
+        if(!StringUtils.isBlank(countryDTO.getCountryName())){
+            if(countryDAO.findById(countryDTO.getIdCountry()) == null) {
+                throw new EntityNotFoundException("Country no found!");
+            } else {
+                String country = countryDTO.getCountryName().substring(0,1).toUpperCase() +
+                        countryDTO.getCountryName().substring(1).toLowerCase();
+                countryDTO.setCountryName(country);
+                countryDAO.update(countryDTOParser.createCountryDomainFromDTO(countryDTO));
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public class Address {
     @Column(name = "ID_ADDRESS")
     private Long idAddress;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "ID_COUNTRY")
     private Country country;
 
@@ -32,6 +32,6 @@ public class Address {
 
     private String flat;
 
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
     private Advertisement advertisement;
 }

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public class CountryDAOImpl extends EntityDAO<Country> implements CountryDAO {
 
     public CountryDAOImpl() { setEntityClass(Country.class);}
+
+
 }

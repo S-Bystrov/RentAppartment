@@ -7,6 +7,7 @@ import com.bystrov.rent.domain.reservation.Reservation;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Setter
@@ -32,7 +33,7 @@ public class Advertisement {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
     private List<Review> reviewList;
 
-    private String data;
+    private LocalDate data;
 
     private String price;
 

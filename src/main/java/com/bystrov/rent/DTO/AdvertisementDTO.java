@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -26,7 +27,7 @@ public class AdvertisementDTO {
 
     private List<Review> reviewList;
 
-    private String data;
+    private LocalDate data;
 
     private String price;
 

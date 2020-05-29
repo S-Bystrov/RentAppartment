@@ -1,4 +1,4 @@
-/*package com.bystrov.rent.util;
+package com.bystrov.rent.util;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -17,4 +17,4 @@ public class LocalDateAttributeConverter implements AttributeConverter<LocalDate
     public LocalDate convertToEntityAttribute(Date date) {
         return (date == null ? null : date.toLocalDate());
     }
-}*/
+}

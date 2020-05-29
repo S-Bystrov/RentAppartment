@@ -9,4 +9,6 @@ public interface CountryDAO {
     List<Country> findAll();
     void deleteById(Long idCountry);
     void save(Country country);
+    Country findById(Long idCounty);
+    Country update(Country country);
 }

@@ -44,6 +44,7 @@ public class RegistrationController {
             return "registration";
         }
         userService.saveUser(userDTO);
+        model.addAttribute("message");
         return "redirect:/";
     }
 
