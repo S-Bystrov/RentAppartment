@@ -27,10 +27,10 @@ public class Review {
     private String review;
 
     @Column
-    private String data;
+    private String date;
 
     @Column
-    private Double evaluation;
+    private Double rating;
 
     @ManyToOne
     @JoinColumn(name = "ID_ADV")

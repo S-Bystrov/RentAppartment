@@ -18,9 +18,9 @@ public class ReviewDTO {
 
         private String review;
 
-        private String data;
+        private String date;
 
-        private Double evaluation;
+        private Double rating;
 
         private Advertisement advertisement;
 }

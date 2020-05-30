@@ -55,7 +55,7 @@ public class AdvertisementInfoController {
             model.addAttribute("reservationDTO", reservationDTO);
             return "advertisement_info";
         }
-        boolean checkDate = advertisementService.checkBydate(reservationDTO);
+        boolean checkDate = advertisementService.checkByDate(reservationDTO);
         model.addAttribute(checkDate);
         return "advertisement_info";
     }

@@ -2,15 +2,15 @@ package com.bystrov.rent.controller;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.CountryDTO;
-import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
 import com.bystrov.rent.service.ImageService;
-import com.bystrov.rent.service.UserService;
 import com.bystrov.rent.validator.AdvertisementValidator;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +24,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
 public class AdvertisementController {
 
+    private static final int PAGE = 1;
+    private static final int SIZE = 6;
+
     @Value("upload.path")
     private String uploadPath;
 
-    private final UserService userService;
     private final AdvertisementService advertisementService;
     private final ImageService imageService;
     private final CountryService countryService;
@@ -41,19 +44,23 @@ public class AdvertisementController {
     public AdvertisementController(AdvertisementService advertisementService,
                                    ImageService imageService,
                                    CountryService countryService,
-                                   AdvertisementValidator advertisementValidator,
-                                   UserService userService){
+                                   AdvertisementValidator advertisementValidator){
         this.advertisementService = advertisementService;
         this.imageService = imageService;
         this.countryService = countryService;
         this.advertisementValidator = advertisementValidator;
-        this.userService = userService;
     }
 
     @GetMapping("/")
-    public String advertisementGetPage(Model model) {
+    public String advertisementGetPage(@RequestParam Optional<Integer> page,
+                                       @RequestParam Optional<Integer> size,
+                                       Model model) {
+        int currentPage = page.orElse(PAGE);
+        int pageSize = size.orElse(SIZE);
+        Page<AdvertisementDTO> advertisementDTOPage =
+                advertisementService.findPaginated(PageRequest.of(currentPage-1, pageSize));
+        ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         model.addAttribute("countryDTOList", countryService.getAll());
-        model.addAttribute("advertisementList", advertisementService.getAll());
         return "main";
     }
 
@@ -62,10 +69,15 @@ public class AdvertisementController {
                          @RequestParam String filterCity,
                          @RequestParam String filterArrivalDate,
                          @RequestParam String filterDepartureDate,
+                         @RequestParam Optional<Integer> page,
+                         @RequestParam Optional<Integer> size,
                          Model model) throws ParseException {
-        List<AdvertisementDTO> advertisementList;
-        advertisementList = advertisementService.findByFilter(filterCountry, filterCity, filterArrivalDate, filterDepartureDate);
-        model.addAttribute("advertisementList", advertisementList);
+        int currentPage = page.orElse(PAGE);
+        int pageSize = size.orElse(SIZE);
+        Page<AdvertisementDTO> advertisementDTOPage =
+                advertisementService.findPaginatedByFilter(PageRequest.of(currentPage-1, pageSize),
+                        filterCountry, filterCity, filterArrivalDate, filterDepartureDate);
+        ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         model.addAttribute("countryDTOList", countryService.getAll());
         return "main";
     }
@@ -101,17 +113,31 @@ public class AdvertisementController {
 
     @GetMapping("/profile/advertisement")
     public String getUserAdvertisementPage(@AuthenticationPrincipal User authenticalUser,
+                                           @RequestParam Optional<Integer> page,
+                                           @RequestParam Optional<Integer> size,
                                            Model model) {
-        model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
+        int currentPage = page.orElse(PAGE);
+        int pageSize = size.orElse(SIZE);
+        Page<AdvertisementDTO> advertisementDTOPage =
+                advertisementService.findPaginatedByUserId(PageRequest.of(currentPage-1, pageSize),
+                        authenticalUser.getId());
+       ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         return "user_advertisement";
     }
 
     @GetMapping("/profile/advertisement/{idAdvertisement}/remove")
     public String removeAdvertisement(@PathVariable Long idAdvertisement,
                                       @AuthenticationPrincipal User authenticalUser,
+                                      @RequestParam Optional<Integer> page,
+                                      @RequestParam Optional<Integer> size,
                                       Model model){
         advertisementService.deleteById(idAdvertisement);
-        model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
+        int currentPage = page.orElse(PAGE);
+        int pageSize = size.orElse(SIZE);
+        Page<AdvertisementDTO> advertisementDTOPage =
+                advertisementService.findPaginatedByUserId(PageRequest.of(currentPage-1, pageSize),
+                        authenticalUser.getId());
+        ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         return "redirect:/profile/advertisement";
     }
 }

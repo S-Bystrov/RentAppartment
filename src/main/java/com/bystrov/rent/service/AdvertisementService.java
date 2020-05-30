@@ -2,20 +2,24 @@ package com.bystrov.rent.service;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.ReservationDTO;
-import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.text.ParseException;
-import java.util.List;
 
 public interface AdvertisementService {
     AdvertisementDTO findById(Long id);
-    List<AdvertisementDTO> getAll();
     AdvertisementDTO saveAdvertisement(AdvertisementDTO advertisementDTO);
     void update(Long idAdvertisement);
     void deleteById(Long id);
-    List<AdvertisementDTO> getAllByUserId(long userId);
-    List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity, String arrivalDate, String departureDay) throws ParseException;
+    Page<AdvertisementDTO> findPaginatedByUserId(Pageable pageable, Long userId);
     boolean checkUser(Long idAdvertisement, User user);
-    boolean checkBydate(ReservationDTO reservationDTO);
+    boolean checkByDate(ReservationDTO reservationDTO);
+    Page<AdvertisementDTO> findPaginated(Pageable pageable);
+    Page<AdvertisementDTO> findPaginatedByFilter(Pageable pageable,
+                                                 Long filterCountry,
+                                                 String filterCity,
+                                                 String arrivalDate,
+                                                 String departureDay) throws ParseException;
 }

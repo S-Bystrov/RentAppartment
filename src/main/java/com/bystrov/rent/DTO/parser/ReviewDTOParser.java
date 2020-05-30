@@ -15,8 +15,8 @@ public class ReviewDTOParser {
                 .idReview(review.getIdReview())
                 .user(review.getUser())
                 .review(review.getReview())
-                .data(review.getData())
-                .evaluation(review.getEvaluation())
+                .date(review.getDate())
+                .rating(review.getRating())
                 .advertisement(review.getAdvertisement())
                 .build();
         return reviewDTO;
@@ -30,8 +30,8 @@ public class ReviewDTOParser {
                 .idReview(reviewDTO.getIdReview())
                 .user(reviewDTO.getUser())
                 .review(reviewDTO.getReview())
-                .data(reviewDTO.getData())
-                .evaluation(reviewDTO.getEvaluation())
+                .date(reviewDTO.getDate())
+                .rating(reviewDTO.getRating())
                 .advertisement(reviewDTO.getAdvertisement())
                 .build();
         return review;

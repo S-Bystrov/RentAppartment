@@ -43,6 +43,33 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Transactional
     @Override
+    public Page<AdvertisementDTO> findPaginated(Pageable pageable) {
+        return getAdvertisementPage(pageable,advertisementDAO.findAll());
+    }
+
+    @Transactional
+    @Override
+    public Page<AdvertisementDTO> findPaginatedByFilter(Pageable pageable,
+                                                        Long filterCountry,
+                                                        String filterCity,
+                                                        String arrivalDate,
+                                                        String departureDay) throws ParseException {
+        String city = filterCity.toLowerCase();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate arrival = StringUtils.isNotBlank(arrivalDate) ? LocalDate.parse(arrivalDate, format) : null;
+        LocalDate departure = StringUtils.isNotBlank(departureDay) ? LocalDate.parse(departureDay, format) : null;
+        List<Advertisement> advertisementList = advertisementDAO.findByFilter(filterCountry, city, arrival, departure);
+        return getAdvertisementPage(pageable, advertisementList);
+    }
+
+    @Transactional
+    @Override
+    public Page<AdvertisementDTO> findPaginatedByUserId(Pageable pageable, Long userId) {
+        return getAdvertisementPage(pageable, advertisementDAO.findAllByUserId(userId));
+    }
+
+    @Transactional
+    @Override
     public AdvertisementDTO findById(Long id) {
         Advertisement advertisement = advertisementDAO.findById(id);
         if(advertisement == null ){
@@ -51,14 +78,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         AdvertisementDTO advertisementDTO = advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
         return advertisementDTO;
     }
-
-    @Transactional
-    @Override
-    public List<AdvertisementDTO> getAll() {
-        List<Advertisement> advertisements = advertisementDAO.findAll();
-        return getAdvertisementList(advertisements);
-    }
-
 
     @Transactional
     @Override
@@ -89,25 +108,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         advertisementDAO.deleteById(id);
     }
 
-    @Transactional
-    @Override
-    public List<AdvertisementDTO> getAllByUserId(long userId) {
-        List<Advertisement> advertisements = advertisementDAO.findAllByUserId(userId);
-        return getAdvertisementList(advertisements);
-    }
-
-
-    @Transactional
-    @Override
-    public List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity, String arrivalDate, String departureDay) throws ParseException {
-        String city = filterCity.toLowerCase();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate arrival = StringUtils.isNotBlank(arrivalDate) ? LocalDate.parse(arrivalDate, format) : null;
-        LocalDate departure = StringUtils.isNotBlank(departureDay) ? LocalDate.parse(departureDay, format) : null;
-        List<Advertisement> advertisementList = advertisementDAO.findByFilter(filterCountry, city, arrival, departure);
-        return getAdvertisementList(advertisementList);
-    }
-
     @Override
     public boolean checkUser(Long idAdvertisement, User user) {
         boolean checkUser = true;
@@ -122,7 +122,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public boolean checkBydate(ReservationDTO reservationDTO) {
+    public boolean checkByDate(ReservationDTO reservationDTO) {
         return false;
     }
 
@@ -147,22 +147,28 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         return username;
     }
 
-    public Page<AdvertisementDTO> findPaginated(Pageable pageable){
+    private Page<AdvertisementDTO> getAdvertisementPage(Pageable pageable, List<Advertisement> advertisementList) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
         List<AdvertisementDTO> advertisementDTOListPage;
-        if(advertisementDAO.findAll().size() < startItem) {
-            advertisementDTOListPage = Collections.emptyList();
+        if (advertisementList == null) {
+            return null;
         } else {
-            int toIndex = Math.min(startItem + pageSize, advertisementDAO.findAll().size());
-            List<Advertisement> advertisementList = advertisementDAO.findAll();
-            List<AdvertisementDTO> advertisementDTOList = getAdvertisementList(advertisementList);
-            advertisementDTOListPage = advertisementDTOList.subList(startItem, toIndex);
+            if (advertisementList.size() < startItem) {
+                advertisementDTOListPage = Collections.emptyList();
+            } else {
+                int toIndex = Math.min(startItem + pageSize, advertisementList.size());
+                List<AdvertisementDTO> advertisementDTOList = getAdvertisementList(advertisementList);
+                advertisementDTOListPage = advertisementDTOList.subList(startItem, toIndex);
+            }
+            Page<AdvertisementDTO> advertisementDTOPage =
+                    new PageImpl<AdvertisementDTO>(advertisementDTOListPage, PageRequest
+                            .of(currentPage, pageSize), advertisementList.size());
+            return advertisementDTOPage;
         }
-        Page<AdvertisementDTO> advertisementDTOPage =
-                new PageImpl<AdvertisementDTO>(advertisementDTOListPage, PageRequest.of(currentPage, pageSize), advertisementDAO.findAll().size());
-        return advertisementDTOPage;
-     }
+    }
+
+
 
 }

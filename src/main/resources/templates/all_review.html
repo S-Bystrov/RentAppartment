@@ -5,27 +5,30 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-<table>
-    <thead>
-    <tr>
-        <th> Review </th>
-        <th> Evaluation </th>
-        <th> Data </th>
-        <th> User </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:unless="${reviewDTOList}">
-        <td colspan="2"> No review available </td>
-    </tr>
-    <tr th:each="review : ${reviewDTOList}">
-        <td><p th:text="${review.review}"></p></td>
-        <td><p th:text="${review.evaluation}"></p></td>
-        <td><p th:text="${review.data}"></p></td>
-        <td><a th:href="@{'/profile/' + ${review.user.id}}" th:text="#{everywhere.user}"></a></td>
-    </tr>
-    </tbody>
-</table>
+    <div th:replace="fragments/common :: pagination(pageList = ${listDTOPage})"></div>
+    <div th:if="${listDTOPage == null or listDTOPage.isEmpty()}">
+        <p th:text="#{review.noReview}"></p>
+    </div>
+    <div th:if="${listDTOPage}">
+        <div th:each="review : ${listDTOPage.content}">
+            <div class="card m-2">
+                <div class="row no-gutters">
+                    <div class="cols-4">
+                        <p><a th:href="@{'/profile/' + ${review.user.id}}"><img th:src="@{'/img/' + ${review.user.avatarName}}"
+                                                                                class="card-img border border-secondary"
+                                                                                width="150" height="175"></a></p>
+                    </div>
+                    <div class="cols-8">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="#{review.rating} + ':' + ${review.rating}"></h5>
+                            <p class="card-text" th:text="${review.review}"></p>
+                            <p class="card-text"><small class="text-muted" th:text="#{everywhere.publication} + ':' + ${review.date}"></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </body>
