@@ -6,7 +6,6 @@ import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
 import com.bystrov.rent.dao.UserDAO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
-import com.bystrov.rent.domain.advertisement.Status;
 import com.bystrov.rent.domain.reservation.Reservation;
 import com.bystrov.rent.domain.reservation.ReservationStatus;
 import com.bystrov.rent.domain.user.User;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,15 +50,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional
     @Override
-    public ReservationDTO saveReservation(Long idAdvertisement, User authenticalUser) {
-        ReservationDTO reservationDTO = new ReservationDTO();
+    public ReservationDTO saveReservation(Long idAdvertisement, User authenticalUser, ReservationDTO reservationDTO) {
         Long idUser = authenticalUser.getId();
         User user = userDAO.findById(idUser);
         Advertisement advertisement = advertisementDAO.findById(idAdvertisement);
-        advertisement.setStatus(Status.BOOKED);
         advertisementDAO.update(advertisement);
+        reservationDTO.setTotalCost(getTotalCost(reservationDTO, advertisement));
         reservationDTO.setAdvertisement(advertisement);
-        reservationDTO.setData(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         reservationDTO.setUser(user);
         reservationDTO.setStatus(ReservationStatus.ACTIVE);
         reservationDAO.save(reservationDTOParser.createReservationDomainFromDTO(reservationDTO));
@@ -85,12 +83,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void delete(Reservation reservation) {
+    public void deleteById(Long id) {
 
     }
 
-    @Override
-    public void deleteById(Long id) {
-
+    private Double getTotalCost(ReservationDTO reservationDTO, Advertisement advertisement) {
+        Double price = Double.parseDouble(advertisement.getPrice());
+        Long totalDay = ChronoUnit.DAYS.between(reservationDTO.getArrivalDate(), reservationDTO.getDepartureDate());
+        Double totalCost = price * totalDay.doubleValue();
+        return totalCost;
     }
 }

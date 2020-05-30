@@ -1,22 +1,27 @@
 package com.bystrov.rent.service.impl;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
+import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
-import com.bystrov.rent.domain.advertisement.Status;
-import com.bystrov.rent.domain.reservation.Reservation;
-import com.bystrov.rent.domain.reservation.ReservationStatus;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -63,31 +68,18 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         }
         Advertisement advertisement = advertisementDTOParser.createAdvertDomainFromDTO(advertisementDTO);
         advertisement.getAddress().setCity(advertisementDTO.getAddress().getCity().toLowerCase());
-        advertisement.setData(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-        advertisement.setStatus(Status.FREE);
+        advertisement.setDate(LocalDate.now());
         advertisementDAO.save(advertisement);
         return advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
     }
 
     @Transactional
     @Override
-    public void update(Long idAdvertisement, String status) {
+    public void update(Long idAdvertisement) {
         Advertisement advertisement = advertisementDAO.findById(idAdvertisement);
         if(advertisement == null){
             throw new EntityNotFoundException("Advertisement not found!");
         }
-        String oldStatus = advertisement.getStatus().toString();
-        if(status != oldStatus){
-            if(status.equals("FREE")){
-                Reservation reservation = reservationDAO.findByStatus("ACTIVE");
-                reservation.setStatus(ReservationStatus.CLOSE);
-                reservationDAO.update(reservation);
-                advertisement.setStatus(Status.FREE);
-            } else {
-                advertisement.setStatus(Status.BOOKED);
-            }
-        }
-        advertisement.setStatus(Status.valueOf(status));
         advertisementDAO.update(advertisement);
     }
 
@@ -107,19 +99,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     @Transactional
     @Override
-    public List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity) {
+    public List<AdvertisementDTO> findByFilter(Long filterCountry, String filterCity, String arrivalDate, String departureDay) throws ParseException {
         String city = filterCity.toLowerCase();
-        List<Advertisement> advertisementList = advertisementDAO.findByCountryAndCity(filterCountry, city);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate arrival = StringUtils.isNotBlank(arrivalDate) ? LocalDate.parse(arrivalDate, format) : null;
+        LocalDate departure = StringUtils.isNotBlank(departureDay) ? LocalDate.parse(departureDay, format) : null;
+        List<Advertisement> advertisementList = advertisementDAO.findByFilter(filterCountry, city, arrival, departure);
         return getAdvertisementList(advertisementList);
     }
-
-    @Transactional
-    @Override
-    public List<AdvertisementDTO> getAllFree(){
-        List<Advertisement> advertisements = advertisementDAO.findAllFree();
-        return getAdvertisementList(advertisements);
-    }
-
 
     @Override
     public boolean checkUser(Long idAdvertisement, User user) {
@@ -134,6 +121,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         return checkUser;
     }
 
+    @Override
+    public boolean checkBydate(ReservationDTO reservationDTO) {
+        return false;
+    }
 
     private List<AdvertisementDTO> getAdvertisementList(List<Advertisement> advertisements) {
         if (advertisements == null) {
@@ -155,5 +146,23 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         String username = user.getUsername();
         return username;
     }
+
+    public Page<AdvertisementDTO> findPaginated(Pageable pageable){
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<AdvertisementDTO> advertisementDTOListPage;
+        if(advertisementDAO.findAll().size() < startItem) {
+            advertisementDTOListPage = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, advertisementDAO.findAll().size());
+            List<Advertisement> advertisementList = advertisementDAO.findAll();
+            List<AdvertisementDTO> advertisementDTOList = getAdvertisementList(advertisementList);
+            advertisementDTOListPage = advertisementDTOList.subList(startItem, toIndex);
+        }
+        Page<AdvertisementDTO> advertisementDTOPage =
+                new PageImpl<AdvertisementDTO>(advertisementDTOListPage, PageRequest.of(currentPage, pageSize), advertisementDAO.findAll().size());
+        return advertisementDTOPage;
+     }
 
 }

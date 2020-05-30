@@ -19,18 +19,18 @@
             <td><p th:text="${country.countryName}"></p></td>
             <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal"
                         th:text="#{everywhere.edit}"></button>
-                <div th:replace="fragments/common :: editModal"></div>
+                <div th:replace="fragments/modal :: editModal"></div>
             </td>
             <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#removeModal"
                         th:text="#{everywhere.remove}"></button>
-                <div th:replace="fragments/common :: removeModal"></div>
+                <div th:replace="fragments/modal :: removeModal"></div>
             </td>
         </tr>
         </tbody>
     </table>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal"
             th:text="#{admin.country.new}"></button>
-    <div th:replace="fragments/common :: createModal"></div>
+    <div th:replace="fragments/modal :: createModal"></div>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </body>

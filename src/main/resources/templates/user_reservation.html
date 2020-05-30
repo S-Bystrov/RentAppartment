@@ -19,8 +19,9 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:text="'Country :' + ${reservation.advertisement.address.country.countryName}"></li>
                         <li class="list-group-item" th:text="'City :' + ${reservation.advertisement.address.city}"></li>
-                        <li class="list-group-item" th:text="'Reservation date :' + ${reservation.data}"></li>
-                        <li class="list-group-item" th:text="'Price:' + ${reservation.advertisement.price}"></li>
+                        <li class="list-group-item" th:text="'Arrival date :' + ${#temporals.format(reservation.arrivalDate, 'dd-MM-yyyy')}"></li>
+                        <li class="list-group-item" th:text="'Departure date :' + ${#temporals.format(reservation.departureDate, 'dd-MM-yyyy')}"></li>
+                        <li class="list-group-item" th:text="'The total cost:' + ${reservation.totalCost}"></li>
                         <li class="list-group-item" th:text="'Status:' + ${reservation.status}"></li>
                     </ul>
                     <div class="card-body">

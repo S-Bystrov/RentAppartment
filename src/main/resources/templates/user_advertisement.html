@@ -19,17 +19,11 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:text="#{everywhere.country} + ' : ' + ${advertisement.address.country.countryName}"></li>
                         <li class="list-group-item" th:text="#{everywhere.city} + ' : ' + ${advertisement.address.city}"></li>
-                        <li class="list-group-item" th:text="#{everywhere.publication} + ' : ' + ${advertisement.data}"></li>
+                        <li class="list-group-item" th:text="#{everywhere.publication} + ' : ' + ${#temporals.format(advertisement.date, 'dd-MM-yyyy')}"></li>
                         <li class="list-group-item" th:text="#{advertisement.status} + ' : ' + ${advertisement.status}"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link" th:text="#{main.more.info}"></a>
-                        <a th:if="${advertisement.status == 'FREE'}" class="card-link"
-                           th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} +
-                           '/change-status?status='BOOKED'}" th:text="#{advertisement.changeStatus}"></a>
-                        <a th:if="${advertisement.status == 'BOOKED'}" class="card-link"
-                           th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} +
-                           '/change-status?status='FREE'}" th:text="#{advertisement.changeStatus}"></a>
                         <a th:href="@{${#httpServletRequest.requestURI}+ '/' + ${advertisement.idAdvertisement} + '/remove'}"
                            th:text="#{everywhere.remove}" class="btn btn-danger"></a>
                     </div>

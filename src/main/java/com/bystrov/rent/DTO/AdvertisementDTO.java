@@ -2,7 +2,6 @@ package com.bystrov.rent.DTO;
 
 import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.advertisement.Image;
-import com.bystrov.rent.domain.advertisement.Status;
 import com.bystrov.rent.domain.reservation.Reservation;
 import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -27,7 +26,7 @@ public class AdvertisementDTO {
 
     private List<Review> reviewList;
 
-    private LocalDate data;
+    private LocalDate date;
 
     private String price;
 
@@ -36,6 +35,4 @@ public class AdvertisementDTO {
     private User user;
 
     private List<Reservation> reservation;
-
-    private Status status;
 }

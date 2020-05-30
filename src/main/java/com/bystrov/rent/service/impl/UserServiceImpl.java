@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/activate/%s",
                     user.getUsername(), user.getActivationCode());
 
-            mailSender.send(user.getEmail(), "Activation code", message);
+            mailSender.send(user, "Activation code", message);
         }
         return userDTO;
     }
@@ -149,7 +149,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public boolean checkCard(User user) {
-        User checkUser = userDAO.findById(user.getId());
-        return !StringUtils.isBlank(checkUser.getCard());
+        if(user == null){
+            return false;
+        } else {
+            User checkUser = userDAO.findById(user.getId());
+            return !StringUtils.isBlank(checkUser.getCard());
+        }
     }
 }

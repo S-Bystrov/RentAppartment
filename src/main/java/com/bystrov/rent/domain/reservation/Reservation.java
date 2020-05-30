@@ -2,9 +2,11 @@ package com.bystrov.rent.domain.reservation;
 
 import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
+import com.bystrov.rent.util.LocalDateAttributeConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -28,7 +30,13 @@ public class Reservation {
     @JoinColumn(name = "ID_ADV")
     private Advertisement advertisement;
 
-    private String data;
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate arrivalDate;
+
+    @Convert(converter = LocalDateAttributeConverter.class)
+    private LocalDate departureDate;
+
+    private Double totalCost;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;

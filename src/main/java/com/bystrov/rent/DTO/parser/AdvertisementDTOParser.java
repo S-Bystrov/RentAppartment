@@ -2,7 +2,6 @@ package com.bystrov.rent.DTO.parser;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,14 +20,13 @@ public class AdvertisementDTOParser {
 
         AdvertisementDTO advertisementDTO = AdvertisementDTO.builder()
                 .idAdvertisement(advertisement.getIdAdvertisement())
-                .data(advertisement.getData())
+                .date(advertisement.getDate())
                 .description(advertisement.getDescription())
                 .address(addressDTOParser.createAddressDTOFromDomain(advertisement.getAddress()))
                 .price(advertisement.getPrice())
                 .user(advertisement.getUser())
                 .reservation(advertisement.getReservation())
                 .images(advertisement.getImages())
-                .status(advertisement.getStatus())
                 .build();
         return advertisementDTO;
     }
@@ -40,14 +38,13 @@ public class AdvertisementDTOParser {
 
         Advertisement advertisement = Advertisement.builder()
                 .idAdvertisement(advertisementDTO.getIdAdvertisement())
-                .data(advertisementDTO.getData())
+                .date(advertisementDTO.getDate())
                 .description(advertisementDTO.getDescription())
                 .address(addressDTOParser.createAddressDomainFromDTO(advertisementDTO.getAddress()))
                 .price(advertisementDTO.getPrice())
                 .user(advertisementDTO.getUser())
                 .reservation(advertisementDTO.getReservation())
                 .images(advertisementDTO.getImages())
-                .status(advertisementDTO.getStatus())
                 .build();
         return advertisement;
     }

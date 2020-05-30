@@ -1,28 +1,45 @@
 package com.bystrov.rent.controller;
 
+import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.domain.user.User;
+import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.ReservationService;
+import com.bystrov.rent.validator.ReservationValidator;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final ReservationValidator validator;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService,
+                                 ReservationValidator validator) {
         this.reservationService = reservationService;
+        this.validator = validator;
     }
 
-    @GetMapping("/advertisement/{idAdvertisement}/reservation")
-    public String getReservationPage(@PathVariable Long idAdvertisement,
-                                     @AuthenticationPrincipal User authenticalUser){
-        reservationService.saveReservation(idAdvertisement, authenticalUser);
+    @PostMapping("/advertisement/{idAdvertisement}/reservation")
+    public String addReservation(@PathVariable Long idAdvertisement,
+                                     @AuthenticationPrincipal User authenticalUser,
+                                     ReservationDTO reservationDTO,
+                                     BindingResult result,
+                                     Model model){
+        validator.validate(reservationDTO, result);
+        if(result.hasErrors()){
+            model.addAttribute("reservationDTO", reservationDTO);
+            return "redirect:/advertisement/" + idAdvertisement;
+        }
+        reservationService.saveReservation(idAdvertisement, authenticalUser, reservationDTO);
         return "redirect:/";
     }
+
 
     @GetMapping("/profile/reservation")
     public String getUserReservationPage(Model model,

@@ -22,7 +22,7 @@ public class HibernateConfiguration {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/rent?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/rent?useSSL=false&serverTimezone=Europe/Moscow&allowPublicKeyRetrieval=true");
         return dataSource;
     }
 

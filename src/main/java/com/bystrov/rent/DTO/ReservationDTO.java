@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 
 @Data
@@ -21,7 +24,13 @@ public class ReservationDTO {
 
     private Advertisement advertisement;
 
-    private String data;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate arrivalDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate departureDate;
+
+    private Double totalCost;
 
     private ReservationStatus status;
 }

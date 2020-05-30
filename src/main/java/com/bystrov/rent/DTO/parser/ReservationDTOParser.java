@@ -15,7 +15,9 @@ public class ReservationDTOParser {
                 .idReservation(reservation.getIdReservation())
                 .user(reservation.getUser())
                 .advertisement(reservation.getAdvertisement())
-                .data(reservation.getData())
+                .arrivalDate(reservation.getArrivalDate())
+                .departureDate(reservation.getDepartureDate())
+                .totalCost(reservation.getTotalCost())
                 .status(reservation.getStatus())
                 .build();
         return reservationDTO;
@@ -29,7 +31,9 @@ public class ReservationDTOParser {
                 .idReservation(reservationDTO.getIdReservation())
                 .user(reservationDTO.getUser())
                 .advertisement(reservationDTO.getAdvertisement())
-                .data(reservationDTO.getData())
+                .arrivalDate(reservationDTO.getArrivalDate())
+                .departureDate(reservationDTO.getDepartureDate())
+                .totalCost(reservationDTO.getTotalCost())
                 .status(reservationDTO.getStatus())
                 .build();
         return reservation;

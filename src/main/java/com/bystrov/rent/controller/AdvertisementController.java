@@ -2,6 +2,7 @@ package com.bystrov.rent.controller;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.CountryDTO;
+import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -51,20 +53,18 @@ public class AdvertisementController {
     @GetMapping("/")
     public String advertisementGetPage(Model model) {
         model.addAttribute("countryDTOList", countryService.getAll());
-        model.addAttribute("advertisementList", advertisementService.getAllFree());
+        model.addAttribute("advertisementList", advertisementService.getAll());
         return "main";
     }
 
     @PostMapping("filter")
     public String filter(@RequestParam Long filterCountry,
                          @RequestParam String filterCity,
-                         Model model) {
+                         @RequestParam String filterArrivalDate,
+                         @RequestParam String filterDepartureDate,
+                         Model model) throws ParseException {
         List<AdvertisementDTO> advertisementList;
-        if ((filterCity == null || filterCity.isEmpty()) && filterCountry == null) {
-            advertisementList = advertisementService.getAll();
-        } else {
-            advertisementList = advertisementService.findByFilter(filterCountry, filterCity);
-        }
+        advertisementList = advertisementService.findByFilter(filterCountry, filterCity, filterArrivalDate, filterDepartureDate);
         model.addAttribute("advertisementList", advertisementList);
         model.addAttribute("countryDTOList", countryService.getAll());
         return "main";
@@ -107,30 +107,10 @@ public class AdvertisementController {
     }
 
     @GetMapping("/profile/advertisement/{idAdvertisement}/remove")
-    public String removeAdvertisement(@PathVariable("idAdvertisement") Long idAdvertisement,
+    public String removeAdvertisement(@PathVariable Long idAdvertisement,
                                       @AuthenticationPrincipal User authenticalUser,
                                       Model model){
         advertisementService.deleteById(idAdvertisement);
-        model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
-        return "redirect:/profile/advertisement";
-    }
-
-    @GetMapping("/advertisement/{idAdvertisement}")
-    public String getAdvertisementInfoPage(@PathVariable("idAdvertisement") Long idAdvertisement,
-                                           @AuthenticationPrincipal User authenticalUser,
-                                           Model model) {
-        model.addAttribute("checkCard", userService.checkCard(authenticalUser));
-        model.addAttribute("checkUser", advertisementService.checkUser(idAdvertisement, authenticalUser));
-        model.addAttribute("advertisementDTO", advertisementService.findById(idAdvertisement));
-        return "advertisement_info";
-    }
-
-    @GetMapping("/profile/advertisement/{idAdvertisement}/change-status")
-    public String changeStatusAdvertisement(@PathVariable Long idAdvertisement,
-                                            @RequestParam("status") String status,
-                                            @AuthenticationPrincipal User authenticalUser,
-                                            Model model){
-        advertisementService.update(idAdvertisement, status);
         model.addAttribute("advertisementList", advertisementService.getAllByUserId(authenticalUser.getId()));
         return "redirect:/profile/advertisement";
     }

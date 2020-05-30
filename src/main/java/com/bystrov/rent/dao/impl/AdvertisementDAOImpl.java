@@ -7,6 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -14,6 +18,31 @@ public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements Ad
 
     public AdvertisementDAOImpl() {
         setEntityClass(Advertisement.class);
+    }
+
+    @Override
+    public List<Advertisement> findByFilter(Long idCountry, String city, LocalDate filterArrivalDay, LocalDate filterDepartureDay) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Advertisement> cq = cb.createQuery(Advertisement.class);
+
+        Root<Advertisement> advertisementRoot = cq.from(Advertisement.class);
+        List<Predicate> predicates = new ArrayList<>();
+        if (idCountry != null){
+            predicates.add(cb.equal(advertisementRoot.get("address").get("country").get("idCountry"), idCountry));
+        }
+        if (StringUtils.isNotBlank(city)){
+            predicates.add(cb.equal(advertisementRoot.get("address").get("city"), city));
+        }
+        if (filterArrivalDay != null && filterDepartureDay != null){
+
+            predicates.add(cb.or(cb.lessThanOrEqualTo(advertisementRoot.join("reservation").get("arrivalDate"), filterArrivalDay),
+                    cb.lessThanOrEqualTo(advertisementRoot.join("reservation").get("departureDate"), filterDepartureDay)));
+        }
+
+        cq.where(predicates.toArray(new Predicate[0]));
+
+        TypedQuery<Advertisement> query = em.createQuery(cq);
+        return query.getResultList();
     }
 
     @Override
@@ -42,15 +71,5 @@ public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements Ad
             }
         }
         return null;
-    }
-
-    @Override
-    public List<Advertisement> findAllFree() {
-        Query query = em.createQuery("from Advertisement where status = 'FREE'");
-        List<Advertisement> advertisementList = (List<Advertisement>) query.getResultList();
-        if(advertisementList.size() == 0){
-            return null;
-        }
-        return advertisementList;
     }
 }
