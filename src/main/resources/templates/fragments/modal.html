@@ -2,50 +2,6 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 
-<div th:fragment="reservationModal(reservationDTO)">
-    <div class="modal" tabindex="-1" role="dialog" id="reservationModal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" th:text="#{everywhere.reservation}"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <form th:action="@{${#httpServletRequest.requestURI} + '/reservation'}" method="POST" th:object="${reservationDTO}">
-                            <div class="row">
-                                <div class="form-group">
-                                    <label th:text="#{everywhere.arrivalDate}"></label>
-                                    <input type="date" th:field="*{arrivalDate}" id="arrivalDate"
-                                           th:class="${#fields.hasErrors('arrivalDate')}? 'form-control is-invalid' : 'form-control'" />
-                                    <div th:if="${#fields.hasErrors('arrivalDate')}" class="invalid-feedback" th:errors="*{arrivalDate}"></div>
-                                </div>
-                                <div class="form-group">
-                                    <label th:text="#{everywhere.departureDate}"></label>
-                                    <input type="date" th:field="*{departureDate}" id="departureDate"
-                                           th:class="${#fields.hasErrors('departureDate')}? 'form-control is-invalid' : 'form-control'"/>
-                                    <div th:if="${#fields.hasErrors('departureDate')}" class="invalid-feedback" th:errors="*{departureDate}"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="d-flex justify-content-end">
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                th:text="#{everywhere.close}"></button>
-                                        <button type="submit" class="btn btn-primary" th:text="#{everywhere.reservation}"></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div th:fragment="editModal">
     <div class="modal" tabindex="-1" role="dialog" id="editModal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -142,10 +98,42 @@
     </div>
 </div>
 
-<script th:fragment="scriptModal">
-    $(window).load(function(){
-        $('#myModal').modal('show');
-    });
-</script>
+<div th:fragment="editUserModal">
+    <div class="modal" tabindex="-1" role="dialog" id="editUserModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="#{everywhere.edit}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form th:action="@{'/user-list/' + ${user.id} + '/edit'}" method="POST">
+                            <div class="form-group">
+                                <ul>
+                                    <li th:each="role : ${roles}">
+                                            <input class="form-check-input" type="checkbox" th:value="${role}" id="roleCheck"
+                                            th:checked="${#sets.contains(user.roles, role)}">
+                                        <label class="form-check-label" for="roleCheck" th:text="${role}"></label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                th:text="#{everywhere.close}"></button>
+                                        <button type="submit" class="btn btn-primary" th:text="#{everywhere.saveChanges}"></button>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

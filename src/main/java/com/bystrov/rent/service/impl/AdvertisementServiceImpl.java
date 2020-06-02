@@ -1,7 +1,6 @@
 package com.bystrov.rent.service.impl;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
-import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -41,34 +39,29 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         this.reservationDAO = reservationDAO;
     }
 
-    @Transactional
     @Override
     public Page<AdvertisementDTO> findPaginated(Pageable pageable) {
         return getAdvertisementPage(pageable,advertisementDAO.findAll());
     }
 
-    @Transactional
     @Override
     public Page<AdvertisementDTO> findPaginatedByFilter(Pageable pageable,
                                                         Long filterCountry,
                                                         String filterCity,
                                                         String arrivalDate,
-                                                        String departureDay) throws ParseException {
+                                                        String departureDate){
         String city = filterCity.toLowerCase();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate arrival = StringUtils.isNotBlank(arrivalDate) ? LocalDate.parse(arrivalDate, format) : null;
-        LocalDate departure = StringUtils.isNotBlank(departureDay) ? LocalDate.parse(departureDay, format) : null;
+        LocalDate arrival = parsingDate(arrivalDate);
+        LocalDate departure = parsingDate(departureDate);
         List<Advertisement> advertisementList = advertisementDAO.findByFilter(filterCountry, city, arrival, departure);
         return getAdvertisementPage(pageable, advertisementList);
     }
 
-    @Transactional
     @Override
     public Page<AdvertisementDTO> findPaginatedByUserId(Pageable pageable, Long userId) {
         return getAdvertisementPage(pageable, advertisementDAO.findAllByUserId(userId));
     }
 
-    @Transactional
     @Override
     public AdvertisementDTO findById(Long id) {
         Advertisement advertisement = advertisementDAO.findById(id);
@@ -122,7 +115,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public boolean checkByDate(ReservationDTO reservationDTO) {
+    public boolean checkByDate(Long idAdvertisement, String arrivalDate, String departureDate) {
+        LocalDate arrival = parsingDate(arrivalDate);
+        LocalDate departure = parsingDate(departureDate);
+        List<Advertisement> advertisementList = advertisementDAO.findByFilter(null, null, arrival, departure);
+        for(Advertisement advertisement : advertisementList){
+            if(advertisement.getIdAdvertisement() == idAdvertisement){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -167,6 +168,12 @@ public class AdvertisementServiceImpl implements AdvertisementService {
                             .of(currentPage, pageSize), advertisementList.size());
             return advertisementDTOPage;
         }
+    }
+
+    private LocalDate parsingDate (String date){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = StringUtils.isNotBlank(date) ? LocalDate.parse(date, format) : null;
+        return localDate;
     }
 
 

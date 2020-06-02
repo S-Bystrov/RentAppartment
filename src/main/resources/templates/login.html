@@ -2,21 +2,21 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace = "fragments/common :: head">
 </head>
-<body>
+<body class="text-center">
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
     <form th:action="@{/login}" th:object="${userDTO}" method="POST">
         <div class="form-group">
-            <label class="col-sm-2 col-form-label"> Username : </label>
+            <label class="col-sm-2 col-form-label" th:text="#{user.username} + ': '"></label>
             <div class="col-sm-3">
-                <input type="text"  name="username" class="form-control"/>
+                <input type="text"  name="username" class="form-control" th:placeholder="#{user.username}"/>
             </div>
-            <label class="col-sm-2 col-form-label"> Password : </label>
+            <label class="col-sm-2 col-form-label" th:text="#{user.password} + ': '"></label>
             <div class="col-sm-3">
-                <input type="password"  name="password" class="form-control"/>
+                <input type="password"  name="password" class="form-control" th:placeholder="#{user.password}"/>
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Sign in</button>
+        <button class="btn btn-primary" type="submit" th:text="#{sign.in}"></button>
     </form>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>

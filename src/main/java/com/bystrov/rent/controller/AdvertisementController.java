@@ -64,11 +64,11 @@ public class AdvertisementController {
         return "main";
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam Long filterCountry,
-                         @RequestParam String filterCity,
-                         @RequestParam String filterArrivalDate,
-                         @RequestParam String filterDepartureDate,
+    @GetMapping("filter")
+    public String filter(@RequestParam(required = false) Long filterCountry,
+                         @RequestParam(required = false) String filterCity,
+                         @RequestParam(required = false) String filterArrivalDate,
+                         @RequestParam(required = false) String filterDepartureDate,
                          @RequestParam Optional<Integer> page,
                          @RequestParam Optional<Integer> size,
                          Model model) throws ParseException {

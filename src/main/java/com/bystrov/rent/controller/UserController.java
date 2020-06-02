@@ -39,9 +39,11 @@ public class UserController {
                                   @AuthenticationPrincipal User authenticalUser,
                                   Model model) {
         boolean checkUser = false;
-        if(authenticalUser.getId() == idUser){
+        if(authenticalUser != null){
+            if(authenticalUser.getId() == idUser){
                 checkUser = true;
             }
+        }
         UserDTO userDTO = userService.findById(idUser);
         model.addAttribute("checkUser", checkUser);
         model.addAttribute("userDTO", userDTO);

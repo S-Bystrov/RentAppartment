@@ -46,7 +46,7 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.hbm2ddl.import_files", "country.sql, admin.sql");
+        properties.setProperty("hibernate.hbm2ddl.import_files", "sql/country.sql, sql/admin.sql, sql/users.sql");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }

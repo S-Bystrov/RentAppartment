@@ -11,6 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -51,13 +55,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserDTO> getAll() {
-        List<User> users = userDAO.findAll();
-        List<UserDTO> userDTOList = new ArrayList<>();
-        for (User user : users) {
-            userDTOList.add(userDTOParser.createUserDTOFromDomain(user));
-        }
-        return userDTOList;
+    public Page<UserDTO> findPaginated(Pageable pageable) {
+        List<User> userList = userDAO.findAll();
+        return getUserDTOPage(pageable, userList);
     }
 
     @Transactional
@@ -154,6 +154,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             User checkUser = userDAO.findById(user.getId());
             return !StringUtils.isBlank(checkUser.getCard());
+        }
+    }
+
+    private Page<UserDTO> getUserDTOPage(Pageable pageable, List<User> userList){
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<UserDTO> userDTOListPage;
+        if(userList == null){
+            return null;
+        } else {
+            if (userList.size() < startItem) {
+                userDTOListPage = Collections.emptyList();
+            } else {
+                int toIndex = Math.min(startItem + pageSize, userList.size());
+                List<UserDTO> userDTOList = new ArrayList<>();
+                for (User user : userList) {
+                    userDTOList.add(userDTOParser.createUserDTOFromDomain(user));
+                }
+                userDTOListPage = userDTOList.subList(startItem, toIndex);
+            }
+            Page<UserDTO> userDTOPage =
+                    new PageImpl<UserDTO>(userDTOListPage, PageRequest
+                            .of(currentPage, pageSize), userList.size());
+            return userDTOPage;
         }
     }
 }

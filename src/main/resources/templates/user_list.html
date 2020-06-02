@@ -16,16 +16,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${userList}">
+        <tr th:each="user : ${listDTOPage.content}">
             <td><p th:text="${user.id}"></p></td>
             <td><p th:text="${user.username}"></p></td>
             <td><p th:text="${user.email}"></p></td>
             <td><p th:text="${user.name}"></p></td>
             <td><p th:text="${user.roles}"></p></td>
-            <td><a th:href="@{'/admin/' + ${user.id}}" th:text="#{everywhere.edit}"></a></td>
+            <td><button type="button" class="btn btn-link" data-toggle="modal" data-target="#editUserModal"
+                th:text="#{everywhere.edit}"></button>
+                <div th:replace="fragments/modal :: editUserModal"></div>
         </tr>
         </tbody>
     </table>
+    <div th:replace="fragments/common :: pagination(pageList = ${listDTOPage})"></div>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </body>

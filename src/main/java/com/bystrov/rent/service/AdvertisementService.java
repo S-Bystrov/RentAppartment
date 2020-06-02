@@ -1,7 +1,6 @@
 package com.bystrov.rent.service;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
-import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.domain.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +14,7 @@ public interface AdvertisementService {
     void deleteById(Long id);
     Page<AdvertisementDTO> findPaginatedByUserId(Pageable pageable, Long userId);
     boolean checkUser(Long idAdvertisement, User user);
-    boolean checkByDate(ReservationDTO reservationDTO);
+    boolean checkByDate(Long idAdvertisement, String arrivalDate, String departureDate);
     Page<AdvertisementDTO> findPaginated(Pageable pageable);
     Page<AdvertisementDTO> findPaginatedByFilter(Pageable pageable,
                                                  Long filterCountry,

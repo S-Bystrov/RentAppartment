@@ -3,10 +3,10 @@ package com.bystrov.rent.dao.impl;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.EntityDAO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
+import com.bystrov.rent.domain.reservation.Reservation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements Ad
     }
 
     @Override
-    public List<Advertisement> findByFilter(Long idCountry, String city, LocalDate filterArrivalDay, LocalDate filterDepartureDay) {
+    public List<Advertisement> findByFilter(Long idCountry, String city, LocalDate filterArrivalDate, LocalDate filterDepartureDate) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Advertisement> cq = cb.createQuery(Advertisement.class);
 
@@ -33,43 +33,29 @@ public class AdvertisementDAOImpl extends EntityDAO<Advertisement> implements Ad
         if (StringUtils.isNotBlank(city)){
             predicates.add(cb.equal(advertisementRoot.get("address").get("city"), city));
         }
-        if (filterArrivalDay != null && filterDepartureDay != null){
+        if (filterArrivalDate != null && filterDepartureDate != null){
+            Join<Advertisement, Reservation> joinTable = advertisementRoot.join("reservation", JoinType.LEFT);
 
-            predicates.add(cb.or(cb.lessThanOrEqualTo(advertisementRoot.join("reservation").get("arrivalDate"), filterArrivalDay),
-                    cb.lessThanOrEqualTo(advertisementRoot.join("reservation").get("departureDate"), filterDepartureDay)));
+            Predicate predicateArrivalDate = cb.and(
+                    cb.lessThan(joinTable.get("arrivalDate"), filterArrivalDate),
+                    cb.lessThan(joinTable.get("departureDate"), filterArrivalDate));
+
+            Predicate predicateDepartureDate = cb.and(
+                    cb.greaterThan(joinTable.get("arrivalDate"), filterDepartureDate),
+                    cb.greaterThan(joinTable.get("departureDate"), filterDepartureDate));
+
+            Predicate predicateIsNull = cb.and(
+                    cb.isNull(joinTable.get("arrivalDate")),
+                    cb.isNull(joinTable.get("departureDate")));
+
+            predicates.add(cb.or(predicateArrivalDate, predicateDepartureDate, predicateIsNull));
+            /*predicates.add(cb.or(cb.lessThanOrEqualTo(advertisementRoot.join("reservation").get("arrivalDate"), filterArrivalDay),
+                    cb.lessThanOrEqualTo(advertisementRoot.join("reservation").get("departureDate"), filterDepartureDay)));*/
         }
 
         cq.where(predicates.toArray(new Predicate[0]));
 
         TypedQuery<Advertisement> query = em.createQuery(cq);
         return query.getResultList();
-    }
-
-    @Override
-    public List<Advertisement> findByCountryAndCity(Long idCountry, String city) {
-        boolean countryCheck = idCountry != null;
-        boolean cityCheck = city != null && !StringUtils.isBlank(city);
-        if (countryCheck || cityCheck) {
-            String cityQuery = "";
-            if (cityCheck && countryCheck) {
-                cityQuery = " ad.address.city = \'" + city + "\' and";
-            } else {
-                if(cityCheck && !countryCheck){
-                    cityQuery = "ad.address.city = \'" + city + "\'";
-                }
-            }
-            String countryQuery = "";
-            if (countryCheck) {
-                countryQuery = " ad.address.country.idCountry = " + idCountry;
-            }
-            Query query = em.createQuery("from Advertisement ad where " + cityQuery + countryQuery);
-            List<Advertisement> advertisementList = (List<Advertisement>) query.getResultList();
-            if(advertisementList.size() == 0){
-                return null;
-            } else {
-                return advertisementList;
-            }
-        }
-        return null;
     }
 }

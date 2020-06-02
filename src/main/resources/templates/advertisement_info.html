@@ -9,7 +9,7 @@
         <img th:src="@{'/img/'+*{images[0].imagePath}}">
     </div>
     <div class="row">
-        <h5 th:text="#{everywhere.description}"></h5>
+        <h5 th:text="#{everywhere.description} + ': '"></h5>
     </div>
     <div class="row">
         <p class="text-justify" th:text="*{description}"></p>
@@ -48,35 +48,59 @@
     </div>
     <div sec:authorize="isAuthenticated()">
         <div th:if="${checkUser}">
-            <form action="check-availability" method="GET" th:object="${reservationDTO}">
-                <div class="row">
-                    <h5 th:text="#{advertisement.checkAvailability}"></h5>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label th:text="#{everywhere.arrivalDate}"/>
-                        <input type="date" th:field="*{arrivalDate}" id="arrivalDate"
-                               th:class="${#fields.hasErrors('arrivalDate')}? 'form-control is-invalid' : 'form-control'" />
-                        <div th:if="${#fields.hasErrors('arrivalDate')}" class="invalid-feedback" th:errors="*{arrivalDate}"></div>
+            <div th:if="${checkDate == null or checkDate == false}">
+                <form th:action="@{'/advertisement/' + ${advertisementDTO.idAdvertisement} + '/check-availability'}" method="GET">
+                    <div class="row">
+                        <h5 th:text="#{advertisement.checkAvailability}"></h5>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label th:text="#{everywhere.departureDate}"/>
-                        <input type="date" th:field="*{departureDate}" id="departureDate"
-                               th:class="${#fields.hasErrors('departureDate')}? 'form-control is-invalid' : 'form-control'" />
-                        <div th:if="${#fields.hasErrors('departureDate')}" class="invalid-feedback" th:errors="*{departureDate}"></div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label th:text="#{everywhere.arrivalDate}"/>
+                            <input type="date"name="arrivalDate" class="form-control"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label th:text="#{everywhere.departureDate}"/>
+                            <input type="date" name="departureDate" class="form-control"/>
+                        </div>
                     </div>
-                    <input type="hidden" name="idAdvertisement" th:value="${advertisementDTO.idAdvertisement}"/>
+                    <button class="btn btn-primary" type="submit">Ok</button>
+                </form>
+                <div th:if="${checkDate == false}">
+                    <div class="row" th:unless="${checkDate}">
+                        <p th:text="#{advertisement.noPlaces}"></p>
+                    </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Ok</button>
-            </form>
-            <div class="row" th:unless="${checkDate}">
-                <p th:text="#{advertisement.noPlaces}"></p>
             </div>
-            <div class="row" th:if="${checkDate}">
-                <a th:if="${checkCard}"  class="btn btn-primary mr-2" th:href="@{#}"
-                        th:text="#{everywhere.reservation}"></a>
-                <button th:if="${!checkCard}" type="button" class="btn btn-danger mr-2" data-toggle="popover"
-                        th:title="#{popover.title}" th:data-content="#{popover.body}" th:text="#{everywhere.reservation}"></button>
+            <div th:if="${checkDate}">
+                <form th:action="@{'/advertisement/' + ${advertisementDTO.idAdvertisement} + '/reservation'}" method="POST"
+                      th:object="${reservationDTO}">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label th:text="#{everywhere.arrivalDate}"/>
+                            <input type="date"name="arrivalDate" th:value="${arrivalDateDefault}" th:field="*{arrivalDate}"
+                                   th:class="${#fields.hasErrors('arrivalDate')}? 'form-control is-invalid' : 'form-control'" />
+                            <div th:if="${#fields.hasErrors('arrivalDate')}" class="invalid-feedback" th:errors="*{arrivalDate}"></div>
+                            <input type="hidden" name="checkArrivalDate" th:value="${arrivalDateDefault}"/>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label th:text="#{everywhere.departureDate}"/>
+                            <input type="date" name="departureDate" th:value="${departureDate}" th:field="*{departureDate}"
+                                   th:class="${#fields.hasErrors('departureDate')}? 'form-control is-invalid' : 'form-control'"/>
+                            <div th:if="${#fields.hasErrors('departureDate')}" class="invalid-feedback" th:errors="*{departureDate}"></div>
+                            <input type="hidden" name="checkDepartureDate" th:value="${departureDate}"/>
+                        </div>
+                        <input type="hidden" name="idAdvertisement" th:value="${advertisementDTO.idAdvertisement}"/>
+                    </div>
+                    <div class="row">
+                        <p th:text="#{advertisement.reservation.allowed}"></p>
+                    </div>
+                    <div class="row" th:if="${checkDate}">
+                        <button th:if="${checkCard}"  class="btn btn-primary mr-2" type="submit"
+                                th:text="#{everywhere.reservation}"></button>
+                        <button th:if="${!checkCard}" type="button" class="btn btn-danger mr-2" data-toggle="popover"
+                                th:title="#{popover.title}" th:data-content="#{popover.body}" th:text="#{everywhere.reservation}"></button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

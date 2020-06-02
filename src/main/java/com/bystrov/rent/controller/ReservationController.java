@@ -25,20 +25,7 @@ public class ReservationController {
         this.validator = validator;
     }
 
-    @PostMapping("/advertisement/{idAdvertisement}/reservation")
-    public String addReservation(@PathVariable Long idAdvertisement,
-                                     @AuthenticationPrincipal User authenticalUser,
-                                     ReservationDTO reservationDTO,
-                                     BindingResult result,
-                                     Model model){
-        validator.validate(reservationDTO, result);
-        if(result.hasErrors()){
-            model.addAttribute("reservationDTO", reservationDTO);
-            return "redirect:/advertisement/" + idAdvertisement;
-        }
-        reservationService.saveReservation(idAdvertisement, authenticalUser, reservationDTO);
-        return "redirect:/";
-    }
+
 
 
     @GetMapping("/profile/reservation")
