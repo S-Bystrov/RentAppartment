@@ -4,66 +4,73 @@
 <head th:replace = "fragments/common :: head"></head>
 <body>
 <div th:replace="fragments/common :: navBar"></div>
-<div class="container mt-5" th:object="${advertisementDTO}">
-    <div class="row">
-        <img th:src="@{'/img/'+*{images[0].imagePath}}">
-    </div>
-    <div class="row">
-        <h5 th:text="#{everywhere.description} + ': '"></h5>
-    </div>
-    <div class="row">
-        <p class="text-justify" th:text="*{description}"></p>
-    </div>
-    <div class="row row-cols-3">
-        <div class="col">
-            <h5 th:text="#{everywhere.country} + ':'"></h5>
-            <p th:text="*{address.country.countryName}"></p>
+<div class="container mt-5">
+    <div th:object="${advertisementDTO}">
+        <div class="row">
+            <img th:src="@{'/img/'+*{images[0].imagePath}}">
         </div>
-        <div class="col">
-            <h5 th:text="#{everywhere.city} + ':'"></h5>
-            <p th:text="*{address.city}"></p>
+        <div class="row">
+            <h5 th:text="#{everywhere.description} + ': '"></h5>
         </div>
-        <div class="col">
-            <h5 th:text="#{everywhere.street} + ':'"></h5>
-            <p th:text="*{address.street}"></p>
+        <div class="row">
+            <p class="text-justify" th:text="*{description}"></p>
         </div>
-    </div>
-    <div class="row row-cols-4">
-        <div class="col">
-            <h5 th:text="#{everywhere.house} + ':'"></h5>
-            <p th:text="*{address.house}? *{address.house} : '-'"></p>
+        <div class="row row-cols-3">
+            <div class="col">
+                <h5 th:text="#{everywhere.country} + ':'"></h5>
+                <p th:text="*{address.country.countryName}"></p>
+            </div>
+            <div class="col">
+                <h5 th:text="#{everywhere.city} + ':'"></h5>
+                <p th:text="*{address.city}"></p>
+            </div>
+            <div class="col">
+                <h5 th:text="#{everywhere.street} + ':'"></h5>
+                <p th:text="*{address.street}"></p>
+            </div>
         </div>
-        <div class="col">
-            <h5 th:text="#{everywhere.building} + ':'"></h5>
-            <p th:text="*{address.building}? *{address.building} : '-'"></p>
-        </div>
-        <div class="col">
-            <h5 th:text="#{everywhere.flat} + ':'"></h5>
-            <p th:text="*{address.flat}? *{address.flat} : '-'"></p>
-        </div>
-        <div class="col">
-            <h5 th:text="#{everywhere.price} + ':'"></h5>
-            <p th:text="*{price}"></p>
+        <div class="row row-cols-4">
+            <div class="col">
+                <h5 th:text="#{everywhere.house} + ':'"></h5>
+                <p th:text="*{address.house}? *{address.house} : '-'"></p>
+            </div>
+            <div class="col">
+                <h5 th:text="#{everywhere.building} + ':'"></h5>
+                <p th:text="*{address.building}? *{address.building} : '-'"></p>
+            </div>
+            <div class="col">
+                <h5 th:text="#{everywhere.flat} + ':'"></h5>
+                <p th:text="*{address.flat}? *{address.flat} : '-'"></p>
+            </div>
+            <div class="col">
+                <h5 th:text="#{everywhere.price} + ':'"></h5>
+                <p th:text="*{price}"></p>
+            </div>
         </div>
     </div>
     <div sec:authorize="isAuthenticated()">
         <div th:if="${checkUser}">
             <div th:if="${checkDate == null or checkDate == false}">
-                <form th:action="@{'/advertisement/' + ${advertisementDTO.idAdvertisement} + '/check-availability'}" method="GET">
+                <form th:action="@{'/advertisement/' + ${advertisementDTO.idAdvertisement} + '/check-availability'}"
+                      method="POST">
                     <div class="row">
                         <h5 th:text="#{advertisement.checkAvailability}"></h5>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label th:text="#{everywhere.arrivalDate}"/>
-                            <input type="date"name="arrivalDate" class="form-control"/>
+                            <input type="date" th:field="${reservationDate.arrivalDate}"
+                                   th:class="${#fields.hasErrors('reservationDate.arrivalDate')}? 'form-control is-invalid' : 'form-control'"/>
+                            <div th:if="${#fields.hasErrors('reservationDate.arrivalDate')}" class="invalid-feedback" th:errors="${reservationDate.arrivalDate}"></div>
                         </div>
                         <div class="form-group col-md-4">
                             <label th:text="#{everywhere.departureDate}"/>
-                            <input type="date" name="departureDate" class="form-control"/>
+                            <input type="date" th:field="${reservationDate.departureDate}"
+                                   th:class="${#fields.hasErrors('reservationDate.departureDate')}? 'form-control is-invalid' : 'form-control'"/>
+                            <div th:if="${#fields.hasErrors('reservationDate.departureDate')}" class="invalid-feedback" th:errors="${reservationDate.departureDate}"></div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" type="submit">Ok</button>
+                    <button class="btn btn-primary m-2" type="submit">Ok</button>
                 </form>
                 <div th:if="${checkDate == false}">
                     <div class="row" th:unless="${checkDate}">
@@ -77,16 +84,12 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label th:text="#{everywhere.arrivalDate}"/>
-                            <input type="date"name="arrivalDate" th:value="${arrivalDateDefault}" th:field="*{arrivalDate}"
-                                   th:class="${#fields.hasErrors('arrivalDate')}? 'form-control is-invalid' : 'form-control'" />
-                            <div th:if="${#fields.hasErrors('arrivalDate')}" class="invalid-feedback" th:errors="*{arrivalDate}"></div>
-                            <input type="hidden" name="checkArrivalDate" th:value="${arrivalDateDefault}"/>
+                            <input type="date" name="arrivalDate" th:value="${arrivalDate}" class="form-control"/>
+                            <input type="hidden" name="checkArrivalDate" th:value="${arrivalDate}"/>
                         </div>
                         <div class="form-group col-md-4">
                             <label th:text="#{everywhere.departureDate}"/>
-                            <input type="date" name="departureDate" th:value="${departureDate}" th:field="*{departureDate}"
-                                   th:class="${#fields.hasErrors('departureDate')}? 'form-control is-invalid' : 'form-control'"/>
-                            <div th:if="${#fields.hasErrors('departureDate')}" class="invalid-feedback" th:errors="*{departureDate}"></div>
+                            <input type="date" name="departureDate" th:value="${departureDate}" class="form-control"/>
                             <input type="hidden" name="checkDepartureDate" th:value="${departureDate}"/>
                         </div>
                         <input type="hidden" name="idAdvertisement" th:value="${advertisementDTO.idAdvertisement}"/>
@@ -104,13 +107,13 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" th:object="${advertisementDTO}">
         <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary mr-2" th:text="#{everywhere.user}"></a>
-        <a th:href="@{${#httpServletRequest.requestURI} + '/all-review'}" class="btn btn-primary mr-2"
+        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary mr-2"
            th:text="#{advertisement.review}"></a>
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
-                <a th:href="@{${#httpServletRequest.requestURI} + '/add-review'}"
+                <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}"
                    class="btn btn-primary mr-2" th:text="#{advertisement.addReview}"></a>
             </div>
         </div>
@@ -125,3 +128,10 @@
 </body>
 </html>
 
+
+
+<!--
+th:class="${#fields.hasErrors('arrivalDate')}? 'form-control is-invalid' : 'form-control'"/>
+<div th:if="${#fields.hasErrors('arrivalDate')}" class="invalid-feedback" th:errors="*{arrivalDate}"></div>
+th:class="${#fields.hasErrors('departureDate')}? 'form-control is-invalid' : 'form-control'"/>
+<div th:if="${#fields.hasErrors('departureDate')}" class="invalid-feedback" th:errors="*{departureDate}"></div>-->

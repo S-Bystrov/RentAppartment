@@ -1,6 +1,7 @@
 package com.bystrov.rent.service.impl;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
+import com.bystrov.rent.DTO.ReservationDateDTO;
 import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
@@ -115,9 +116,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public boolean checkByDate(Long idAdvertisement, String arrivalDate, String departureDate) {
-        LocalDate arrival = parsingDate(arrivalDate);
-        LocalDate departure = parsingDate(departureDate);
+    public boolean checkByDate(Long idAdvertisement, ReservationDateDTO reservationDate) {
+        LocalDate arrival = reservationDate.getArrivalDate();
+        LocalDate departure = reservationDate.getDepartureDate();
         List<Advertisement> advertisementList = advertisementDAO.findByFilter(null, null, arrival, departure);
         for(Advertisement advertisement : advertisementList){
             if(advertisement.getIdAdvertisement() == idAdvertisement){

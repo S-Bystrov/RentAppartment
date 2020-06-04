@@ -1,26 +1,21 @@
 package com.bystrov.rent.controller;
 
-import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.domain.user.User;
-import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.ReservationService;
-import com.bystrov.rent.validator.ReservationValidator;
+import com.bystrov.rent.validator.ReservationDateValidator;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ReservationController {
 
     private final ReservationService reservationService;
-    private final ReservationValidator validator;
+    private final ReservationDateValidator validator;
 
     public ReservationController(ReservationService reservationService,
-                                 ReservationValidator validator) {
+                                 ReservationDateValidator validator) {
         this.reservationService = reservationService;
         this.validator = validator;
     }
