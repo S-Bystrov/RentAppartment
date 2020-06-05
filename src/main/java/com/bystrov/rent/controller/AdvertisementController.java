@@ -11,6 +11,7 @@ import com.bystrov.rent.validator.AdvertisementValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,7 +83,9 @@ public class AdvertisementController {
         return "main";
     }
 
+
     @GetMapping("/new-advertisement")
+    @PreAuthorize("hasAuthority('USER')")
     public String getNewAdvertisementPage(Model model) {
         AdvertisementDTO advertisementDTO = new AdvertisementDTO();
         List<CountryDTO> countryDTOList = countryService.getAll();
@@ -92,6 +95,7 @@ public class AdvertisementController {
     }
 
     @PostMapping("/new-advertisement")
+    @PreAuthorize("hasAuthority('USER')")
     public String addNewAdvertisement(@RequestParam("image") MultipartFile file,
                                       @AuthenticationPrincipal User authenticalUser,
                                       AdvertisementDTO advertisementDTO,
@@ -126,6 +130,7 @@ public class AdvertisementController {
     }
 
     @GetMapping("/profile/advertisement/{idAdvertisement}/remove")
+    @PreAuthorize("hasAuthority('USER')")
     public String removeAdvertisement(@PathVariable Long idAdvertisement,
                                       @AuthenticationPrincipal User authenticalUser,
                                       @RequestParam Optional<Integer> page,

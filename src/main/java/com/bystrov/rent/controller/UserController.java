@@ -6,6 +6,7 @@ import com.bystrov.rent.service.UserService;
 import com.bystrov.rent.validator.UserUpdateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/update")
+    @PreAuthorize("hasAuthority('USER')")
     public String getUpdateInfoPage(Model model) {
         UserDTO userDTO = new UserDTO();
         model.addAttribute("userDTO", userDTO);
@@ -59,6 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/profile/update")
+    @PreAuthorize("hasAuthority('USER')")
     public String updateInfo(@AuthenticationPrincipal User authenticalUser,
                              @RequestParam("avatar") MultipartFile file,
                              @Valid UserDTO userDTO,

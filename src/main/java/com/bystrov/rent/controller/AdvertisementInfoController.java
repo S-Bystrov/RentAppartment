@@ -12,6 +12,7 @@ import com.bystrov.rent.validator.ReservationDateValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,6 +62,7 @@ public class AdvertisementInfoController {
 
 
     @PostMapping("/check-availability")
+    @PreAuthorize("hasAuthority('USER')")
     public String checkAvailability(@PathVariable Long idAdvertisement,
                                     @AuthenticationPrincipal User authenticalUser,
                                     @ModelAttribute("reservationDate") ReservationDateDTO reservationDate,
@@ -84,6 +86,7 @@ public class AdvertisementInfoController {
     }
 
     @PostMapping("/reservation")
+    @PreAuthorize("hasAuthority('USER')")
     public String addReservation(@PathVariable Long idAdvertisement,
                                  @AuthenticationPrincipal User authenticalUser,
                                  ReservationDTO reservationDTO,
