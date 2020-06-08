@@ -11,4 +11,5 @@ public interface ReviewDAO {
     Review findById(Long id);
     void deleteById(Long id);
     List<Review> findAllByIdAdvertisement(Long idAdvertisement);
+    Double getAvgRatingByIdAdvertisement(Long idAdvertisement);
 }

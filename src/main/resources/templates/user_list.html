@@ -16,15 +16,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${listDTOPage.content}">
-            <td><p th:text="${user.id}"></p></td>
-            <td><p th:text="${user.username}"></p></td>
-            <td><p th:text="${user.email}"></p></td>
-            <td><p th:text="${user.name}"></p></td>
-            <td><p th:text="${user.roles}"></p></td>
-            <td><button type="button" class="btn btn-link" data-toggle="modal" data-target="#editUserModal"
+        <tr th:each="userEdit : ${listDTOPage.content}">
+            <td><p th:text="${userEdit.id}"></p></td>
+            <td><p th:text="${userEdit.username}"></p></td>
+            <td><p th:text="${userEdit.email}"></p></td>
+            <td><p th:text="${userEdit.name}"></p></td>
+            <td><p th:text="${userEdit.roles}"></p></td>
+            <td><button type="button" class="btn btn-link" data-toggle="modal" th:attr="data-target='#editUserModal' + ${userEdit.id}"
                 th:text="#{everywhere.edit}"></button>
-                <div th:replace="fragments/modal :: editUserModal"></div>
+                <div th:replace="fragments/modal :: editUserModal(userEdit = ${userEdit})"></div></td>
         </tr>
         </tbody>
     </table>

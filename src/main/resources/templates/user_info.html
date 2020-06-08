@@ -9,31 +9,35 @@
     <div th:if="${message}">
         <p th:text="${message}"></p>
     </div>
-<div th:object="${userDTO}">
-    <div>
-        <img class="border border-secondary" th:src="@{'/img/'+*{avatarName}}" width="150" height="175">
+    <div th:object="${userDTO}">
+        <div>
+            <img class="border border-secondary" th:src="@{'/img/'+*{avatarName}}" width="150" height="175">
+        </div>
+        <dl class="row">
+            <dt class="col-sm-2" th:text="#{user.username} + ':'"></dt>
+            <dd class="col-sm-10" th:text="*{username}"></dd>
+            <dt class="col-sm-2">Email:</dt>
+            <dd class="col-sm-10" th:text="*{email}? *{email} : '-'"></dd>
+            <dt class="col-sm-2" th:text="#{user.name} + ':'"></dt>
+            <dd class="col-sm-10" th:text="*{name}? *{name} : '-'"></dd>
+            <dt class="col-sm-2" th:text="#{user.surname} + ':'"></dt>
+            <dd class="col-sm-10" th:text="*{surname}? *{surname} : '-'"></dd>
+            <div sec:authorize="isAuthenticated()">
+                <div th:if="${checkUser}">
+                    <dt class="col-sm-2" th:text="#{user.card} + ':'"></dt>
+                    <dd class="col-sm-10" th:text="*{card}? *{card} : '-'"></dd>
+                    <dt class="col-sm-2" th:text="#{user.paymentAccount} + ':'"></dt>
+                    <dd class="col-sm-10" th:text="*{paymentAccount}? *{paymentAccount} : '-'"></dd>
+                </div>
+            </div>
+        </dl>
     </div>
-    <dl class="row">
-        <dt class="col-sm-2" th:text="#{user.username} + ':'"></dt>
-        <dd class="col-sm-10" th:text="*{username}"></dd>
-        <dt class="col-sm-2">Email:</dt>
-        <dd class="col-sm-10" th:text="*{email}? *{email} : '-'"></dd>
-        <dt class="col-sm-2" th:text="#{user.name} + ':'"></dt>
-        <dd class="col-sm-10" th:text="*{name}? *{name} : '-'"></dd>
-        <dt class="col-sm-2" th:text="#{user.surname} + ':'"></dt>
-        <dd class="col-sm-10" th:text="*{surname}? *{surname} : '-'"></dd>
-        <dt class="col-sm-2" th:text="#{user.card} + ':'"></dt>
-        <dd class="col-sm-10" th:text="*{card}? *{card} : '-'"></dd>
-        <dt class="col-sm-2" th:text="#{user.paymentAccount} + ':'"></dt>
-        <dd class="col-sm-10" th:text="*{paymentAccount}? *{paymentAccount} : '-'"></dd>
-    </dl>
-</div>
-<div sec:authorize="isAuthenticated()">
-    <div th:if="${checkUser}">
-        <a class="btn btn-primary" th:href="@{/profile/update}" th:text="#{update.info}"></a>
-        <a class="btn btn-primary" th:href="@{/profile/advertisement}" th:text="#{user.advertisement}"></a>
+    <div sec:authorize="isAuthenticated()">
+        <div th:if="${checkUser}">
+            <a class="btn btn-primary" th:href="@{/profile/update}" th:text="#{update.info}"></a>
+            <a class="btn btn-primary" th:href="@{/profile/advertisement}" th:text="#{user.advertisement}"></a>
+        </div>
     </div>
-</div>
 </div>
 <div th:replace="fragments/common :: bootScript"></div>
 </body>

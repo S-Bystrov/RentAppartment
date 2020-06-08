@@ -5,7 +5,6 @@
 </head>
 <body><div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-    <div th:replace="fragments/common :: pagination(pageList = ${listDTOPage})"></div>
     <div th:if="${listDTOPage == null or listDTOPage.isEmpty()}">
         <p th:text="#{main.noAdvertisement}"></p>
     </div>
@@ -13,7 +12,8 @@
         <div class="row row-cols-1 row-cols-md-2">
             <div th:each="advertisement : ${listDTOPage.content}">
                 <div class="card my-3 m-2">
-                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" class="card-img-top">
+                    <div class="card-header bg-transparent text-right" th:text="#{everywhere.rating} + ': ' + ${advertisement.rating}"></div>
+                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" width="415" height="234" class="card-img-top">
                     <div class="card-body">
                         <p class="card-text" th:text="${advertisement.description}"></p>
                     </div>
@@ -21,7 +21,6 @@
                         <li class="list-group-item" th:text="#{everywhere.country} + ' : ' + ${advertisement.address.country.countryName}"></li>
                         <li class="list-group-item" th:text="#{everywhere.city} + ' : ' + ${advertisement.address.city}"></li>
                         <li class="list-group-item" th:text="#{everywhere.publication} + ' : ' + ${#temporals.format(advertisement.date, 'dd-MM-yyyy')}"></li>
-                        <li class="list-group-item" th:text="#{advertisement.status} + ' : ' + ${advertisement.status}"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link" th:text="#{main.more.info}"></a>

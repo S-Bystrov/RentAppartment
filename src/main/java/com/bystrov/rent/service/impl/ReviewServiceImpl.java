@@ -74,6 +74,9 @@ public class ReviewServiceImpl implements ReviewService {
         review.setUser(user);
         review.setDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
         reviewDAO.save(review);
+        Double rating = reviewDAO.getAvgRatingByIdAdvertisement(idAdvertisement);
+        advertisement.setRating(rating);
+        advertisementDAO.update(advertisement);
         return reviewDTO;
     }
 

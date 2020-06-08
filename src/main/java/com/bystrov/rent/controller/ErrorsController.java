@@ -32,6 +32,9 @@ public class ErrorsController implements ErrorController {
             else if(statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 errorMessage = "error.page.401";
             }
+            else if(statusCode == HttpStatus.FORBIDDEN.value()) {
+                errorMessage = "error.page.403";
+            }
             else {
                 errorMessage = "error.page.default";
             }

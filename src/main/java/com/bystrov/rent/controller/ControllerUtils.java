@@ -1,6 +1,5 @@
 package com.bystrov.rent.controller;
 
-import com.bystrov.rent.DTO.AdvertisementDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;

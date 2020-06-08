@@ -107,14 +107,6 @@ public class AdvertisementInfoController {
         }
     }
 
-    @GetMapping("/add-review")
-    public String getNewReviewPage(@PathVariable Long idAdvertisement, Model model){
-        ReviewDTO reviewDTO = new ReviewDTO();
-        model.addAttribute("reviewDTO", reviewDTO);
-        model.addAttribute("idAdvertisement", idAdvertisement);
-        return "new_review";
-    }
-
     @PostMapping("/add-review")
     public String addNewReview(@PathVariable Long idAdvertisement,
                                @AuthenticationPrincipal User authenticalUser,
@@ -139,6 +131,7 @@ public class AdvertisementInfoController {
     }
 
     private void modelAddAtribute(Long idAdvertisement, User user, Model model) {
+        model.addAttribute("reviewDTO", new ReviewDTO());
         model.addAttribute("reservationDTO", new ReservationDTO());
         model.addAttribute("checkCard", userService.checkCard(user));
         model.addAttribute("checkUser", advertisementService.checkUser(idAdvertisement, user));

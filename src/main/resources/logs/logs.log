@@ -112,3 +112,14 @@
 2020-06-02 14:40:25 INFO  UserServiceImpl:72 - New user registered: qwerty
 2020-06-02 15:28:36 INFO  UserServiceImpl:72 - New user registered: qwerty
 2020-06-02 15:30:33 INFO  UserServiceImpl:72 - New user registered: qwerty
+2020-06-06 14:53:38 INFO  UserServiceImpl:72 - New user registered: qqqq
+2020-06-08 22:52:53 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:07:25 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:11:04 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:12:14 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:14:54 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:17:14 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:18:24 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:19:20 INFO  UserServiceImpl:72 - New user registered: null
+2020-06-08 23:31:44 INFO  UserServiceImpl:76 - New user registered: Test
+2020-06-08 23:46:36 INFO  UserServiceImpl:76 - New user registered: null

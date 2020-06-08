@@ -63,6 +63,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
+        User checkUser = userDAO.findByUsername(userDTO.getUsername());
+        if(checkUser != null) {
+            return null;
+        }
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userDTO.setRoles(Collections.singleton(UserRole.USER));
         userDTO.setActivate(false);

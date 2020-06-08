@@ -2,6 +2,7 @@ package com.bystrov.rent.controller;
 
 import com.bystrov.rent.DTO.AdvertisementDTO;
 import com.bystrov.rent.DTO.CountryDTO;
+import com.bystrov.rent.DTO.ReservationDTO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
 import com.bystrov.rent.service.CountryService;
@@ -31,11 +32,12 @@ import java.util.Optional;
 @Controller
 public class AdvertisementController {
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     private static final int PAGE = 1;
     private static final int SIZE = 6;
 
-    @Value("upload.path")
-    private String uploadPath;
 
     private final AdvertisementService advertisementService;
     private final ImageService imageService;

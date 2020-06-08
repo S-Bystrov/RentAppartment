@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class RegistrationController {
@@ -23,7 +24,11 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/login")
-    public String getLoginPage(){
+    public String getLoginPage(@RequestParam(value = "error",  required = false) String error,
+                               Model model){
+        if(error != null){
+            model.addAttribute("errorMessage", "error.login");
+        }
         return "login";
     }
 

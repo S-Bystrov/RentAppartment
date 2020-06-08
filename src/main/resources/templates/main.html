@@ -7,25 +7,30 @@
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
     <form action="filter" method="GET" class="form-inline">
-        <div class="form-group mx-sm-3 mb-2">
-            <select class="form-control" id="country" name="filterCountry">
-                <option th:value="${null}" th:text="#{choose.country}"></option>
-                <option th:each="country : ${countryDTOList}"
-                        th:value="${country.idCountry}"
-                        th:text="${country.countryName}"></option>
-            </select>
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <select class="form-control" id="country" name="filterCountry">
+                    <option th:value="${null}" th:text="#{choose.country}"></option>
+                    <option th:each="country : ${countryDTOList}"
+                            th:value="${country.idCountry}"
+                            th:text="${country.countryName}"></option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="text" name="filterCity" th:placeholder="#{everywhere.city}"/>
+            </div>
+            <div class="col-auto">
+                <label for="arrivalDate" th:text="#{everywhere.arrivalDate}"></label>
+                <input class="form-control mb-4" id="arrivalDate" type="date" name="filterArrivalDate"/>
+            </div>
+            <div class="col-auto">
+                <label for="departureDate" th:text="#{everywhere.departureDate}"></label>
+                <input class="form-control mb-4" type="date" id="departureDate" name="filterDepartureDate"/>
+            </div>
+            <div class="col-auto">
+            <button type="submit" class="btn btn-primary" th:text="#{main.filter}"></button>
+            </div>
         </div>
-        <div class="form-group mx-sm-3 mb-2">
-            <input class="form-control" type="text" name="filterCity" th:placeholder="#{everywhere.city}"/>
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-            <label for="arrivalDate">Arrival date</label>
-            <input class="form-control" id="arrivalDate" type="date" name="filterArrivalDate"/>
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-            <input class="form-control" type="date" name="filterDepartureDate"/>
-        </div>
-        <button type="submit" class="btn btn-primary mb-2" th:text="#{main.filter}"></button>
     </form>
     <div th:if="${listDTOPage == null or listDTOPage.isEmpty()}">
         <p th:text="#{main.noAdvertisement}"></p>
@@ -34,7 +39,8 @@
         <div class="row row-cols-1 row-cols-md-2">
             <div th:each="advertisement : ${listDTOPage.content}">
                 <div class="card my-3 m-2">
-                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" class="card-img-top">
+                    <div class="card-header bg-transparent text-right" th:text="#{everywhere.rating} + ': ' + ${advertisement.rating}"></div>
+                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" width="415" height="234" class="card-img-top">
                     <div class="card-body">
                         <p class="card-text text-justify" th:text="${advertisement.description}"></p>
                     </div>
@@ -42,7 +48,7 @@
                         <li class="list-group-item" th:text="#{everywhere.country} + ' : ' + ${advertisement.address.country.countryName}"></li>
                         <li class="list-group-item" th:text="#{everywhere.city} + ' : ' + ${advertisement.address.city}"></li>
                         <li class="list-group-item" th:text="#{everywhere.publication} + ' : ' +${#temporals.format(advertisement.date, 'dd-MM-yyyy')}"></li>
-                        <li class="list-group-item" th:text="#{everywhere.price} + ' : ' + ${advertisement.price}"></li>
+                        <li class="list-group-item" th:text="#{everywhere.price} + ' : ' + ${advertisement.price} + '$'"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${advertisement.idAdvertisement}}" class="card-link" th:text="#{main.more.info}"></a>

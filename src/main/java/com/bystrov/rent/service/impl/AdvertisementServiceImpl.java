@@ -5,6 +5,8 @@ import com.bystrov.rent.DTO.ReservationDateDTO;
 import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
+import com.bystrov.rent.dao.ReviewDAO;
+import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;
@@ -26,18 +28,19 @@ import java.util.List;
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
 
+    private final ReviewDAO reviewDAO;
     private final AdvertisementDAO advertisementDAO;
-
     private final ReservationDAO reservationDAO;
-
     private final AdvertisementDTOParser advertisementDTOParser;
 
     public AdvertisementServiceImpl(AdvertisementDAO advertisementDAO,
                                     AdvertisementDTOParser advertisementDTOParser,
-                                    ReservationDAO reservationDAO) {
+                                    ReservationDAO reservationDAO,
+                                    ReviewDAO reviewDAO) {
         this.advertisementDAO = advertisementDAO;
         this.advertisementDTOParser = advertisementDTOParser;
         this.reservationDAO = reservationDAO;
+        this.reviewDAO = reviewDAO;
     }
 
     @Override
@@ -64,8 +67,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public AdvertisementDTO findById(Long id) {
-        Advertisement advertisement = advertisementDAO.findById(id);
+    public AdvertisementDTO findById(Long idAdvertisement) {
+        Advertisement advertisement = advertisementDAO.findById(idAdvertisement);
         if(advertisement == null ){
             throw new EntityNotFoundException("Advertisement not found");
         }
@@ -82,6 +85,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         Advertisement advertisement = advertisementDTOParser.createAdvertDomainFromDTO(advertisementDTO);
         advertisement.getAddress().setCity(advertisementDTO.getAddress().getCity().toLowerCase());
         advertisement.setDate(LocalDate.now());
+        advertisement.setRating(0.0);
         advertisementDAO.save(advertisement);
         return advertisementDTOParser.createAdvertDTOFromDomain(advertisement);
     }

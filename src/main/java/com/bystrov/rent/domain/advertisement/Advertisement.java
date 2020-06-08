@@ -32,6 +32,8 @@ public class Advertisement {
 
     private String description;
 
+    private Double rating;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
     private List<Review> reviewList;
 

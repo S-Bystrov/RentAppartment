@@ -24,6 +24,8 @@ public class AdvertisementDTO {
 
     private String description;
 
+    private Double rating;
+
     private List<Review> reviewList;
 
     private LocalDate date;

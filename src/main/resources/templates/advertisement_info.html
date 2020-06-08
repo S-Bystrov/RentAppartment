@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
-<head th:replace = "fragments/common :: head"></head>
+<head>
+    <th:block th:include = "fragments/common :: head"></th:block>
+    <link rel="stylesheet" href="/static/css/rating.css">
+</head>
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
     <div th:object="${advertisementDTO}">
         <div class="row">
-            <img th:src="@{'/img/'+*{images[0].imagePath}}">
+            <img th:src="@{'/img/'+*{images[0].imagePath}}" width="415" height="234">
         </div>
         <div class="row">
             <h5 th:text="#{everywhere.description} + ': '"></h5>
@@ -44,7 +47,7 @@
             </div>
             <div class="col">
                 <h5 th:text="#{everywhere.price} + ':'"></h5>
-                <p th:text="*{price}"></p>
+                <p th:text="*{price} + '$'"></p>
             </div>
         </div>
     </div>
@@ -69,8 +72,8 @@
                                    th:class="${#fields.hasErrors('reservationDate.departureDate')}? 'form-control is-invalid' : 'form-control'"/>
                             <div th:if="${#fields.hasErrors('reservationDate.departureDate')}" class="invalid-feedback" th:errors="${reservationDate.departureDate}"></div>
                         </div>
+                        <button class="btn btn-primary mb-2" type="submit">Ok</button>
                     </div>
-                    <button class="btn btn-primary m-2" type="submit">Ok</button>
                 </form>
                 <div th:if="${checkDate == false}">
                     <div class="row" th:unless="${checkDate}">
@@ -92,7 +95,6 @@
                             <input type="date" name="departureDate" th:value="${departureDate}" class="form-control"/>
                             <input type="hidden" name="checkDepartureDate" th:value="${departureDate}"/>
                         </div>
-                        <input type="hidden" name="idAdvertisement" th:value="${advertisementDTO.idAdvertisement}"/>
                     </div>
                     <div class="row">
                         <p th:text="#{advertisement.reservation.allowed}"></p>
@@ -107,15 +109,38 @@
             </div>
         </div>
     </div>
-    <div class="row" th:object="${advertisementDTO}">
-        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary mr-2" th:text="#{everywhere.user}"></a>
-        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary mr-2"
-           th:text="#{advertisement.review}"></a>
+    <div class="row mb-2" th:object="${advertisementDTO}">
         <div sec:authorize="isAuthenticated()">
             <div th:if="${checkUser}">
-                <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/add-review'}"
-                   class="btn btn-primary mr-2" th:text="#{advertisement.addReview}"></a>
+                <button class="btn btn-primary ml-2" type="button" data-toggle="collapse" data-target="#addReview"
+                        aria-expanded="false" aria-controls="addReview" th:text="#{advertisement.addReview}">
+                </button>
             </div>
+        </div>
+        <a th:href="@{'/profile/' + *{user.id}}" class="btn btn-primary ml-2" th:text="#{everywhere.user}"></a>
+        <a th:href="@{'/advertisement/' + *{idAdvertisement} + '/all-review'}" class="btn btn-primary ml-2"
+           th:text="#{advertisement.allReview}"></a>
+    </div>
+    <div class="collapse mb-4" id="addReview">
+        <div class="card card-body col-sm-7">
+            <form th:action="@{'/advertisement/' + ${idAdvertisement} + '/add-review'}" th:object="${reviewDTO}" method="POST">
+                <div class="form-group">
+                    <div class="row">
+                        <textarea rows="2" type="text" th:field="*{review}" id="review" class="form-control ml-5"
+                                  th:placeholder="#{advertisement.review}"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="rating ml-4 mb-2">
+                        <input type="radio" name="rating" th:field="*{rating}" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" th:field="*{rating}" value="4" id="4"><label for="4">☆</label>
+                        <input type="radio" name="rating" th:field="*{rating}" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" th:field="*{rating}" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" th:field="*{rating}" value="1" id="1"><label for="1">☆</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary ml-3" type="submit">Ok</button>
+            </form>
         </div>
     </div>
 </div>
@@ -130,8 +155,3 @@
 
 
 
-<!--
-th:class="${#fields.hasErrors('arrivalDate')}? 'form-control is-invalid' : 'form-control'"/>
-<div th:if="${#fields.hasErrors('arrivalDate')}" class="invalid-feedback" th:errors="*{arrivalDate}"></div>
-th:class="${#fields.hasErrors('departureDate')}? 'form-control is-invalid' : 'form-control'"/>
-<div th:if="${#fields.hasErrors('departureDate')}" class="invalid-feedback" th:errors="*{departureDate}"></div>-->
