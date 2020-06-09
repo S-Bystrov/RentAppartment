@@ -102,7 +102,7 @@
                     <div class="row" th:if="${checkDate}">
                         <button th:if="${checkCard}"  class="btn btn-primary mr-2" type="submit"
                                 th:text="#{everywhere.reservation}"></button>
-                        <button th:if="${!checkCard}" type="button" class="btn btn-danger mr-2" data-toggle="popover"
+                        <button th:if="${!checkCard}" type="button" class="btn btn-danger ml-2 mb-2" data-toggle="popover"
                                 th:title="#{popover.title}" th:data-content="#{popover.body}" th:text="#{everywhere.reservation}"></button>
                     </div>
                 </form>
