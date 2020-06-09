@@ -75,14 +75,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userDTOParser.createUserDomainFromDTO(userDTO);
         logger.info("New user registered: " + userDTO.getUsername());
         userDAO.save(user);
-        if(!StringUtils.isBlank(user.getEmail())) {
-            String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/profile/activate/%s",
-                    user.getUsername(), user.getActivationCode());
-
-            mailSender.send(user, "Activation code", message);
-        }
+        sendMail(user);
         return userDTO;
     }
 
@@ -107,6 +100,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         if(!StringUtils.isBlank(userDTO.getPaymentAccount())){
             user.setPaymentAccount(userDTO.getPaymentAccount());
+        }
+        if(!userDTO.getEmail().equals(user.getEmail())){
+            user.setActivationCode(UUID.randomUUID().toString());
+            user.setEmail(userDTO.getEmail());
+            sendMail(user);
         }
         userDAO.update(user);
     }
@@ -152,17 +150,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean sendCode(User user) {
-        if(user.getActivationCode() == null){
+    public boolean sendCode(UserDTO userDTO) {
+        if(userDTO.getActivationCode() == null){
             return false;
         }
-        if (!StringUtils.isBlank(user.getEmail())) {
-            String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/activate/%s",
-                    user.getUsername(), user.getActivationCode());
-            mailSender.send(user, "Activation code", message);
-        }
+        User user = userDAO.findById(userDTO.getId());
+        sendMail(user);
         return true;
     }
 
@@ -201,6 +194,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                     new PageImpl<UserDTO>(userDTOListPage, PageRequest
                             .of(currentPage, pageSize), userList.size());
             return userDTOPage;
+        }
+    }
+
+    private void sendMail(User user){
+        if (!StringUtils.isBlank(user.getEmail())) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/profile/activate/%s",
+                    user.getUsername(), user.getActivationCode());
+            mailSender.send(user, "Activation code", message);
         }
     }
 }

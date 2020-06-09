@@ -51,9 +51,9 @@ public class UserController {
 
     @GetMapping("/update")
     @PreAuthorize("hasAuthority('USER')")
-    public String getUpdateInfoPage(Model model) {
-        UserDTO userDTO = new UserDTO();
-        model.addAttribute("userDTO", userDTO);
+    public String getUpdateInfoPage(@AuthenticationPrincipal User authenticalUser,
+                                    Model model) {
+        model.addAttribute("userDTO", authenticalUser);
         return "update_info";
     }
 
@@ -82,10 +82,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER')")
     public String sendCode(@AuthenticationPrincipal User authenticalUser,
                            Model model) {
-        boolean checkSendCode = userService.sendCode(authenticalUser);
+        boolean checkSendCode = userService.sendCode(userService.findById(authenticalUser.getId()));
         model.addAttribute("checkUser", true);
         model.addAttribute("isSendCode", checkSendCode);
-        model.addAttribute("userDTO", authenticalUser);
+        model.addAttribute("userDTO", userService.findById(authenticalUser.getId()));
         return "user_info";
     }
 

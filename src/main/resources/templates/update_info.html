@@ -27,6 +27,16 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
+                <label> Email :</label>
+                <input type="text" th:field="*{email}" id="email"
+                       th:class="${#fields.hasErrors('email')}? 'form-control is-invalid' : 'form-control'"
+                        th:value="*{email}" aria-describedby="emailHelp"/>
+                <small id="emailHelp" class="form-text text-muted">example@emal.com</small>
+                <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback" th:errors="*{email}"></div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
                 <label th:text="#{user.card.description}"></label>
                 <input type="text" th:field="*{card}" id="card"
                        th:class="${#fields.hasErrors('card')}? 'form-control is-invalid' : 'form-control'"

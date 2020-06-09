@@ -1,13 +1,23 @@
 package com.bystrov.rent.validator;
 
 import com.bystrov.rent.DTO.UserDTO;
+import com.bystrov.rent.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class UserUpdateValidator implements Validator {
+
+    private final UserService userService;
+
+    public UserUpdateValidator(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -38,5 +48,21 @@ public class UserUpdateValidator implements Validator {
                 errors.rejectValue("paymentAccount", "error.paymentAccount");
             }
         }
+        if(StringUtils.isBlank(user.getEmail())){
+            errors.rejectValue("email", "error.email.empty");
+        } else {
+            if(!checkEmail(user.getEmail())){
+                errors.rejectValue("email", "error.email.valid");
+            }
+            if(userService.findByEmail(user.getEmail()) != null){
+                errors.rejectValue("email", "error.email.exist");
+            }
+        }
+    }
+
+    private boolean checkEmail(String email){
+        Pattern emailPattern = Pattern.compile("^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$");
+        Matcher emailMatcher = emailPattern.matcher(email);
+        return emailMatcher.find();
     }
 }

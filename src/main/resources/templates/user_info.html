@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="card mb-2" th:if="${userDTO.activationCode} and ${messageActivated}">
+        <div class="card mb-2" th:if="${userDTO.activationCode == null} and ${messageActivated}">
             <div class="card-header" th:text="#{user.activation}">
             </div>
             <div class="card-body">
