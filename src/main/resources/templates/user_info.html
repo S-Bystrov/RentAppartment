@@ -6,9 +6,33 @@
 <body>
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
-    <div th:if="${message}">
-        <p th:text="${message}"></p>
+
+    <div th:if="${checkUser}">
+        <div class="card mb-2" th:if="${userDTO.activationCode != null}">
+            <div class="card-header" th:text="#{user.activation}">
+            </div>
+            <div class="card-body">
+                <div th:unless="${messageCodeNotFound}">
+                    <h5 class="card-title" th:text="#{user.notActivated}"></h5>
+                    <a class="card-text" th:if="${isSendCode == false}" th:href="@{/profile/send-code}"
+                       th:text="#{user.sendCode.href}"></a>
+                    <p class="card-text" th:if="${isSendCode}" th:text="#{user.sendCode}"></p>
+                </div>
+                <div th:if="${messageCodeNotFound}">
+                    <h5 class="card-title" th:text="#{__${messageCodeNotFound}__}"></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-2" th:if="${userDTO.activationCode} and ${messageActivated}">
+            <div class="card-header" th:text="#{user.activation}">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="#{__${messageActivated}__}"></h5>
+            </div>
+        </div>
     </div>
+
     <div th:object="${userDTO}">
         <div>
             <img class="border border-secondary" th:src="@{'/img/'+*{avatarName}}" width="150" height="175">

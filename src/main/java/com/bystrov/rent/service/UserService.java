@@ -17,4 +17,5 @@ public interface UserService {
     UserDTO findByEmail(String email);
     boolean activateUser(String code);
     boolean checkCard(User user);
+    boolean sendCode(User user);
 }

@@ -123,3 +123,10 @@
 2020-06-08 23:19:20 INFO  UserServiceImpl:72 - New user registered: null
 2020-06-08 23:31:44 INFO  UserServiceImpl:76 - New user registered: Test
 2020-06-08 23:46:36 INFO  UserServiceImpl:76 - New user registered: null
+2020-06-09 12:27:33 INFO  UserServiceImpl:76 - New user registered: null
+2020-06-09 12:29:11 INFO  UserServiceImpl:76 - New user registered: qqqq
+2020-06-09 12:30:32 INFO  UserServiceImpl:76 - New user registered: porpr
+2020-06-09 12:42:21 INFO  UserServiceImpl:76 - New user registered: porpr
+2020-06-09 20:10:52 INFO  UserServiceImpl:76 - New user registered: qqqq
+2020-06-09 20:11:53 INFO  UserServiceImpl:76 - New user registered: qqqq
+2020-06-09 20:15:06 INFO  UserServiceImpl:76 - New user registered: qqqq

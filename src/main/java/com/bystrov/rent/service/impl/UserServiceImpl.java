@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(!StringUtils.isBlank(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                    "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/activate/%s",
+                            "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/profile/activate/%s",
                     user.getUsername(), user.getActivationCode());
 
             mailSender.send(user, "Activation code", message);
@@ -151,6 +151,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
+    @Transactional
+    @Override
+    public boolean sendCode(User user) {
+        if(user.getActivationCode() == null){
+            return false;
+        }
+        user.setActivationCode(UUID.randomUUID().toString());
+        userDAO.update(user);
+        if (!StringUtils.isBlank(user.getEmail())) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to RentAppartment. Please, visit next link: http://localhost:8080/activate/%s",
+                    user.getUsername(), user.getActivationCode());
+            mailSender.send(user, "Activation code", message);
+        }
+        return true;
+    }
+
+
     @Override
     public boolean checkCard(User user) {
         if(user == null){
@@ -159,6 +178,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             User checkUser = userDAO.findById(user.getId());
             return !StringUtils.isBlank(checkUser.getCard());
         }
+
+
     }
 
     private Page<UserDTO> getUserDTOPage(Pageable pageable, List<User> userList){

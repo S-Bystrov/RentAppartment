@@ -52,18 +52,4 @@ public class RegistrationController {
         model.addAttribute("message");
         return "redirect:/";
     }
-
-    @GetMapping("/activate/{code}")
-    public String activation(@AuthenticationPrincipal User authenticalUser,
-                             @PathVariable String code,
-                             Model model){
-        boolean isActivated = userService.activateUser(code);
-        if(isActivated) {
-            model.addAttribute("message", "User successfully activated");
-        } else {
-            model.addAttribute("message", "Activation code is not found");
-        }
-        model.addAttribute("userDTO", authenticalUser);
-        return "user_info";
-    }
 }

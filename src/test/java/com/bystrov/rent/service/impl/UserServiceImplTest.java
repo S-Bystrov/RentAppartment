@@ -28,6 +28,9 @@ public class UserServiceImplTest {
     @MockBean
     private UserDAO userDAO;
 
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+
 
     @Test
     public void saveUser() {
