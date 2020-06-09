@@ -151,14 +151,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-    @Transactional
     @Override
     public boolean sendCode(User user) {
         if(user.getActivationCode() == null){
             return false;
         }
-        user.setActivationCode(UUID.randomUUID().toString());
-        userDAO.update(user);
         if (!StringUtils.isBlank(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
