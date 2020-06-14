@@ -5,12 +5,13 @@ import com.bystrov.rent.DTO.parser.UserDTOParser;
 import com.bystrov.rent.dao.UserDAO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.user.UserRole;
+import com.bystrov.rent.service.MailSender;
 import com.bystrov.rent.service.UserService;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,12 +37,17 @@ public class UserServiceImplTest {
     @MockBean
     private UserDTOParser userDTOParser;
 
+    @MockBean
+    private MailSender mailSender;
+
 
     @Test
     public void saveUser() {
         UserDTO userDTO = new UserDTO();
+        User user = new User();
+        user.setEmail("email@mail.com");
 
-        Mockito.doReturn(new User())
+        Mockito.doReturn(user)
                 .when(userDTOParser)
                 .createUserDomainFromDTO(userDTO);
 
@@ -50,6 +56,13 @@ public class UserServiceImplTest {
         Assert.assertNotNull(checkSave);
         Assert.assertNotNull(userDTO.getActivationCode());
         Assert.assertTrue(CoreMatchers.is(userDTO.getRoles()).matches(Collections.singleton(UserRole.USER)));
+
+        Mockito.verify(mailSender, Mockito.times(1))
+                .send(
+                        ArgumentMatchers.eq(user),
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString()
+                );
 
     }
 
