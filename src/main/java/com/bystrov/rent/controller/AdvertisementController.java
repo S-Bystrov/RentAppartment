@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,7 +99,7 @@ public class AdvertisementController {
 
     @PostMapping("/new-advertisement")
     @PreAuthorize("hasAuthority('USER')")
-    public String addNewAdvertisement(@RequestParam("image") MultipartFile file,
+    public String addNewAdvertisement(@RequestParam("image") MultipartFile[] files,
                                       @AuthenticationPrincipal User authenticalUser,
                                       AdvertisementDTO advertisementDTO,
                                       BindingResult bindingResult,
@@ -111,9 +112,13 @@ public class AdvertisementController {
             return "new_advertisement";
         }
         advertisementDTO.setUser(authenticalUser);
-        String nameImage = ControllerUtils.saveFile(file, uploadPath);
+        List<String> imageList = new ArrayList<>();
+        for (MultipartFile image : files) {
+            String nameImage = ControllerUtils.saveFile(image, uploadPath);
+            imageList.add(nameImage);
+        }
         AdvertisementDTO newAdvertisement = advertisementService.saveAdvertisement(advertisementDTO);
-        imageService.saveImage(nameImage, newAdvertisement.getIdAdvertisement());
+        imageService.saveImage(imageList, newAdvertisement.getIdAdvertisement());
         return "redirect:/";
     }
 

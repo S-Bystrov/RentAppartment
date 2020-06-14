@@ -6,7 +6,6 @@ import com.bystrov.rent.DTO.parser.AdvertisementDTOParser;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
 import com.bystrov.rent.dao.ReviewDAO;
-import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.AdvertisementService;

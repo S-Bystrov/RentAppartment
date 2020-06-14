@@ -7,6 +7,6 @@ import java.util.List;
 public interface ImageService {
 
     List<ImageDTO> findAllByIdAdvertisement(Long idAdvertisement);
-    ImageDTO saveImage(String nameImage, Long idAdvertisement);
+    List<ImageDTO> saveImage(List<String> imageList, Long idAdvertisement);
     void deleteById(Long idImage);
 }

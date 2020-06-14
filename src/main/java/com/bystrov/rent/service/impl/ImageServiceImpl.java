@@ -46,18 +46,28 @@ public class ImageServiceImpl implements ImageService {
 
     @Transactional
     @Override
-    public ImageDTO saveImage(String nameImage, Long idAdvertisement) {
-        Image image = new Image();
-        if(nameImage != null){
-            image.setImagePath(nameImage);
-        } else {
-            image.setImagePath(standardImage);
-        }
+    public List<ImageDTO> saveImage(List<String> imageList, Long idAdvertisement) {
         Advertisement advertisement = advertisementDAO.findById(idAdvertisement);
+        List<Image> nameImageList = new ArrayList<>();
+        List<ImageDTO> imageDTOList = new ArrayList<>();
+        if(imageList != null) {
+            for (String nameImage : imageList) {
+                createImageDTOList(advertisement, nameImageList, imageDTOList, nameImage);
+            }
+        }
+        else {
+            createImageDTOList(advertisement, nameImageList, imageDTOList, standardImage);
+        }
+        return imageDTOList;
+    }
+
+    private void createImageDTOList(Advertisement advertisement, List<Image> nameImageList, List<ImageDTO> imageDTOList, String imageName) {
+        Image image = new Image();
+        image.setImagePath(imageName);
+        nameImageList.add(image);
         image.setAdvertisement(advertisement);
         imageDAO.save(image);
-        ImageDTO imageDTO = imageDTOParser.createImageDTOFromDomain(image);
-        return imageDTO;
+        imageDTOList.add(imageDTOParser.createImageDTOFromDomain(image));
     }
 
     @Override

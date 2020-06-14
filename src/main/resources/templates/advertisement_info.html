@@ -9,8 +9,8 @@
 <div th:replace="fragments/common :: navBar"></div>
 <div class="container mt-5">
     <div th:object="${advertisementDTO}">
-        <div class="row">
-            <img th:src="@{'/img/'+*{images[0].imagePath}}" width="415" height="234">
+        <div class="row text-center">
+            <img th:src="@{'/img/'+*{images[0].imagePath}}" class="img-fluid">
         </div>
         <div class="row">
             <h5 th:text="#{everywhere.description} + ': '"></h5>
@@ -72,7 +72,9 @@
                                    th:class="${#fields.hasErrors('reservationDate.departureDate')}? 'form-control is-invalid' : 'form-control'"/>
                             <div th:if="${#fields.hasErrors('reservationDate.departureDate')}" class="invalid-feedback" th:errors="${reservationDate.departureDate}"></div>
                         </div>
-                        <button class="btn btn-primary mb-2" type="submit">Ok</button>
+                        <div>
+                            <button class="btn btn-primary mb-2" type="submit">Ok</button>
+                        </div>
                     </div>
                 </form>
                 <div th:if="${checkDate == false}">

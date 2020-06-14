@@ -1,6 +1,7 @@
 package com.bystrov.rent.service.impl;
 
 import com.bystrov.rent.DTO.UserDTO;
+import com.bystrov.rent.DTO.parser.UserDTOParser;
 import com.bystrov.rent.dao.UserDAO;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.domain.user.UserRole;
@@ -9,6 +10,7 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,10 +33,18 @@ public class UserServiceImplTest {
     @MockBean
     private PasswordEncoder passwordEncoder;
 
+    @MockBean
+    private UserDTOParser userDTOParser;
+
 
     @Test
     public void saveUser() {
         UserDTO userDTO = new UserDTO();
+
+        Mockito.doReturn(new User())
+                .when(userDTOParser)
+                .createUserDomainFromDTO(userDTO);
+
         UserDTO checkSave = userService.saveUser(userDTO);
 
         Assert.assertNotNull(checkSave);
