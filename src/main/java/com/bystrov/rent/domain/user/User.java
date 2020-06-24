@@ -2,7 +2,7 @@ package com.bystrov.rent.domain.user;
 
 import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.Review;
-import com.bystrov.rent.domain.reservation.Reservation;
+import com.bystrov.rent.domain.Reservation;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +16,8 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+
 @Builder
 @Table
 @Entity

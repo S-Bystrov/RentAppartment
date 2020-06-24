@@ -14,7 +14,7 @@ public class ImageDTO {
 
     private Long idImage;
 
-    private String imagePath;
+    private String path;
 
     private Advertisement advertisement;
 }

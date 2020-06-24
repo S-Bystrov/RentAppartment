@@ -1,7 +1,6 @@
 package com.bystrov.rent.DTO;
 
 import com.bystrov.rent.domain.advertisement.Advertisement;
-import com.bystrov.rent.domain.reservation.ReservationStatus;
 import com.bystrov.rent.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +30,4 @@ public class ReservationDTO {
     private LocalDate departureDate;
 
     private Double totalCost;
-
-    private ReservationStatus status;
 }

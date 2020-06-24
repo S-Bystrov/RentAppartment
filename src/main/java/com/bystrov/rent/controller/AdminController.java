@@ -52,8 +52,8 @@ public class AdminController {
                                Model model){
         int currentPage = page.orElse(PAGE);
         int pageSize = size.orElse(SIZE);
-        Page<UserDTO> userDTOPage =
-                userService.findPaginated(PageRequest.of(currentPage-1, pageSize));
+        Page<UserDTO> userDTOPage = userService
+                .findPaginated(PageRequest.of(currentPage-1, pageSize));
         ControllerUtils.getPaginationPage(model, userDTOPage);
         model.addAttribute("roles", UserRole.values());
         return "user_list";

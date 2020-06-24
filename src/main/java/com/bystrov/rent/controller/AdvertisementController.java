@@ -61,8 +61,8 @@ public class AdvertisementController {
                                        Model model) {
         int currentPage = page.orElse(PAGE);
         int pageSize = size.orElse(SIZE);
-        Page<AdvertisementDTO> advertisementDTOPage =
-                advertisementService.findPaginated(PageRequest.of(currentPage-1, pageSize));
+        Page<AdvertisementDTO> advertisementDTOPage = advertisementService
+                .findPaginated(PageRequest.of(currentPage-1, pageSize));
         ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         model.addAttribute("countryDTOList", countryService.getAll());
         return "main";
@@ -129,8 +129,8 @@ public class AdvertisementController {
                                            Model model) {
         int currentPage = page.orElse(PAGE);
         int pageSize = size.orElse(SIZE);
-        Page<AdvertisementDTO> advertisementDTOPage =
-                advertisementService.findPaginatedByUserId(PageRequest.of(currentPage-1, pageSize),
+        Page<AdvertisementDTO> advertisementDTOPage = advertisementService
+                .findPaginatedByUserId(PageRequest.of(currentPage-1, pageSize),
                         authenticalUser.getId());
        ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         return "user_advertisement";
@@ -146,8 +146,8 @@ public class AdvertisementController {
         advertisementService.deleteById(idAdvertisement);
         int currentPage = page.orElse(PAGE);
         int pageSize = size.orElse(SIZE);
-        Page<AdvertisementDTO> advertisementDTOPage =
-                advertisementService.findPaginatedByUserId(PageRequest.of(currentPage-1, pageSize),
+        Page<AdvertisementDTO> advertisementDTOPage = advertisementService
+                .findPaginatedByUserId(PageRequest.of(currentPage-1, pageSize),
                         authenticalUser.getId());
         ControllerUtils.getPaginationPage(model, advertisementDTOPage);
         return "redirect:/profile/advertisement";

@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 @Entity
 @Table
@@ -18,7 +19,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idImage;
 
-    private String imagePath;
+    private String path;
 
     @ManyToOne
     @JoinColumn(name = "ID_ADV")

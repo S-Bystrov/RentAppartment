@@ -32,36 +32,6 @@ public abstract class EntityDAO<T> {
         return em.merge(entity);
     }
 
-    public T findByUsername(String username) {
-        Query query = em.createQuery("FROM User U WHERE U.username = :paramUsername");
-        query.setParameter("paramUsername", username);
-        List<T> result = (List<T>) query.getResultList();
-        if(result.size() != 0){
-            return result.get(0);
-        }
-        return null;
-    }
-
-    public T findByActivationCode(String code) {
-        Query query = em.createQuery("FROM User U WHERE U.activationCode = :paramCode");
-        query.setParameter("paramCode", code);
-        List<T> result = (List<T>) query.getResultList();
-        if(result.size() != 0){
-            return result.get(0);
-        }
-        return null;
-    }
-
-    public T findByEmail(String email) {
-        Query query = em.createQuery("FROM User U WHERE U.email = :paramEmail");
-        query.setParameter("paramEmail", email);
-        List<T> result = (List<T>) query.getResultList();
-        if(result.size() != 0){
-            return result.get(0);
-        }
-        return null;
-    }
-
     public List<T> findAll(){
         Query query = em.createQuery("FROM " + entityClass.getName());
         List<T> result = (List<T>) query.getResultList();

@@ -78,9 +78,6 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Transactional
     @Override
     public AdvertisementDTO saveAdvertisement(AdvertisementDTO advertisementDTO) {
-        if(advertisementDTO == null ){
-            throw new EntityNotFoundException("Advertisement not found");
-        }
         Advertisement advertisement = advertisementDTOParser.createAdvertDomainFromDTO(advertisementDTO);
         advertisement.getAddress().setCity(advertisementDTO.getAddress().getCity().toLowerCase());
         advertisement.setDate(LocalDate.now());

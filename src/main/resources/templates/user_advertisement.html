@@ -13,7 +13,7 @@
             <div th:each="advertisement : ${listDTOPage.content}">
                 <div class="card my-3 m-2">
                     <div class="card-header bg-transparent text-right" th:text="#{everywhere.rating} + ': ' + ${advertisement.rating}"></div>
-                    <img th:src="@{'/img/'+${advertisement.images[0].imagePath}}" width="415" height="234" class="card-img-top">
+                    <img th:src="@{'/img/'+${advertisement.images[0].path}}" width="415" height="234" class="card-img-top">
                     <div class="card-body">
                         <p class="card-text" th:text="${advertisement.description}"></p>
                     </div>

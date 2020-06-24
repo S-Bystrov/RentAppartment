@@ -3,7 +3,7 @@ package com.bystrov.rent.dao.impl;
 import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.EntityDAO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
-import com.bystrov.rent.domain.reservation.Reservation;
+import com.bystrov.rent.domain.Reservation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 

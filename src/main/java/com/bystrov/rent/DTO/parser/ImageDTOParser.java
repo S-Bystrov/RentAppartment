@@ -13,7 +13,7 @@ public class ImageDTOParser {
         }
         ImageDTO imageDTO = ImageDTO.builder()
                 .idImage(image.getIdImage())
-                .imagePath(image.getImagePath())
+                .path(image.getPath())
                 .advertisement(image.getAdvertisement())
                 .build();
         return imageDTO;
@@ -25,7 +25,7 @@ public class ImageDTOParser {
         }
         Image image = Image.builder()
                 .idImage(imageDTO.getIdImage())
-                .imagePath(imageDTO.getImagePath())
+                .path(imageDTO.getPath())
                 .advertisement(imageDTO.getAdvertisement())
                 .build();
         return image;

@@ -26,7 +26,7 @@ public class AdvertisementDTOParser {
                 .address(addressDTOParser.createAddressDTOFromDomain(advertisement.getAddress()))
                 .price(advertisement.getPrice())
                 .user(advertisement.getUser())
-                .reservation(advertisement.getReservation())
+                .reservations(advertisement.getReservations())
                 .images(advertisement.getImages())
                 .build();
         return advertisementDTO;
@@ -45,7 +45,7 @@ public class AdvertisementDTOParser {
                 .address(addressDTOParser.createAddressDomainFromDTO(advertisementDTO.getAddress()))
                 .price(advertisementDTO.getPrice())
                 .user(advertisementDTO.getUser())
-                .reservation(advertisementDTO.getReservation())
+                .reservations(advertisementDTO.getReservations())
                 .images(advertisementDTO.getImages())
                 .build();
         return advertisement;

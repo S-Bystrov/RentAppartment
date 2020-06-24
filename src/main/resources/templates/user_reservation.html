@@ -22,7 +22,6 @@
                         <li class="list-group-item" th:text="'Arrival date :' + ${#temporals.format(reservation.arrivalDate, 'dd-MM-yyyy')}"></li>
                         <li class="list-group-item" th:text="'Departure date :' + ${#temporals.format(reservation.departureDate, 'dd-MM-yyyy')}"></li>
                         <li class="list-group-item" th:text="'The total cost:' + ${reservation.totalCost}"></li>
-                        <li class="list-group-item" th:text="'Status:' + ${reservation.status}"></li>
                     </ul>
                     <div class="card-body">
                         <a th:href="@{'/advertisement/' + ${reservation.advertisement.idAdvertisement}}" class="card-link">More info</a>

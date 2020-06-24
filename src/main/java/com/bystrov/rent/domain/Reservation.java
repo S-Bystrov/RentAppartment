@@ -1,4 +1,4 @@
-package com.bystrov.rent.domain.reservation;
+package com.bystrov.rent.domain;
 
 import com.bystrov.rent.domain.advertisement.Advertisement;
 import com.bystrov.rent.domain.user.User;
@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 @Entity
 @Table
@@ -38,6 +39,4 @@ public class Reservation {
 
     private Double totalCost;
 
-    @Enumerated(EnumType.STRING)
-    private ReservationStatus status;
 }

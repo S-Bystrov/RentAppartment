@@ -3,7 +3,7 @@ package com.bystrov.rent.domain.advertisement;
 import com.bystrov.rent.domain.address.Address;
 import com.bystrov.rent.domain.Review;
 import com.bystrov.rent.domain.user.User;
-import com.bystrov.rent.domain.reservation.Reservation;
+import com.bystrov.rent.domain.Reservation;
 import com.bystrov.rent.util.LocalDateAttributeConverter;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 @Entity
 @Table
@@ -50,6 +51,6 @@ public class Advertisement {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "advertisement")
-    private List<Reservation> reservation;
+    private List<Reservation> reservations;
 
 }

@@ -10,7 +10,7 @@
 <div class="container mt-5">
     <div th:object="${advertisementDTO}">
         <div class="row text-center">
-            <img th:src="@{'/img/'+*{images[0].imagePath}}" class="img-fluid">
+            <img th:src="@{'/img/'+*{images[0].path}}" class="img-fluid">
         </div>
         <div class="row">
             <h5 th:text="#{everywhere.description} + ': '"></h5>

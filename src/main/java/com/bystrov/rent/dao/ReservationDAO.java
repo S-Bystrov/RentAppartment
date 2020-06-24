@@ -1,6 +1,6 @@
 package com.bystrov.rent.dao;
 
-import com.bystrov.rent.domain.reservation.Reservation;
+import com.bystrov.rent.domain.Reservation;
 
 import java.util.List;
 
@@ -12,5 +12,4 @@ public interface ReservationDAO {
     void deleteById(Long id);
     List<Reservation> findAll();
     List<Reservation> findAllByUserId(Long idUser);
-    Reservation findByStatus(String status);
 }

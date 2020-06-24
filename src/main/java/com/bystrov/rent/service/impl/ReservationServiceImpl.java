@@ -6,15 +6,12 @@ import com.bystrov.rent.dao.AdvertisementDAO;
 import com.bystrov.rent.dao.ReservationDAO;
 import com.bystrov.rent.dao.UserDAO;
 import com.bystrov.rent.domain.advertisement.Advertisement;
-import com.bystrov.rent.domain.reservation.Reservation;
-import com.bystrov.rent.domain.reservation.ReservationStatus;
+import com.bystrov.rent.domain.Reservation;
 import com.bystrov.rent.domain.user.User;
 import com.bystrov.rent.service.ReservationService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +55,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDTO.setTotalCost(getTotalCost(reservationDTO, advertisement));
         reservationDTO.setAdvertisement(advertisement);
         reservationDTO.setUser(user);
-        reservationDTO.setStatus(ReservationStatus.ACTIVE);
         reservationDAO.save(reservationDTOParser.createReservationDomainFromDTO(reservationDTO));
         return reservationDTO;
     }

@@ -63,7 +63,7 @@ public class ImageServiceImpl implements ImageService {
 
     private void createImageDTOList(Advertisement advertisement, List<Image> nameImageList, List<ImageDTO> imageDTOList, String imageName) {
         Image image = new Image();
-        image.setImagePath(imageName);
+        image.setPath(imageName);
         nameImageList.add(image);
         image.setAdvertisement(advertisement);
         imageDAO.save(image);
